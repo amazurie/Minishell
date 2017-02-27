@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/02/27 17:07:30 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/02/27 17:31:50 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,7 @@ char getch()
 int	check(char *tmp, h_list *hist)
 {
 	if (tmp[0] == 27)
-	{
-		/*tmp[1] = getch();
-		tmp[2] = getch();
-		//if (tmp[2] == 65)
-		//	printf("\nfleche haut\n");
-		if (tmp[2] == 66)
-			printf("\nfleche bas\n");
-		if (tmp[2] == 67)
-			printf("\nfleche droite\n");
-		if (tmp[2] == 68)
-			printf("\nfleche gauche\n");
-		*/return (2);
-	}
+		return (2);
 	else if (tmp[0] == 127)
 		return (3);
 	else if (tmp[0] == 10)
@@ -62,9 +50,8 @@ static int	gest_arrow(char *tmp, h_list *hist, int *histnum, char **line)
 	if (tmp[0] == 67 || tmp[0] == 68)
 	{
 		tmp[0] = 0;
-		return ft_strlen(*line);
+		return -1;
 	}
-	tmp[0] = 0;
 	i = ft_strlen(*line);
 	ft_memset(*line, '\b', i);
 	ft_putstr(*line);
@@ -73,7 +60,11 @@ static int	gest_arrow(char *tmp, h_list *hist, int *histnum, char **line)
 	ft_memset(*line, '\b', i);
 	ft_putstr(*line);
 	ft_memset(*line, 0, i);
-	i = ft_strlen(*line);
+	if (tmp[0] == 65)
+		return disp_hist_next(hist, histnum, line);
+	if (tmp[0] == 66)
+		return disp_hist_prec(hist, histnum, line);
+	tmp[0] = 0;
 	return (0);
 }
 
@@ -107,7 +98,8 @@ static int	in(h_list *hist, char **line)
 			(*line)[--i[2]] = 0;
 		}
 		if (i[0] == 2)
-			i[2] = gest_arrow(tmp, hist, &histnum, line);
+			if ((i[3] = gest_arrow(tmp, hist, &histnum, line)) != -1)
+				i[2] = i[3];
 	}
 	free(tmp);
 	return (0);

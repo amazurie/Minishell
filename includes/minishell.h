@@ -40,5 +40,7 @@ void			set_env(e_list **env, char *elem, char *cont);
 void			unset_env(e_list **env, char *elem);
 void			add_hist(h_list **lst, char *hist);
 void			display_hist(h_list *hist);
+int				disp_hist_next(h_list *lst, int *histnum, char **line);
+int				disp_hist_prec(h_list *lst, int *histnum, char **line);
 
 #endif
