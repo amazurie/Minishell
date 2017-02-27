@@ -1,0 +1,83 @@
+#include "minishell.h"
+#include <curses.h>
+#include <term.h>
+
+int	built_in(e_list *env, char **lstav)
+{
+	size_t	len;
+	int		i;
+
+	if (ft_strcmp(lstav[0], "env") == 0)
+		display_env(env, lstav[1]);
+	else if (ft_strcmp(lstav[0], "setenv") == 0 && lstav[1])
+		set_env(&env, lstav[1], lstav[2]);
+	else if (ft_strcmp(lstav[0], "unsetenv") == 0 && lstav[1])
+		unset_env(&env, lstav[1]);
+	else if (ft_strcmp(lstav[0], "pwd") == 0)
+	{
+		if (lstav[1])
+			ft_putstr("pwd: too many arguments");
+		else
+			ft_putstr(get_elem(env, "PWD"));
+		ft_putstr("\n");
+	}
+//	else if (ft_strcmp(lstav[0], "clear") == 0 && !lstav[1])
+//		clear_sh();
+	else if (ft_strcmp(lstav[0], "exit") == 0 && !lstav[1])
+		return (-1);
+	else
+		return (0);
+	return (1);
+}
+
+int	exec(e_list *env, char *line)
+{
+	char	**lstav;
+	char	**paths;
+	char	**fullpaths;
+	int		i;
+	int		j;
+	pid_t	pid;
+
+	if (!env)
+		ft_putstr("\e[31mNo environnement defined.\e[0m\n");
+	if (!env)
+		return (-1);
+	lstav = ft_strsplit(line, ' ');
+	line = get_elem(env, "PATH");
+	paths = ft_strsplit(line, ':');
+	if ((i = built_in(env, lstav)))
+		return (i);
+	if (i == -1)
+		exit(EXIT_SUCCESS);
+	i = 0;
+	while (paths[i])
+		i++;
+	fullpaths = (char **)ft_memalloc(sizeof(char *) * i);
+	i = -1;
+	while (paths[++i])
+	{
+		fullpaths[i] = ft_strjoin(paths[i], "/");
+		fullpaths[i] = ft_strjoin(fullpaths[i], lstav[0]);
+	}
+	if (!test_paths(paths))
+		return (0);
+	while ((pid = fork()) == -1)
+		sleep(2);
+	i = 0;
+	j = 0;
+	if (pid > 0)
+		wait(0);
+	else
+		while (fullpaths[i])
+			if (execve(fullpaths[i++], lstav, NULL) != -1)
+				j++;
+	if (j < i)
+	{
+		ft_putstr("\e[31mminishell:\e[0m command not found: ");
+		ft_putstr(lstav[0]);
+		ft_putstr("\n");
+		exit(0);
+	}
+	return (0);
+}
