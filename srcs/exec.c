@@ -2,7 +2,7 @@
 #include <curses.h>
 #include <term.h>
 
-int	built_in(e_list *env, char **lstav)
+int	built_in(e_list *env, char **lstav, h_list *hist)
 {
 	size_t	len;
 	int		i;
@@ -21,6 +21,8 @@ int	built_in(e_list *env, char **lstav)
 			ft_putstr(get_elem(env, "PWD"));
 		ft_putstr("\n");
 	}
+	else if (ft_strcmp(lstav[0], "history") == 0 && !lstav[1])
+		display_hist(hist);
 //	else if (ft_strcmp(lstav[0], "clear") == 0 && !lstav[1])
 //		clear_sh();
 	else if (ft_strcmp(lstav[0], "exit") == 0 && !lstav[1])
@@ -30,7 +32,7 @@ int	built_in(e_list *env, char **lstav)
 	return (1);
 }
 
-int	exec(e_list *env, char *line)
+int	exec(e_list *env, char *line, h_list *hist)
 {
 	char	**lstav;
 	char	**paths;
@@ -46,7 +48,7 @@ int	exec(e_list *env, char *line)
 	lstav = ft_strsplit(line, ' ');
 	line = get_elem(env, "PATH");
 	paths = ft_strsplit(line, ':');
-	if ((i = built_in(env, lstav)))
+	if ((i = built_in(env, lstav, hist)))
 		return (i);
 	if (i == -1)
 		exit(EXIT_SUCCESS);

@@ -33,12 +33,12 @@ typedef struct	env_list
 
 char			*get_elem(e_list *env, char *elem);
 int				test_paths(char **path);
-int				exec(e_list *env, char *line);
+int				exec(e_list *env, char *line, h_list *hist);
 e_list			*char_to_lst(char **env);
 void			display_env(e_list *env, char *opt);
 void			set_env(e_list **env, char *elem, char *cont);
 void			unset_env(e_list **env, char *elem);
-void			add_hist(h_list *lst, char *hist);
-void			display_hist(h_list **env);
+void			add_hist(h_list **lst, char *hist);
+void			display_hist(h_list *hist);
 
 #endif
