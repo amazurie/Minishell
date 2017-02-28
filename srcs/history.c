@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 16:28:50 by amazurie          #+#    #+#             */
-/*   Updated: 2017/02/28 13:32:32 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/02/28 14:20:47 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		disp_hist_next(h_list *lst, int **i, char **line)
 		return (ft_strlen(h->hist));
 	}
 	if (!h->next)
-		(*i)[3] = 0;;
+		(*i)[3] = 0;
 	return (-1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/02/28 13:31:17 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/02/28 14:39:43 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,33 @@ static int	gest_arrow(char tmp, h_list *hist, int **i, char **line)
 	ft_putstr(*line);
 	ft_memset(*line, 0, j);
 	if (tmp == 65)
+	{
 		if ((j = disp_hist_next(hist, i, line)) != -1)
+		{
 			(*i)[2] = j;
+			(*i)[4] = j;
+		}
+		else
+			(*i)[4] = 0;
+	}
 	if (tmp == 66)
+	{
 		if ((j = disp_hist_prec(hist, i, line)) != -1)
+		{
 			(*i)[2] = j;
+			(*i)[4] = j;
+		}
+		else
+			(*i)[4] = 0;
+	}
 	tmp = 0;
 	return (0);
+}
+
+void sighandler(int sig)
+{
+	if (sig == SIGABRT)
+		exit(1);
 }
 
 static int	in(h_list *hist, char **line)
@@ -102,6 +122,7 @@ static int	in(h_list *hist, char **line)
 				ft_putchar('\b');
 			saddchr(line, tmp, i[4]);
 			ft_putstr(*line);
+			ft_putstr(" \b");
 			i[1] = ft_strlen(*line);
 			while (--i[1] > i[4])
 				ft_putchar('\b');
@@ -134,6 +155,7 @@ int			main(int ac, char **av, char **env)
 	hist = NULL;
 	while (42)
 	{
+		signal(SIGINT, sighandler);
 		ft_putstr("\e[1;36m$> \e[0m");
 		if (in(hist, &line) == -1)
 			return (0);
