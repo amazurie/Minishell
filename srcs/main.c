@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/02/27 17:31:50 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/02/28 13:31:17 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,80 +28,97 @@ char getch()
 	return (ch[0]);
 }
 
-int	check(char *tmp, h_list *hist)
+int	check(char tmp, h_list *hist)
 {
-	if (tmp[0] == 27)
+	if (tmp == 27)
 		return (2);
-	else if (tmp[0] == 127)
+	else if (tmp == 127)
 		return (3);
-	else if (tmp[0] == 10)
+	else if (tmp == 10)
 		return (1);
-	else if (tmp[0] == 4)
+	else if (tmp == 4)
 		return (-1);
 	return (0);
 }
 
-static int	gest_arrow(char *tmp, h_list *hist, int *histnum, char **line)
+static int	gest_arrow(char tmp, h_list *hist, int **i, char **line)
 {
-	int	i;
+	int	j;
 
-	tmp[0] = getch();
-	tmp[0] = getch();
-	if (tmp[0] == 67 || tmp[0] == 68)
+	tmp = getch();
+	tmp = getch();
+	if (tmp == 67 || tmp == 68)
 	{
-		tmp[0] = 0;
-		return -1;
+		if ((*i)[4] > 0 && tmp == 68)
+		{
+			ft_putchar('\b');
+			tmp = 0;
+			(*i)[4]--;
+		}
+		else if ((*i)[4] < (*i)[2] && tmp == 67)
+		{
+			ft_putchar((*line)[(*i)[4]]);
+			tmp = 0;
+			(*i)[4]++;
+		}
+		return 0;
 	}
-	i = ft_strlen(*line);
-	ft_memset(*line, '\b', i);
+	j = ft_strlen(*line);
+	ft_memset(*line, '\b', j);
 	ft_putstr(*line);
-	ft_memset(*line, ' ', i);
+	ft_memset(*line, ' ', j);
 	ft_putstr(*line);
-	ft_memset(*line, '\b', i);
+	ft_memset(*line, '\b', j);
 	ft_putstr(*line);
-	ft_memset(*line, 0, i);
-	if (tmp[0] == 65)
-		return disp_hist_next(hist, histnum, line);
-	if (tmp[0] == 66)
-		return disp_hist_prec(hist, histnum, line);
-	tmp[0] = 0;
+	ft_memset(*line, 0, j);
+	if (tmp == 65)
+		if ((j = disp_hist_next(hist, i, line)) != -1)
+			(*i)[2] = j;
+	if (tmp == 66)
+		if ((j = disp_hist_prec(hist, i, line)) != -1)
+			(*i)[2] = j;
+	tmp = 0;
 	return (0);
 }
 
 static int	in(h_list *hist, char **line)
 {
-	char	*tmp;
-	int		i[4];
-	int		histnum;
+	char	tmp;
+	int		*i;
 
 	*line = (char *)ft_memalloc(256);
-	tmp = (char *)ft_memalloc(5);
-	i[0] = 0;
-	i[2] = 0;
-	histnum = 0;
+	i = (int *)ft_memalloc(sizeof(int) * 5);
+	i[3] = -1;
 	while (i[0] != 1)
 	{
-		tmp[0] = getch();
-		//printf("\nYou typed: %i\n", tmp[0]);
+		tmp = getch();
+		//printf("\ntyped: %i\n", tmp);
 		if ((i[0] = check(tmp, hist)) == -1)
 			return (-1);
 		else if (i[0] == 0)
 		{
-			ft_putchar(tmp[0]);
 			i[1] = 0;
-			while (tmp[i[1]])
-				(*line)[i[2]++] = tmp[i[1]++];
+			while (i[1]++ < i[4])
+				ft_putchar('\b');
+			saddchr(line, tmp, i[4]);
+			ft_putstr(*line);
+			i[1] = ft_strlen(*line);
+			while (--i[1] > i[4])
+				ft_putchar('\b');
+			i[2]++;
+			i[4]++;
 		}
-		else if (i[0] == 3 && i[2] > 0)
+		else if (i[0] == 3 && i[4] > 0)
 		{
-			ft_putstr("\b \b");
-			(*line)[--i[2]] = 0;
+			ft_putchar('\b');
+			ft_putstr(((*line) + i[4]));
+			ft_putstr(" \b");
+			ssupprchr(line, --i[4]);
+			i[2]--;
 		}
 		if (i[0] == 2)
-			if ((i[3] = gest_arrow(tmp, hist, &histnum, line)) != -1)
-				i[2] = i[3];
+			gest_arrow(tmp, hist, &i, line);
 	}
-	free(tmp);
 	return (0);
 }
 
@@ -121,7 +138,7 @@ int			main(int ac, char **av, char **env)
 		if (in(hist, &line) == -1)
 			return (0);
 		ft_putchar('\n');
-		if (*line && ft_strcmp(line, "history") != 0)
+		if (*line && (hist == NULL || ft_strcmp(hist->hist, line) != 0))
 			add_hist(&hist, line);
 		if (*line && exec(e, line, hist) == -1)
 			return (0);

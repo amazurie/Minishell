@@ -6,7 +6,7 @@
 #    By: jmoucade <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by jmoucade          #+#    #+#              #
-#    Updated: 2017/02/27 16:29:31 by amazurie         ###   ########.fr        #
+#    Updated: 2017/02/28 12:01:00 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC =	$(SRC_PATH)/main.c			\
 		$(SRC_PATH)/hand_env.c		\
 		$(SRC_PATH)/handle_hist.c	\
 		$(SRC_PATH)/history.c		\
+		$(SRC_PATH)/extra.c			\
 		$(SRC_PATH)/exec.c
 
 OSRC = $(SRC:.c=.o)
