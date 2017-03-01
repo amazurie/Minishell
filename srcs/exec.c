@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/02/28 15:31:50 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/01 14:24:17 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int	built_in(e_list *env, char **lstav, h_list *hist)
 {
 	size_t	len;
 
-	if (ft_strcmp(lstav[0], "env") == 0)
+	if (!lstav[0])
+		return (0);
+	else if (ft_strcmp(lstav[0], "env") == 0)
 		display_env(env, lstav[1]);
 	else if (ft_strcmp(lstav[0], "setenv") == 0 && lstav[1])
 		set_env(&env, lstav[1], lstav[2]);
@@ -65,6 +67,7 @@ int	exec(e_list *env, char *line, h_list *hist)
 		ft_putstr("\e[31mNo environnement defined.\e[0m\n");
 	if (!env)
 		return (-1);
+	handbackslash(&line);
 	lstav = ft_strsplit(line, ' ');
 	line = get_elem(env, "PATH");
 	paths = ft_strsplit(line, ':');

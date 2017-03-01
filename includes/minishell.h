@@ -41,5 +41,7 @@ int				disp_hist_next(h_list *lst, int **i, char **line);
 int				disp_hist_prec(h_list *lst, int **i, char **line);
 void			ssupprchr(char **s, int pos);
 void			saddchr(char **s, char c, int pos);
+char			**splitsemicolon(char *s);
+void			handbackslash(char **s);
 
 #endif
