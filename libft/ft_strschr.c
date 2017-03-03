@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strswap.c                                       :+:      :+:    :+:   */
+/*   ft_strschr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/30 11:38:14 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/03 13:43:59 by amazurie         ###   ########.fr       */
+/*   Created: 2017/03/03 13:42:05 by amazurie          #+#    #+#             */
+/*   Updated: 2017/03/03 14:06:01 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_strswap(char **s1, char **s2)
+char	*ft_strschr(char *s, char *s2)
 {
-	char *str;
+	size_t	i;
+	size_t	j;
 
-	if (*s1 && *s2)
+	if (!s || !s2)
+		return (0);
+	i = 0;
+	while (s[i])
 	{
-		str = ft_strdup(*s1);
-		free(*s1);
-		*s1 = ft_strdup(*s2);
-		free(*s2);
-		*s2 = ft_strdup(str);
-		free(str);
+		j = 0;
+		while (s2[j] && s[i++] == s2[j])
+			j++;
+		if (!s2[j])
+			return (&s[i - j]);
+		else
+			i -= j;
 	}
+	return (0);
 }

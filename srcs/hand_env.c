@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hand_env.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/03 16:31:48 by amazurie          #+#    #+#             */
+/*   Updated: 2017/03/03 16:31:50 by amazurie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 e_list	*char_to_lst(char **env)
@@ -103,15 +115,4 @@ char	*get_elem(e_list *env, char *elem)
 		env = env->next;
 	}
 	return (NULL);
-}
-
-int		test_paths(char **path)
-{
-	int	i;
-
-	i = 0;
-	while (path[i])
-		if (access(path[i++], F_OK) == 0)
-			return (i);
-	return (0);
 }

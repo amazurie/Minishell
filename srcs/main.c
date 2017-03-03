@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/01 15:05:57 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/03 17:13:57 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static struct termios old, new;
 
-char getch()
+char		get_ch()
 {
 	char *ch;
 	ch = (char*)ft_memalloc(2);
 	tcgetattr(0, &old);
 	new = old;
-	new.c_lflag &= ~(ECHO|ICANON);
+	new.c_lflag &= ~(ECHO | ICANON);
 	tcsetattr(0, TCSANOW, &new);
 	while (ch[0] == 0 && SIGINTED != 1)
 		read(0, ch, 1);
@@ -28,7 +28,7 @@ char getch()
 	return (ch[0]);
 }
 
-int	check(char tmp, h_list *hist)
+int		check(char tmp, h_list *hist)
 {
 	if (tmp == 27)
 		return (2);
@@ -41,61 +41,7 @@ int	check(char tmp, h_list *hist)
 	return (0);
 }
 
-static int	gest_arrow(char tmp, h_list *hist, int **i, char **line)
-{
-	int	j;
-
-	tmp = getch();
-	tmp = getch();
-	if (tmp == 67 || tmp == 68)
-	{
-		if ((*i)[4] > 0 && tmp == 68)
-		{
-			ft_putchar('\b');
-			tmp = 0;
-			(*i)[4]--;
-		}
-		else if ((*i)[4] < (*i)[2] && tmp == 67)
-		{
-			ft_putchar((*line)[(*i)[4]]);
-			tmp = 0;
-			(*i)[4]++;
-		}
-		return 0;
-	}
-	j = ft_strlen(*line);
-	ft_memset(*line, '\b', j);
-	ft_putstr(*line);
-	ft_memset(*line, ' ', j);
-	ft_putstr(*line);
-	ft_memset(*line, '\b', j);
-	ft_putstr(*line);
-	ft_memset(*line, 0, j);
-	if (tmp == 65)
-	{
-		if ((j = disp_hist_next(hist, i, line)) != -1)
-		{
-			(*i)[2] = j;
-			(*i)[4] = j;
-		}
-		else
-			(*i)[4] = 0;
-	}
-	if (tmp == 66)
-	{
-		if ((j = disp_hist_prec(hist, i, line)) != -1)
-		{
-			(*i)[2] = j;
-			(*i)[4] = j;
-		}
-		else
-			(*i)[4] = 0;
-	}
-	tmp = 0;
-	return (0);
-}
-
-void sighandler(int sig)
+void		sighandler(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -114,12 +60,12 @@ static int	in(h_list *hist, char **line)
 	i[3] = -1;
 	while (i[0] != 1)
 	{
-		tmp = getch();
+		tmp = get_ch();
 		if (SIGINTED == 1)
 		{
 			ft_memset(*line, 0, i[2]);
 			i[2] = 0;
-			i[3] = 0;
+			i[3] = -1;
 			i[4] = 0;
 			SIGINTED = 0;
 		}
@@ -134,10 +80,9 @@ static int	in(h_list *hist, char **line)
 			saddchr(line, tmp, i[4]);
 			ft_putstr(*line);
 			ft_putstr(" \b");
-			i[1] = ft_strlen(*line);
+			i[1] = ++i[2];
 			while (--i[1] > i[4])
 				ft_putchar('\b');
-			i[2]++;
 			i[4]++;
 		}
 		else if (i[0] == 3 && i[4] > 0)
@@ -146,9 +91,12 @@ static int	in(h_list *hist, char **line)
 			ft_putstr(((*line) + i[4]));
 			ft_putstr(" \b");
 			ssupprchr(line, --i[4]);
+			i[1] = i[2];
+			while (--i[1] > i[4])
+				ft_putchar('\b');
 			i[2]--;
 		}
-		if (i[0] == 2)
+		else if (i[0] == 2)
 			gest_arrow(tmp, hist, &i, line);
 	}
 	return (1);

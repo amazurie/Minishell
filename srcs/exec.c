@@ -6,13 +6,24 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/01 14:24:17 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/03 11:34:45 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <curses.h>
 #include <term.h>
+
+int		test_paths(char **path)
+{
+    int	i;
+    
+    i = 0;
+    while (path[i])
+        if (access(path[i++], F_OK) == 0)
+            return (i);
+    return (0);
+}
 
 int	built_in(e_list *env, char **lstav, h_list *hist)
 {
@@ -37,16 +48,7 @@ int	built_in(e_list *env, char **lstav, h_list *hist)
 	else if (ft_strcmp(lstav[0], "history") == 0 && !lstav[1])
 		display_hist(hist);
 	else if (ft_strncmp(lstav[0], "cd", 2) == 0)
-	{
-		if (lstav[1] && lstav[2])
-		{
-			ft_putstr("cd: string not in pwd: ");
-			ft_putstr(lstav[1]);
-			ft_putchar('\n');
-		}
-//		else
-//		cd(lstav[1], env);
-	}
+		cd(lstav, env);
 	else if (ft_strcmp(lstav[0], "exit") == 0 && !lstav[1])
 		return (-1);
 	else

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 16:28:50 by amazurie          #+#    #+#             */
-/*   Updated: 2017/02/28 14:20:47 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/03 16:37:33 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ int		disp_hist_prec(h_list *lst, int **i, char **line)
 
 	h = lst;
 	tmp = NULL;
-	if (!h)
-		return (-1);
-	if ((*i)[3] == -1)
+	if (!h || (*i)[3] == -1)
 		return (-1);
 	while (h->next && h->num != (*i)[3])
 	{
@@ -66,5 +64,7 @@ int		disp_hist_prec(h_list *lst, int **i, char **line)
 		(*i)[3] = tmp->num;
 		return (ft_strlen(tmp->hist));
 	}
+	if (tmp == NULL)
+		(*i)[3] = -1;
 	return (-1);
 }

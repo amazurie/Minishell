@@ -6,13 +6,13 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 11:57:35 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/01 13:40:33 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/03 16:36:03 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ssupprchr(char **s, int pos)
+void			ssupprchr(char **s, int pos)
 {
 	int i;
 
@@ -22,11 +22,11 @@ void	ssupprchr(char **s, int pos)
 		(*s)[pos] = (*s)[pos + 1];
 }
 
-void	saddchr(char **s, char c, int pos)
+void			saddchr(char **s, char c, int pos)
 {
 	int i;
 
-	i = ft_strlen(*s);
+	i = ft_strlen(*s) + 1;
 	while (--i >= pos)
 		(*s)[i + 1] = (*s)[i];
 	(*s)[pos] = c;
@@ -43,7 +43,7 @@ static size_t	ft_wds(char *str)
 	{
 		if (str[i] == ';')
 			i++;
-		while (str[i] == ';'  && str[i - 1] != '\\')
+		while (str[i] == ';' && str[i - 1] != '\\')
 			i++;
 		if (str[i] && (str[i] != ';' ||
 					(str[i] == ';' && str[i - 1] == '\\')))

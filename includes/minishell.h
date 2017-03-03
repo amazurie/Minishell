@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
+/*   Updated: 2017/03/03 17:16:54 by amazurie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -34,7 +46,7 @@ e_list			*char_to_lst(char **env);
 void			display_env(e_list *env, char *opt);
 void			set_env(e_list **env, char *elem, char *cont);
 void			unset_env(e_list **env, char *elem);
-int				cd(char *path, char **env);
+int				cd(char **path, e_list *env);
 void			add_hist(h_list **lst, char *hist);
 void			display_hist(h_list *hist);
 int				disp_hist_next(h_list *lst, int **i, char **line);
@@ -43,5 +55,11 @@ void			ssupprchr(char **s, int pos);
 void			saddchr(char **s, char c, int pos);
 char			**splitsemicolon(char *s);
 void			handbackslash(char **s);
+int				leftright_key(char tmp, int **i, char **line);
+int				endhome_key(char tmp, int **i, char **line);
+int				del_key(char tmp, int **i, char **line);
+int				updown_key(char tmp, h_list *hist, int **i, char **line);
+char			get_ch();
+int				gest_arrow(char tmp, h_list *hist, int **i, char **line);
 
 #endif
