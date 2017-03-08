@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/03 17:16:54 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/08 12:37:52 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct	env_list
 }				e_list;
 
 char			*get_elem(e_list *env, char *elem);
-int				test_paths(char **path);
 int				exec(e_list *env, char *line, h_list *hist);
 e_list			*char_to_lst(char **env);
 void			display_env(e_list *env, char *opt);
@@ -55,11 +54,8 @@ void			ssupprchr(char **s, int pos);
 void			saddchr(char **s, char c, int pos);
 char			**splitsemicolon(char *s);
 void			handbackslash(char **s);
-int				leftright_key(char tmp, int **i, char **line);
-int				endhome_key(char tmp, int **i, char **line);
-int				del_key(char tmp, int **i, char **line);
-int				updown_key(char tmp, h_list *hist, int **i, char **line);
-char			get_ch();
-int				gest_arrow(char tmp, h_list *hist, int **i, char **line);
+void			get_ch(char **tmp);
+int				gest_arrow(char *tmp, h_list *hist, int **i, char **line);
+int				in(h_list *hist, char **line);
 
 #endif

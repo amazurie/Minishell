@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/03 11:34:45 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/08 12:37:58 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 #include <curses.h>
 #include <term.h>
 
-int		test_paths(char **path)
+static int	test_paths(char **path)
 {
-    int	i;
-    
-    i = 0;
-    while (path[i])
-        if (access(path[i++], F_OK) == 0)
-            return (i);
-    return (0);
+	int	i;
+
+	i = 0;
+	while (path[i])
+		if (access(path[i++], F_OK) == 0)
+			return (i);
+	return (0);
 }
 
-int	built_in(e_list *env, char **lstav, h_list *hist)
+static int	built_in(e_list *env, char **lstav, h_list *hist)
 {
 	size_t	len;
 
@@ -56,7 +56,7 @@ int	built_in(e_list *env, char **lstav, h_list *hist)
 	return (1);
 }
 
-int	exec(e_list *env, char *line, h_list *hist)
+int			exec(e_list *env, char *line, h_list *hist)
 {
 	char	**lstav;
 	char	**paths;

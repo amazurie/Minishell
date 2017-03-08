@@ -6,17 +6,57 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:13:41 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/03 16:39:26 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/08 14:34:39 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	change_pwd(char **path, e_list env)
+static void	check_dotdot(char **path)
 {
-	//change_prompt();
-	//set_env(env, "OLDPWD",);
-	//set_env(env, "PWD", );
+	int	i;
+	int	j;
+
+	i = 0;
+	while ((i = ft_strschr_len((*path + i), "..")))
+	{
+		j = ft_strlen_chr((*path + 1), '/');
+		i = i + 2;
+		while (path[0][i] != '/')
+			ssupprchr(path, i--);
+		ssupprchr(path, i--);
+		while (path[0][i] != '/')
+			ssupprchr(path, i--);
+		ssupprchr(path, i--);
+	}
+	if (!path[0][0])
+		ft_strcat(*path, "/");
+}
+
+static void	change_pwd(char **path, e_list *env)
+{
+	char *tmp;
+	char *tmp2;
+
+	if (chdir(path[1]) == -1)
+	{
+		ft_putstr("cd: no such file or directory: ");
+		ft_putstr(path[1]);
+		ft_putchar('\n');
+		return ;
+	}
+	set_env(&env, "OLDPWD", get_elem(env, "PWD"));
+	if (path[1][0] != '/')
+	{
+		tmp = ft_strjoin(get_elem(env, "PWD"), "/");
+		tmp2 = ft_strjoin(tmp, path[1]);
+		free(tmp);
+	}
+	else
+		tmp2 = ft_strdup(path[1]);
+	check_dotdot(&tmp2);
+	set_env(&env, "PWD", tmp2);
+	free(tmp2);
 }
 
 static void	check_pwd2(char *path, e_list *env, char *rep, char *tmp)
@@ -88,10 +128,10 @@ int			cd(char **path, e_list *env)
 	else
 	{
 		if (i == 1)
-			path[1] = ft_strdup("~");
+			path[1] = ft_strdup(get_elem(env, "HOME"));
 		else if (ft_strcmp(path[1], "-") == 0)
 			path[1] = ft_strdup(get_elem(env, "OLDPWD"));
-		//change_pwd(path, env);
+		change_pwd(path, env);
 	}
 	return (0);
 }

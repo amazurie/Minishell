@@ -40,8 +40,6 @@ void	del_lasts(h_list **lst, int nbr)
 		free(h);
 		h = tmp;
 	}
-	free(h->hist);
-	free(h);
 }
 
 void	add_hist(h_list **lst, char *hist)
@@ -61,10 +59,8 @@ void	add_hist(h_list **lst, char *hist)
 		return ;
 	}
 	while (h->next)
-	{
 		h = h->next;
 		i++;
-	}
 	if (i > MAX_HISTORY)
 		del_lasts(lst, i - MAX_HISTORY);
 	tmp = (h_list *)ft_memalloc(sizeof(h_list));
