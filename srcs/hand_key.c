@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/08 11:51:14 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/08 15:22:46 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	del_key(char *tmp, int **i, char **line)
 
 int	updown_key(char *tmp, h_list *hist, int **i, char **line)
 {
-	if (tmp[2] == 65)
+	if (tmp[2] == 65 || tmp[2] == 53)
 	{
 		if (((*i)[1] = disp_hist_next(hist, i, line)) != -1)
 		{
@@ -78,7 +78,7 @@ int	updown_key(char *tmp, h_list *hist, int **i, char **line)
 		else
 			return (0);
 	}
-	else if (tmp[2] == 66)
+	else if (tmp[2] == 66 || tmp[2] == 54)
 	{
 		if (((*i)[1] = disp_hist_prec(hist, i, line)) != -1)
 		{

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 12:16:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/08 13:22:20 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/08 15:23:10 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ int			in(h_list *hist, char **line)
 	while (i[0] != 1)
 	{
 		get_ch(&tmp);
-		//printf("\ntyped: %i\n", tmp);
+		//int pfrw = 0;
+		//while (tmp[pfrw])
+			//printf("\ntyped: %i\n", tmp[pfrw++]);
 		if (SIGINTED == 1)
 		{
 			ft_memset(*line, 0, i[2]);
