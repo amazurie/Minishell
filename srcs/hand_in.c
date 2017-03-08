@@ -6,24 +6,11 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 12:16:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/08 15:23:10 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/08 17:39:08 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static struct termios old;
-static struct termios new;
-
-void		get_ch(char **tmp)
-{
-	tcgetattr(0, &old);
-	new = old;
-	new.c_lflag &= ~(ECHO | ICANON);
-	tcsetattr(0, TCSANOW, &new);
-	read(0, *tmp, 4);
-	tcsetattr(0, TCSANOW, &old);
-}
 
 static void	chr_in(char **line, char *tmp, int **i)
 {
@@ -34,7 +21,8 @@ static void	chr_in(char **line, char *tmp, int **i)
 	saddchr(line, tmp[0], (*i)[4]);
 	ft_putstr(*line);
 	ft_putstr(" \b");
-	(*i)[1] = ++(*i)[2];
+	(*i)[2]++;
+	(*i)[1] = (*i)[2];
 	while (--(*i)[1] > (*i)[4])
 		ft_putchar('\b');
 	(*i)[4]++;
@@ -64,8 +52,8 @@ static int	gest_in(h_list *hist, char **line, char *tmp, int **i)
 		del_in(line, i);
 	else if (tmp[0] == 27)
 		gest_arrow(tmp, hist, i, line);
-	else
-		chr_in(line, tmp, i);
+	else if (ft_isprint(tmp[0]))
+		chr_in(line, &tmp[0], i);
 	return (0);
 }
 
@@ -74,17 +62,17 @@ int			in(h_list *hist, char **line)
 	char	*tmp;
 	int		*i;
 
-	*line = (char *)ft_memalloc(256);
-	tmp = (char *)ft_memalloc(5);
+	*line = (char *)ft_memalloc(1024);
+	tmp = (char *)ft_memalloc(6);
 	i = (int *)ft_memalloc(sizeof(int) * 5);
 	i[0] = 0;
 	i[3] = -1;
 	while (i[0] != 1)
 	{
-		get_ch(&tmp);
+		read(0, tmp, 8);
 		//int pfrw = 0;
 		//while (tmp[pfrw])
-			//printf("\ntyped: %i\n", tmp[pfrw++]);
+		//	printf("\ntyped: %i\n", tmp[pfrw++]);
 		if (SIGINTED == 1)
 		{
 			ft_memset(*line, 0, i[2]);
@@ -95,6 +83,8 @@ int			in(h_list *hist, char **line)
 		}
 		if (gest_in(hist, line, tmp, &i) == -1)
 			return (-1);
+		ft_bzero(tmp, 6);
 	}
+	printf("\n%s\n", *line);
 	return (1);
 }

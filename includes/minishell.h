@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/08 12:37:52 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/08 15:42:09 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define MAX_HISTORY	126
 
 int SIGINTED;
+int SIGSTOPED;
 
 typedef struct	hist_list
 {
