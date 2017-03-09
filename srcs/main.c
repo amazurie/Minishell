@@ -17,11 +17,11 @@ static struct termios new;
 
 void		sighandler(int sig)
 {
-
 	SIGSTOPED = 1;
 	if (sig == SIGINT)
 	{
-		ft_putstr("\n\e[1;36m$> \e[0m");
+		ft_putchar('\n');
+		display_prompt(PROMPT);
 		SIGINTED = 1;
 	}
 	if (sig == SIGSTOP)
@@ -47,9 +47,10 @@ int			main(int ac, char **av, char **env)
 	hist = NULL;
 	while (42)
 	{
-		//signal(SIGINT, sighandler);
+		PROMPT = get_elem(e, "PWD");
 		if (SIGINTED == 0)
-			ft_putstr("\e[1;36m$> \e[0m");
+			display_prompt(get_elem(e, "PWD"));
+		signal(SIGINT, sighandler);
 		SIGINTED = 0;
 		SIGSTOPED = 0;
 		if ((i = in(hist, &line)) == -1)

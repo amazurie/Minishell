@@ -40,14 +40,14 @@ static int	built_in(e_list *env, char **lstav, h_list *hist)
 	else if (ft_strcmp(lstav[0], "pwd") == 0)
 	{
 		if (lstav[1])
-			ft_putstr("pwd: too many arguments");
+			ft_putstr_fd("pwd: too many arguments", 2);
 		else
 			ft_putstr(get_elem(env, "PWD"));
 		ft_putstr("\n");
 	}
 	else if (ft_strcmp(lstav[0], "history") == 0 && !lstav[1])
 		display_hist(hist);
-	else if (ft_strncmp(lstav[0], "cd", 2) == 0)
+	else if (ft_strcmp(lstav[0], "cd") == 0)
 		cd(lstav, env);
 	else if (ft_strcmp(lstav[0], "exit") == 0 && !lstav[1])
 		return (-1);
@@ -66,7 +66,7 @@ int			exec(e_list *env, char *line, h_list *hist)
 	pid_t	pid;
 
 	if (!env)
-		ft_putstr("\e[31mNo environnement defined.\e[0m\n");
+		ft_putstr_fd("\e[31mNo environnement defined.\e[0m\n", 2);
 	if (!env)
 		return (-1);
 	handbackslash(&line);
@@ -101,9 +101,9 @@ int			exec(e_list *env, char *line, h_list *hist)
 				j++;
 	if (j < i)
 	{
-		ft_putstr("\e[31mminishell:\e[0m command not found: ");
-		ft_putstr(lstav[0]);
-		ft_putstr("\n");
+		ft_putstr_fd("\e[31mminishell:\e[0m command not found: ", 2);
+		ft_putstr_fd(lstav[0], 2);
+		ft_putstr_fd("\n", 2);
 		exit(0);
 	}
 	return (0);

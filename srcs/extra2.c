@@ -34,3 +34,17 @@ void	handbackslash(char **s)
 		i++;
 	}
 }
+
+void	display_prompt(char *pwd)
+{
+	int		i;
+
+	i = ft_strlen(pwd);
+	while (i > 0 && pwd[i] != '/')
+		i--;
+	ft_putstr(PROMPT_COL);
+	ft_putstr("$ ");
+	ft_putstr((pwd + i + 1));
+	ft_putstr("> ");
+	ft_putstr(DEFAULT_COL);
+}

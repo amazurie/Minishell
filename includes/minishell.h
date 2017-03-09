@@ -19,10 +19,12 @@
 # include <stdio.h>
 # include <signal.h>
 
-# define LIGHT_RED		"\e[1;31m"
-# define DEFAULT		"\e[0m"
+# define LIGHTRED_COL	"\e[1;31m"
+# define DEFAULT_COL	"\e[0m"
+# define PROMPT_COL		"\e[1;36m"
 # define MAX_HISTORY	126
 
+char *PROMPT;
 int SIGINTED;
 int SIGSTOPED;
 
@@ -58,5 +60,6 @@ void			handbackslash(char **s);
 void			get_ch(char **tmp);
 int				gest_arrow(char *tmp, h_list *hist, int **i, char **line);
 int				in(h_list *hist, char **line);
+void			display_prompt(char *pwd);
 
 #endif

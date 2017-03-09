@@ -85,20 +85,20 @@ void	display_env(e_list *env, char *opt)
 {
 	if (opt && ft_strcmp(opt, "color") != 0)
 	{
-		ft_putstr("env: illegal option -- ");
-		ft_putstr(opt);
-		ft_putstr("\n");
-		ft_putstr("usage: env [color]");
-		ft_putstr("\n");
+		ft_putstr_fd("env: illegal option -- ", 2);
+		ft_putstr_fd(opt, 2);
+		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("usage: env [color]", 2);
+		ft_putstr_fd("\n", 2);
 		return ;
 	}
 	while (env->next)
 	{
 		if (opt && ft_strcmp(opt, "color") == 0)
-			ft_putstr(LIGHT_RED);
+			ft_putstr(LIGHTRED_COL);
 		ft_putstr(env->elem);
 		if (opt && ft_strcmp(opt, "color") == 0)
-			ft_putstr(DEFAULT);
+			ft_putstr(DEFAULT_COL);
 		ft_putchar('=');
 		ft_putstr(env->cont);
 		ft_putchar('\n');

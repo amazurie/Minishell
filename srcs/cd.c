@@ -40,9 +40,9 @@ static void	change_pwd(char **path, e_list *env)
 
 	if (chdir(path[1]) == -1)
 	{
-		ft_putstr("cd: no such file or directory: ");
-		ft_putstr(path[1]);
-		ft_putchar('\n');
+		ft_putstr_fd("cd: no such file or directory: ", 2);
+		ft_putstr_fd(path[1], 2);
+		ft_putchar_fd('\n', 2);
 		return ;
 	}
 	set_env(&env, "OLDPWD", get_elem(env, "PWD"));
@@ -73,9 +73,9 @@ static void	check_pwd2(char *path, e_list *env, char *rep, char *tmp)
 		saddchr(&tmp, rep[i++], j++);
 	if (ft_strcmp(tmp, get_elem(env, "PWD")) != 0)
 	{
-		ft_putstr("cd: no such file or directory: ");
-		ft_putstr(tmp);
-		ft_putchar('\n');
+		ft_putstr_fd("cd: no such file or directory: ", 2);
+		ft_putstr_fd(tmp, 2);
+		ft_putchar_fd('\n', 2);
 	}
 	else
 	{
@@ -97,16 +97,16 @@ static int	check_pwd(char *path, e_list *env, char *rep)
 
 	if (!get_elem(env, "HOME"))
 	{
-		ft_putstr("cd: HOME not set.\n");
+		ft_putstr_fd("cd: HOME not set.\n", 2);
 		return (0);
 	}
 	else if (!(tmp = ft_strdup(get_elem(env, "PWD"))))
-		ft_putstr("cd: PWD not set.\n");
+		ft_putstr_fd("cd: PWD not set.\n", 2);
 	else if ((tmp2 = ft_strschr(tmp, path)) == 0)
 	{
-		ft_putstr("cd: string not in pwd: ");
-		ft_putstr(path);
-		ft_putchar('\n');
+		ft_putstr_fd("cd: string not in pwd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putchar_fd('\n', 2);
 	}
 	else
 		check_pwd2(path, env, rep, tmp);
@@ -122,7 +122,7 @@ int			cd(char **path, e_list *env)
 	while (path[i])
 		i++;
 	if (i > 3)
-		ft_putstr("cd: too many arguments\n");
+		ft_putstr_fd("cd: too many arguments\n", 2);
 	else if (i == 3)
 		return (check_pwd(path[1], env, path[2]));
 	else

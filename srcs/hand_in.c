@@ -52,7 +52,7 @@ static int	gest_in(h_list *hist, char **line, char *tmp, int **i)
 		del_in(line, i);
 	else if (tmp[0] == 27)
 		gest_arrow(tmp, hist, i, line);
-	else if (ft_isprint(tmp[0]))
+	else
 		chr_in(line, &tmp[0], i);
 	return (0);
 }
@@ -69,7 +69,7 @@ int			in(h_list *hist, char **line)
 	i[3] = -1;
 	while (i[0] != 1)
 	{
-		read(0, tmp, 8);
+		read(0, tmp, 5);
 		//int pfrw = 0;
 		//while (tmp[pfrw])
 		//	printf("\ntyped: %i\n", tmp[pfrw++]);
@@ -85,6 +85,5 @@ int			in(h_list *hist, char **line)
 			return (-1);
 		ft_bzero(tmp, 6);
 	}
-	printf("\n%s\n", *line);
 	return (1);
 }

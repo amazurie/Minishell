@@ -101,7 +101,8 @@ int	gest_arrow(char *tmp, h_list *hist, int **i, char **line)
 		return (0);
 	if (leftright_key(tmp, i, line))
 		return (0);
-	if (tmp[2] != 65 || tmp[2] != 53 || tmp[2] != 66 || tmp[2] != 54)
+	if (tmp[2] != 65 && tmp[2] != 53 && tmp[2] != 66
+			&& tmp[2] != 54)
 		return (0);
 	(*i)[1] = 0;
 	while ((*i)[1]++ < (*i)[4])
