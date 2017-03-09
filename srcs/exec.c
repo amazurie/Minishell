@@ -51,6 +51,8 @@ static int	built_in(e_list *env, char **lstav, h_list *hist)
 		cd(lstav, env);
 	else if (ft_strcmp(lstav[0], "exit") == 0 && !lstav[1])
 		return (-1);
+	else if (ft_strcmp(lstav[0], "clear") == 0 && !lstav[1])
+		ft_putstr("\033c");
 	else
 		return (0);
 	return (1);

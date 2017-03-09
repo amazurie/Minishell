@@ -30,6 +30,7 @@ SRC =	$(SRC_PATH)/main.c			\
 		$(SRC_PATH)/extra2.c		\
 		$(SRC_PATH)/cd.c			\
 		$(SRC_PATH)/hand_key.c		\
+		$(SRC_PATH)/hand_key2.c		\
 		$(SRC_PATH)/hand_in.c		\
 		$(SRC_PATH)/exec.c
 

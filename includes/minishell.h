@@ -58,8 +58,9 @@ void			saddchr(char **s, char c, int pos);
 char			**splitsemicolon(char *s);
 void			handbackslash(char **s);
 void			get_ch(char **tmp);
-int				gest_arrow(char *tmp, h_list *hist, int **i, char **line);
+int				gest_spekey(char *tmp, h_list *hist, int **i, char **line);
 int				in(h_list *hist, char **line);
 void			display_prompt(char *pwd);
+int				del_line(char **line, char *tmp, int **i);
 
 #endif

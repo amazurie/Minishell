@@ -43,7 +43,7 @@ void	display_prompt(char *pwd)
 	while (i > 0 && pwd[i] != '/')
 		i--;
 	ft_putstr(PROMPT_COL);
-	ft_putstr("$ ");
+	ft_putstr("$");
 	ft_putstr((pwd + i + 1));
 	ft_putstr("> ");
 	ft_putstr(DEFAULT_COL);

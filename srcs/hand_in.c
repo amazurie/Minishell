@@ -44,16 +44,22 @@ static void	del_in(char **line, int **i)
 
 static int	gest_in(h_list *hist, char **line, char *tmp, int **i)
 {
-	if (tmp[0] == 4)
+	if (tmp[0] == 4 && !**line)
 		return (-1);
+	else if (tmp[0] == 12)
+	{
+		free(*line);
+		*line = ft_strdup("clear");
+		(*i)[0] = 1;
+	}
 	else if (tmp[0] == 10)
 		(*i)[0] = 1;
-	else if (tmp[0] == 127)
+	else if (tmp[0] == 127|| tmp[0] == 8)
 		del_in(line, i);
-	else if (tmp[0] == 27)
-		gest_arrow(tmp, hist, i, line);
-	else
+	else if (ft_isprint(tmp[0]))
 		chr_in(line, &tmp[0], i);
+	else
+		gest_spekey(tmp, hist, i, line);
 	return (0);
 }
 
