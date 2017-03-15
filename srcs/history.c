@@ -6,15 +6,15 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 16:28:50 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/14 17:12:55 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 14:13:35 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		disp_hist_next(h_list *lst, int **i, char **line)
+int		disp_hist_next(t_hist *lst, int **i, char **line)
 {
-	h_list *h;
+	t_hist *h;
 
 	h = lst;
 	if (!h)
@@ -41,10 +41,10 @@ int		disp_hist_next(h_list *lst, int **i, char **line)
 	return (-1);
 }
 
-int		disp_hist_prec(h_list *lst, int **i, char **line)
+int		disp_hist_prec(t_hist *lst, int **i, char **line)
 {
-	h_list *h;
-	h_list *tmp;
+	t_hist *h;
+	t_hist *tmp;
 
 	h = lst;
 	tmp = NULL;

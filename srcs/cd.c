@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:13:41 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 13:23:07 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 14:10:02 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	check_dotdot(char **path)
 		ft_strcat(*path, "/");
 }
 
-static void	change_pwd(char *path, e_list *env)
+static void	change_pwd(char *path, t_env *env)
 {
 	char *tmp;
 	char *tmp2;
@@ -59,7 +59,7 @@ static void	change_pwd(char *path, e_list *env)
 	free(tmp2);
 }
 
-static void	check_pwd2(char *path, e_list *env, char *rep, char *tmp)
+static void	check_pwd2(char *path, t_env *env, char *rep, char *tmp)
 {
 	size_t	i;
 	size_t	j;
@@ -88,7 +88,7 @@ static void	check_pwd2(char *path, e_list *env, char *rep, char *tmp)
 	}
 }
 
-static int	check_pwd(char *path, e_list *env, char *rep)
+static int	check_pwd(char *path, t_env *env, char *rep)
 {
 	char	*tmp;
 	char	*tmp2;
@@ -114,7 +114,7 @@ static int	check_pwd(char *path, e_list *env, char *rep)
 	return (0);
 }
 
-int			cd(char **path, e_list *env)
+int			cd(char **path, t_env *env)
 {
 	char	*tmp;
 	int		i;

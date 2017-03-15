@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/08 17:41:16 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 14:13:19 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	del_key(char *tmp, int **i, char **line)
 	return (endhome_key(tmp, i, line));
 }
 
-int	updown_key(char *tmp, h_list *hist, int **i, char **line)
+int	updown_key(char *tmp, t_hist *hist, int **i, char **line)
 {
 	if (tmp[2] == 65 || tmp[2] == 53 || tmp[0] == 16)
 	{
@@ -94,7 +94,7 @@ int	updown_key(char *tmp, h_list *hist, int **i, char **line)
 	return (1);
 }
 
-int	gest_spekey(char *tmp, h_list *hist, int **i, char **line)
+int	gest_spekey(char *tmp, t_hist *hist, int **i, char **line)
 {
 	if (del_key(tmp, i, line) || leftright_key(tmp, i, line)
 			|| del_line(line, tmp, i))

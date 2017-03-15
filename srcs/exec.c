@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 13:39:58 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 14:12:38 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <curses.h>
 #include <term.h>
 
-static int	built_in2(e_list *env, char **lstav, h_list *hist)
+static int	built_in2(t_env *env, char **lstav, t_hist *hist)
 {
 	if (ft_strcmp(lstav[0], "history") == 0 && !lstav[1])
 		display_hist(hist);
@@ -29,7 +29,7 @@ static int	built_in2(e_list *env, char **lstav, h_list *hist)
 	return (1);
 }
 
-static int	built_in(e_list *env, char **lstav, h_list *hist)
+static int	built_in(t_env *env, char **lstav, t_hist *hist)
 {
 	size_t	len;
 
@@ -102,7 +102,7 @@ void		exec2(char **lstav, char **paths, char **fullpaths)
 	free(fullpaths);
 }
 
-int			exec(e_list *env, char *line, h_list *hist)
+int			exec(t_env *env, char *line, t_hist *hist)
 {
 	char	**lstav;
 	char	**paths;

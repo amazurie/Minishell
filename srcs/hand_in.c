@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 12:16:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 13:41:33 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 14:15:50 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	del_in(char **line, int **i)
 	(*i)[2]--;
 }
 
-static int	gest_in(h_list *hist, char **line, char *tmp, int **i)
+int			gest_in(t_hist *hist, char **line, char *tmp, int **i)
 {
 	if (tmp[0] == 4 && !**line)
 		return (-1);
@@ -63,39 +63,4 @@ static int	gest_in(h_list *hist, char **line, char *tmp, int **i)
 	else
 		gest_spekey(tmp, hist, i, line);
 	return (0);
-}
-
-int			in(h_list *hist, char **line)
-{
-	char	*tmp;
-	int		*i;
-
-	*line = (char *)ft_memalloc(2048);
-	tmp = (char *)ft_memalloc(6);
-	i = (int *)ft_memalloc(sizeof(int) * 5);
-	i[0] = 0;
-	i[3] = -1;
-	while (i[0] == 0)
-	{
-		read(0, tmp, 5);
-		//int pfrw = 0;
-		//while (tmp[pfrw])
-		//	printf("\ntyped: %i\n", tmp[pfrw++]);
-		if (SIGINTED == 1)
-		{
-			ft_memset(*line, 0, i[2]);
-			i[2] = 0;
-			i[3] = -1;
-			i[4] = 0;
-			SIGINTED = 0;
-		}
-		if (tmp[0] == 4)
-			i[0] = -1;
-		if (gest_in(hist, line, tmp, &i) == -1)
-			i[0] = -1;
-		ft_bzero(tmp, 6);
-	}
-	free(tmp);
-	free(i);
-	return (i[0]);
 }

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 13:44:01 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 13:36:40 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 15:10:12 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,17 @@ int		test_paths(char **path)
 		if (access(path[i++], F_OK) == 0)
 			return (i);
 	return (0);
+}
+
+void	del_env(t_env *env)
+{
+	t_env	*e;
+
+	while (env->next)
+	{
+		e = env;
+		env = env->next;
+		free(e);
+	}
+	free(env);
 }

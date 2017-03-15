@@ -6,73 +6,59 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:43:08 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 13:41:00 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 15:00:27 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	del_lasts(h_list **lst, int nbr)
+static void	del_lasts(t_hist **lst)
 {
-	h_list	*h;
-	h_list	*tmp;
-	int		i;
+	t_hist	*h;
+	t_hist	*tmp;
 
 	h = *lst;
 	while (h->next)
 	{
-		h = h->next;
-		i++;
-	}
-	i -= nbr;
-	if (i < 0)
-		return ;
-	h = *lst;
-	while (h->next && i--)
-	{
-		h->num -= nbr;
+		tmp = h;
 		h = h->next;
 	}
-	while (i > 0 && h->next)
-	{
-		tmp = h->next;
-		free(h->hist);
-		free(h);
-		h = tmp;
-	}
+	free(h->hist);
+	free(tmp->next);
+	tmp->next = NULL;
 }
 
-void	add_hist(h_list **lst, char *hist)
+void		add_hist(t_hist **lst, char *hist)
 {
-	h_list	*h;
-	h_list	*tmp;
+	t_hist	*h;
+	t_hist	*tmp;
 	int		i;
 
 	h = *lst;
 	if (h == NULL)
 	{
-		h = (h_list *)ft_memalloc(sizeof(h_list));
+		h = (t_hist *)ft_memalloc(sizeof(t_hist));
 		h->num = 1;
 		h->hist = ft_strdup(hist);
 		h->next = NULL;
 		*lst = h;
 		return ;
 	}
-	while (h->next)
+	i = 0;
+	while (h->next && i++)
 		h = h->next;
-	i++;
-	if (i > MAX_HISTORY)
-		del_lasts(lst, i - MAX_HISTORY);
-	tmp = (h_list *)ft_memalloc(sizeof(h_list));
+	if (i - 1 > MAX_HISTORY)
+		del_lasts(lst);
+	tmp = (t_hist *)ft_memalloc(sizeof(t_hist));
 	tmp->num = (*lst)->num + 1;
 	tmp->hist = ft_strdup(hist);
 	tmp->next = *lst;
 	*lst = tmp;
 }
 
-void	display_hist(h_list *lst)
+void		display_hist(t_hist *lst)
 {
-	h_list	*h;
+	t_hist	*h;
 
 	h = lst;
 	if (h == NULL)
@@ -91,9 +77,9 @@ void	display_hist(h_list *lst)
 	ft_putchar('\n');
 }
 
-void	del_hist(h_list *hist)
+void		del_hist(t_hist *hist)
 {
-	h_list	*h;
+	t_hist	*h;
 
 	while (hist->next)
 	{

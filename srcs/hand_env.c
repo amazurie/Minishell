@@ -6,26 +6,26 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:31:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/14 17:08:58 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 15:09:12 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-e_list	*char_to_lst(char **env)
+t_env	*char_to_lst(char **env)
 {
-	e_list	*envlst;
-	e_list	*envtmp;
+	t_env	*envlst;
+	t_env	*envtmp;
 	int		i;
 
-	envlst = (e_list *)ft_memalloc(sizeof(e_list));
+	envlst = (t_env *)ft_memalloc(sizeof(t_env));
 	envtmp = envlst;
 	i = 0;
 	while (env[i])
 	{
 		envtmp->elem = ft_strndup(env[i], ft_strlen_chr(env[i], '='));
 		envtmp->cont = ft_strdup((env[i] + ft_strlen_chr(env[i], '=') + 1));
-		envtmp->next = (e_list *)ft_memalloc(sizeof(e_list));
+		envtmp->next = (t_env *)ft_memalloc(sizeof(t_env));
 		envtmp = envtmp->next;
 		i++;
 	}
@@ -33,16 +33,16 @@ e_list	*char_to_lst(char **env)
 	return (envlst);
 }
 
-void	set_env(e_list **env, char *elem, char *cont)
+void	set_env(t_env **env, char *elem, char *cont)
 {
-	e_list *tmpenv;
+	t_env *tmpenv;
 
 	tmpenv = *env;
 	while (tmpenv->next && ft_strcmp(tmpenv->elem, elem))
 		tmpenv = tmpenv->next;
 	if (!tmpenv->next)
 	{
-		tmpenv->next = (e_list *)ft_memalloc(sizeof(e_list));
+		tmpenv->next = (t_env *)ft_memalloc(sizeof(t_env));
 		tmpenv = tmpenv->next;
 		tmpenv->elem = (ft_strdup(elem));
 		tmpenv->cont = (ft_strdup(cont));
@@ -58,10 +58,10 @@ void	set_env(e_list **env, char *elem, char *cont)
 	}
 }
 
-void	unset_env(e_list **env, char *elem)
+void	unset_env(t_env **env, char *elem)
 {
-	e_list *tmpenv;
-	e_list *tmp;
+	t_env *tmpenv;
+	t_env *tmp;
 
 	tmpenv = *env;
 	while (tmpenv->next && ft_strcmp(tmpenv->elem, elem))
@@ -81,7 +81,7 @@ void	unset_env(e_list **env, char *elem)
 	}
 }
 
-void	display_env(e_list *env, char *opt)
+void	display_env(t_env *env, char *opt)
 {
 	if (opt && ft_strcmp(opt, "color") != 0)
 	{
@@ -106,7 +106,7 @@ void	display_env(e_list *env, char *opt)
 	}
 }
 
-char	*get_elem(e_list *env, char *elem)
+char	*get_elem(t_env *env, char *elem)
 {
 	while (env->next)
 	{
@@ -115,17 +115,4 @@ char	*get_elem(e_list *env, char *elem)
 		env = env->next;
 	}
 	return (NULL);
-}
-
-void	del_env(e_list *env)
-{
-	e_list	*e;
-
-	while (env->next)
-	{
-		e = env;
-		env = env->next;
-		free(e);
-	}
-	free(env);
 }
