@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 16:28:50 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/03 16:37:33 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/14 17:12:55 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		disp_hist_next(h_list *lst, int **i, char **line)
 	if ((*i)[3] == -1)
 	{
 		ft_putstr(h->hist);
-		*line = ft_strdup(h->hist);
+		ft_strcpy(*line, h->hist);
 		(*i)[3] = h->num;
 		return (ft_strlen(h->hist));
 	}
@@ -32,7 +32,7 @@ int		disp_hist_next(h_list *lst, int **i, char **line)
 	{
 		h = h->next;
 		ft_putstr(h->hist);
-		*line = ft_strdup(h->hist);
+		ft_strcpy(*line, h->hist);
 		(*i)[3] = h->num;
 		return (ft_strlen(h->hist));
 	}

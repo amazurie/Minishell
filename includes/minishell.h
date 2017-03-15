@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/08 15:42:09 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 13:36:30 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,9 @@ int				gest_spekey(char *tmp, h_list *hist, int **i, char **line);
 int				in(h_list *hist, char **line);
 void			display_prompt(char *pwd);
 int				del_line(char **line, char *tmp, int **i);
+void			del_hist(h_list *hist);
+void			del_env(e_list *e);
+void			free_tab(char **tab);
+int				test_paths(char **paths);
 
 #endif

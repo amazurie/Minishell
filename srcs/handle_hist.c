@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:43:08 by amazurie          #+#    #+#             */
-/*   Updated: 2017/02/27 14:54:08 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/14 17:28:35 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,19 @@ void	display_hist(h_list *lst)
 	ft_putchar(' ');
 	ft_putstr(h->hist);
 	ft_putchar('\n');
+}
+
+void	del_hist(h_list *hist)
+{
+	h_list	*h;
+
+	while (hist->next)
+	{
+		h = hist;
+		hist = hist->next;
+		free(h->hist);
+		free(h);
+	}
+	free(hist->hist);
+	free(hist);
 }

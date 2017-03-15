@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:31:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/03 16:31:50 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/14 17:08:58 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,17 @@ char	*get_elem(e_list *env, char *elem)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+void	del_env(e_list *env)
+{
+	e_list	*e;
+
+	while (env->next)
+	{
+		e = env;
+		env = env->next;
+		free(e);
+	}
+	free(env);
 }

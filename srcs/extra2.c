@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 13:44:01 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/01 14:23:15 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 13:36:40 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,25 @@ void	display_prompt(char *pwd)
 	ft_putstr((pwd + i + 1));
 	ft_putstr("> ");
 	ft_putstr(DEFAULT_COL);
+}
+
+void	free_tab(char **tab)
+{
+	int i;
+
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
+}
+
+int		test_paths(char **path)
+{
+	int	i;
+
+	i = 0;
+	while (path[i])
+		if (access(path[i++], F_OK) == 0)
+			return (i);
+	return (0);
 }

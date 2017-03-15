@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/08 12:37:58 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 13:35:01 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ static int	test_paths(char **path)
 		if (access(path[i++], F_OK) == 0)
 			return (i);
 	return (0);
+}
+
+static int	built_in2(e_list *env, char **lstav, h_list *hist)
+{
+	if (ft_strcmp(lstav[0], "history") == 0 && !lstav[1])
+		display_hist(hist);
+	else if (ft_strcmp(lstav[0], "cd") == 0)
+		cd(lstav, env);
+	else if (ft_strcmp(lstav[0], "exit") == 0 && !lstav[1])
+		return (-1);
+	else if (ft_strcmp(lstav[0], "clear") == 0 && !lstav[1])
+		ft_putstr("\033c");
+	else
+		return (0);
+	return (1);
 }
 
 static int	built_in(e_list *env, char **lstav, h_list *hist)
@@ -45,52 +60,17 @@ static int	built_in(e_list *env, char **lstav, h_list *hist)
 			ft_putstr(get_elem(env, "PWD"));
 		ft_putstr("\n");
 	}
-	else if (ft_strcmp(lstav[0], "history") == 0 && !lstav[1])
-		display_hist(hist);
-	else if (ft_strcmp(lstav[0], "cd") == 0)
-		cd(lstav, env);
-	else if (ft_strcmp(lstav[0], "exit") == 0 && !lstav[1])
-		return (-1);
-	else if (ft_strcmp(lstav[0], "clear") == 0 && !lstav[1])
-		ft_putstr("\033c");
 	else
-		return (0);
+		return (built_in2(env, lstav, hist));
 	return (1);
 }
 
-int			exec(e_list *env, char *line, h_list *hist)
+static void	fork_exec(char **lstav, char **fullpaths)
 {
-	char	**lstav;
-	char	**paths;
-	char	**fullpaths;
-	int		i;
-	int		j;
 	pid_t	pid;
+	size_t	i;
+	size_t	j;
 
-	if (!env)
-		ft_putstr_fd("\e[31mNo environnement defined.\e[0m\n", 2);
-	if (!env)
-		return (-1);
-	handbackslash(&line);
-	lstav = ft_strsplit(line, ' ');
-	line = get_elem(env, "PATH");
-	paths = ft_strsplit(line, ':');
-	if ((i = built_in(env, lstav, hist)))
-		return (i);
-	if (i == -1)
-		exit(EXIT_SUCCESS);
-	i = 0;
-	while (paths[i])
-		i++;
-	fullpaths = (char **)ft_memalloc(sizeof(char *) * i);
-	i = -1;
-	while (paths[++i])
-	{
-		fullpaths[i] = ft_strjoin(paths[i], "/");
-		fullpaths[i] = ft_strjoin(fullpaths[i], lstav[0]);
-	}
-	if (!test_paths(paths))
-		return (0);
 	while ((pid = fork()) == -1)
 		sleep(2);
 	i = 0;
@@ -108,5 +88,56 @@ int			exec(e_list *env, char *line, h_list *hist)
 		ft_putstr_fd("\n", 2);
 		exit(0);
 	}
+}
+
+void			exec2(char **lstav, char **paths, char **fullpaths)
+{
+	char	*tmp;
+	size_t	i;
+
+	i = 0;
+	while (paths[i])
+		i++;
+	fullpaths = (char **)ft_memalloc(sizeof(char *) * i + 1);
+	i = 0;
+	while (paths[i])
+	{
+		tmp = ft_strjoin(paths[i], "/");
+		fullpaths[i++] = ft_strjoin(tmp, lstav[0]);
+		free(tmp);
+	}
+	fork_exec(lstav, fullpaths);
+	i = 0;
+	while (paths[i])
+		free(fullpaths[i++]);
+	free(fullpaths);
+}
+
+int			exec(e_list *env, char *line, h_list *hist)
+{
+	char	**lstav;
+	char	**paths;
+	char	**fullpaths;
+	int		i;
+
+	if (!env)
+		ft_putstr_fd("\e[31mNo environnement defined.\e[0m\n", 2);
+	if (!env)
+		return (-1);
+	handbackslash(&line);
+	lstav = ft_strsplit(line, ' ');
+	line = get_elem(env, "PATH");
+	paths = ft_strsplit(line, ':');
+	if ((i = built_in(env, lstav, hist)) || !test_paths(paths))
+	{
+		free_tab(paths);
+		free_tab(lstav);
+		return (i);
+	}
+	if (i == -1)
+		exit(EXIT_SUCCESS);
+	exec2(lstav, paths, fullpaths);
+	free_tab(paths);
+	free_tab(lstav);
 	return (0);
 }

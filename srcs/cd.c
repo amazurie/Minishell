@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:13:41 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/08 14:34:39 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 13:23:07 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,27 @@ static void	check_dotdot(char **path)
 		ft_strcat(*path, "/");
 }
 
-static void	change_pwd(char **path, e_list *env)
+static void	change_pwd(char *path, e_list *env)
 {
 	char *tmp;
 	char *tmp2;
 
-	if (chdir(path[1]) == -1)
+	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("cd: no such file or directory: ", 2);
-		ft_putstr_fd(path[1], 2);
+		ft_putstr_fd(path, 2);
 		ft_putchar_fd('\n', 2);
 		return ;
 	}
 	set_env(&env, "OLDPWD", get_elem(env, "PWD"));
-	if (path[1][0] != '/')
+	if (path[0] != '/')
 	{
 		tmp = ft_strjoin(get_elem(env, "PWD"), "/");
-		tmp2 = ft_strjoin(tmp, path[1]);
+		tmp2 = ft_strjoin(tmp, path);
 		free(tmp);
 	}
 	else
-		tmp2 = ft_strdup(path[1]);
+		tmp2 = ft_strdup(path);
 	check_dotdot(&tmp2);
 	set_env(&env, "PWD", tmp2);
 	free(tmp2);
@@ -116,7 +116,8 @@ static int	check_pwd(char *path, e_list *env, char *rep)
 
 int			cd(char **path, e_list *env)
 {
-	int	i;
+	char	*tmp;
+	int		i;
 
 	i = 0;
 	while (path[i])
@@ -128,10 +129,13 @@ int			cd(char **path, e_list *env)
 	else
 	{
 		if (i == 1)
-			path[1] = ft_strdup(get_elem(env, "HOME"));
+			tmp = ft_strdup(get_elem(env, "HOME"));
 		else if (ft_strcmp(path[1], "-") == 0)
-			path[1] = ft_strdup(get_elem(env, "OLDPWD"));
-		change_pwd(path, env);
+			tmp = ft_strdup(get_elem(env, "OLDPWD"));
+		else
+			tmp = ft_strdup(path[1]);
+		change_pwd(tmp, env);
+		free(tmp);
 	}
 	return (0);
 }
