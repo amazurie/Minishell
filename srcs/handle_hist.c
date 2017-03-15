@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:43:08 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/14 17:28:35 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 13:41:00 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	add_hist(h_list **lst, char *hist)
 	}
 	while (h->next)
 		h = h->next;
-		i++;
+	i++;
 	if (i > MAX_HISTORY)
 		del_lasts(lst, i - MAX_HISTORY);
 	tmp = (h_list *)ft_memalloc(sizeof(h_list));

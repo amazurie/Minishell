@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 12:16:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/14 17:24:21 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 13:41:33 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	gest_in(h_list *hist, char **line, char *tmp, int **i)
 	}
 	else if (tmp[0] == 10)
 		(*i)[0] = 1;
-	else if (tmp[0] == 127|| tmp[0] == 8)
+	else if (tmp[0] == 127 || tmp[0] == 8)
 		del_in(line, i);
 	else if (ft_isprint(tmp[0]))
 		chr_in(line, &tmp[0], i);

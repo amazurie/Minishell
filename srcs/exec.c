@@ -6,24 +6,13 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 13:35:01 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/15 13:39:58 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <curses.h>
 #include <term.h>
-
-static int	test_paths(char **path)
-{
-	int	i;
-
-	i = 0;
-	while (path[i])
-		if (access(path[i++], F_OK) == 0)
-			return (i);
-	return (0);
-}
 
 static int	built_in2(e_list *env, char **lstav, h_list *hist)
 {
@@ -90,7 +79,7 @@ static void	fork_exec(char **lstav, char **fullpaths)
 	}
 }
 
-void			exec2(char **lstav, char **paths, char **fullpaths)
+void		exec2(char **lstav, char **paths, char **fullpaths)
 {
 	char	*tmp;
 	size_t	i;
