@@ -24,6 +24,7 @@ LIB = libft/libft.a
 
 SRC =	$(SRC_PATH)/main.c			\
 		$(SRC_PATH)/hand_env.c		\
+		$(SRC_PATH)/hand_env2.c		\
 		$(SRC_PATH)/handle_hist.c	\
 		$(SRC_PATH)/history.c		\
 		$(SRC_PATH)/extra.c			\
@@ -32,7 +33,9 @@ SRC =	$(SRC_PATH)/main.c			\
 		$(SRC_PATH)/hand_key.c		\
 		$(SRC_PATH)/hand_key2.c		\
 		$(SRC_PATH)/hand_in.c		\
-		$(SRC_PATH)/exec.c
+		$(SRC_PATH)/env.c			\
+		$(SRC_PATH)/exec.c			\
+		$(SRC_PATH)/built_in.c
 
 OSRC = $(SRC:.c=.o)
 

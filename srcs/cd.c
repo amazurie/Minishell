@@ -12,31 +12,31 @@
 
 #include "minishell.h"
 
-static void	check_dotdot(char **path)
+static void	check_dotdot(char **tmp, char **path)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	size_t	j;
 
-	i = 0;
-	while ((i = ft_strschr_len((*path + i), "..")))
+	i = ft_strlen(*tmp) - 1;
+	while (ft_strschr(*path, ".."))
 	{
-		j = ft_strlen_chr((*path + 1), '/');
-		i = i + 2;
-		while (path[0][i] != '/')
-			ssupprchr(path, i--);
-		ssupprchr(path, i--);
-		while (path[0][i] != '/')
-			ssupprchr(path, i--);
-		ssupprchr(path, i--);
+		while ((*path)[0] && (*path)[0] != '/')
+			ssupprchr(path, 0);
+		while ((*path)[0] && (*path)[0] == '/')
+			ssupprchr(path, 0);
+		ssupprchr(tmp, i--);
+		while ((*tmp) && (*tmp)[i] != '/')
+			ssupprchr(tmp, i--);
+		if (!(*path)[0])
+			while ((*tmp) && (*tmp)[i] != '/')
+				ssupprchr(tmp, i--);
 	}
-	if (!path[0][0])
-		ft_strcat(*path, "/");
 }
 
 static void	change_pwd(char *path, t_env *env)
 {
-	char *tmp;
-	char *tmp2;
+	char	*tmp;
+	char	*tmp2;
 
 	if (chdir(path) == -1)
 	{
@@ -49,12 +49,12 @@ static void	change_pwd(char *path, t_env *env)
 	if (path[0] != '/')
 	{
 		tmp = ft_strjoin(get_elem(env, "PWD"), "/");
+		check_dotdot(&tmp, &path);
 		tmp2 = ft_strjoin(tmp, path);
 		free(tmp);
 	}
 	else
 		tmp2 = ft_strdup(path);
-	check_dotdot(&tmp2);
 	set_env(&env, "PWD", tmp2);
 	free(tmp2);
 }
@@ -131,7 +131,15 @@ int			cd(char **path, t_env *env)
 		if (i == 1)
 			tmp = ft_strdup(get_elem(env, "HOME"));
 		else if (ft_strcmp(path[1], "-") == 0)
-			tmp = ft_strdup(get_elem(env, "OLDPWD"));
+		{
+			if (!get_elem(env, "OLDPWD"))
+			{
+				ft_putstr_fd("cd: OLDPWD not set.\n", 2);
+				return (-1);
+			}
+			else
+				tmp = ft_strdup(get_elem(env, "OLDPWD"));
+		}
 		else
 			tmp = ft_strdup(path[1]);
 		change_pwd(tmp, env);

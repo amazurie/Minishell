@@ -16,6 +16,7 @@ t_env	*char_to_lst(char **env)
 {
 	t_env	*envlst;
 	t_env	*envtmp;
+	t_env	*envtmp2;
 	int		i;
 
 	envlst = (t_env *)ft_memalloc(sizeof(t_env));
@@ -26,10 +27,12 @@ t_env	*char_to_lst(char **env)
 		envtmp->elem = ft_strndup(env[i], ft_strlen_chr(env[i], '='));
 		envtmp->cont = ft_strdup((env[i] + ft_strlen_chr(env[i], '=') + 1));
 		envtmp->next = (t_env *)ft_memalloc(sizeof(t_env));
+		envtmp2 = envtmp;
 		envtmp = envtmp->next;
 		i++;
 	}
-	envtmp->next = NULL;
+	free(envtmp);
+	envtmp2->next = NULL;
 	return (envlst);
 }
 
@@ -37,8 +40,10 @@ void	set_env(t_env **env, char *elem, char *cont)
 {
 	t_env *tmpenv;
 
+	if (!*env || !elem)
+		return ;
 	tmpenv = *env;
-	while (tmpenv->next && ft_strcmp(tmpenv->elem, elem))
+	while (tmpenv && ft_strcmp(tmpenv->elem, elem))
 		tmpenv = tmpenv->next;
 	if (!tmpenv->next)
 	{
@@ -62,43 +67,42 @@ void	unset_env(t_env **env, char *elem)
 {
 	t_env *tmpenv;
 	t_env *tmp;
+	t_env *tmp2;
 
+	if (!*env || !elem)
+		return ;
 	tmpenv = *env;
-	while (tmpenv->next && ft_strcmp(tmpenv->elem, elem))
+	tmp = NULL;
+	while (tmpenv && ft_strcmp(tmpenv->elem, elem))
 	{
 		tmp = tmpenv;
 		tmpenv = tmpenv->next;
 	}
-	if (ft_strcmp(tmpenv->elem, elem) == 0)
+	if (tmpenv && ft_strcmp(tmpenv->elem, elem) == 0)
 	{
+		tmp2 = tmpenv->next;
 		free(tmpenv->elem);
 		free(tmpenv->cont);
-		if (tmp)
-			tmp->next = tmpenv->next;
-		else
-			tmp = tmpenv->next;
 		free(tmpenv);
+		if (tmp)
+			tmp->next = tmp2;
+		else
+			*env = tmp2;
 	}
 }
 
-void	display_env(t_env *env, char *opt)
+void	display_env(t_env *env, int c)
 {
-	if (opt && ft_strcmp(opt, "color") != 0)
+	while (env)
 	{
-		ft_putstr_fd("env: illegal option -- ", 2);
-		ft_putstr_fd(opt, 2);
-		ft_putstr_fd("\n", 2);
-		ft_putstr_fd("usage: env [color]", 2);
-		ft_putstr_fd("\n", 2);
-		return ;
-	}
-	while (env->next)
-	{
-		if (opt && ft_strcmp(opt, "color") == 0)
+		if (c)
+		{
 			ft_putstr(LIGHTRED_COL);
-		ft_putstr(env->elem);
-		if (opt && ft_strcmp(opt, "color") == 0)
+			ft_putstr(env->elem);
 			ft_putstr(DEFAULT_COL);
+		}
+		else
+			ft_putstr(env->elem);
 		ft_putchar('=');
 		ft_putstr(env->cont);
 		ft_putchar('\n');
@@ -108,7 +112,7 @@ void	display_env(t_env *env, char *opt)
 
 char	*get_elem(t_env *env, char *elem)
 {
-	while (env->next)
+	while (env)
 	{
 		if (ft_strcmp(env->elem, elem) == 0)
 			return (env->cont);

@@ -39,12 +39,20 @@ void	display_prompt(char *pwd)
 {
 	int		i;
 
-	i = ft_strlen(pwd);
-	while (i > 0 && pwd[i] != '/')
-		i--;
+	if (pwd)
+	{
+		i = ft_strlen(pwd);
+		while (i > 0 && pwd[i] != '/')
+			i--;
+	}
+	else
+		i = 0;
 	ft_putstr(PROMPT_COL);
 	ft_putstr("$");
-	ft_putstr((pwd + i + 1));
+	if (i)
+		ft_putstr((pwd + i + 1));
+	else if (!pwd)
+		ft_putstr("@?");
 	ft_putstr("> ");
 	ft_putstr(DEFAULT_COL);
 }
@@ -53,6 +61,8 @@ void	free_tab(char **tab)
 {
 	int i;
 
+	if (!tab)
+		return ;
 	i = 0;
 	while (tab[i])
 		free(tab[i++]);
@@ -63,6 +73,8 @@ int		test_paths(char **path)
 {
 	int	i;
 
+	if (!path || !*path)
+		return (0);
 	i = 0;
 	while (path[i])
 		if (access(path[i++], F_OK) == 0)
@@ -70,15 +82,20 @@ int		test_paths(char **path)
 	return (0);
 }
 
-void	del_env(t_env *env)
+char	*test_absolute(t_env *env, char *command)
 {
-	t_env	*e;
+	struct stat	atr;
+	char		*path;
+	char		*tmp;
+	int			i;
 
-	while (env->next)
-	{
-		e = env;
-		env = env->next;
-		free(e);
-	}
-	free(env);
+	if (!env || !command)
+		return (NULL);
+	tmp = ft_strjoin(get_elem(env, "PWD"), "\\");
+	path = ft_strjoin(tmp, command);
+	stat(path, &atr);
+	if (atr.st_mode == 'b')
+		return (path);
+	free(path);
+	return (NULL);
 }

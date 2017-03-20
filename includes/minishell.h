@@ -18,6 +18,7 @@
 # include <termios.h>
 # include <stdio.h>
 # include <signal.h>
+# include <sys/stat.h>
 
 # define LIGHTRED_COL	"\e[1;31m"
 # define DEFAULT_COL	"\e[0m"
@@ -39,9 +40,10 @@ typedef struct		s_env
 }					t_env;
 
 char				*get_elem(t_env *env, char *elem);
-int					exec(t_env *env, char *line, t_hist *hist);
+int					exec(t_env **env, char *line, t_hist *hist);
+int					built_in(t_env **env, char **lstav, t_hist *hist);
 t_env				*char_to_lst(char **env);
-void				display_env(t_env *env, char *opt);
+void				display_env(t_env *env, int color);
 void				set_env(t_env **env, char *elem, char *cont);
 int					gest_in(t_hist *hist, char **line, char *tmp, int **i);
 void				unset_env(t_env **env, char *elem);
@@ -59,8 +61,11 @@ int					gest_spekey(char *tmp, t_hist *hist, int **i, char **line);
 void				display_prompt(char *pwd);
 int					del_line(char **line, char *tmp, int **i);
 void				del_hist(t_hist *hist);
-void				del_env(t_env *e);
+void				del_env(t_env **e);
 void				free_tab(char **tab);
 int					test_paths(char **paths);
+t_env				*env_cpy(t_env *env);
+void				envcom(char **lstav, t_env *env, t_hist *hist);
+char				*test_absolute(t_env *env, char *command);
 
 #endif

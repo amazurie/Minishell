@@ -14,47 +14,7 @@
 #include <curses.h>
 #include <term.h>
 
-static int	built_in2(t_env *env, char **lstav, t_hist *hist)
-{
-	if (ft_strcmp(lstav[0], "history") == 0 && !lstav[1])
-		display_hist(hist);
-	else if (ft_strcmp(lstav[0], "cd") == 0)
-		cd(lstav, env);
-	else if (ft_strcmp(lstav[0], "exit") == 0 && !lstav[1])
-		return (-1);
-	else if (ft_strcmp(lstav[0], "clear") == 0 && !lstav[1])
-		ft_putstr("\033c");
-	else
-		return (0);
-	return (1);
-}
-
-static int	built_in(t_env *env, char **lstav, t_hist *hist)
-{
-	size_t	len;
-
-	if (!lstav[0])
-		return (0);
-	else if (ft_strcmp(lstav[0], "env") == 0)
-		display_env(env, lstav[1]);
-	else if (ft_strcmp(lstav[0], "setenv") == 0 && lstav[1])
-		set_env(&env, lstav[1], lstav[2]);
-	else if (ft_strcmp(lstav[0], "unsetenv") == 0 && lstav[1])
-		unset_env(&env, lstav[1]);
-	else if (ft_strcmp(lstav[0], "pwd") == 0)
-	{
-		if (lstav[1])
-			ft_putstr_fd("pwd: too many arguments", 2);
-		else
-			ft_putstr(get_elem(env, "PWD"));
-		ft_putstr("\n");
-	}
-	else
-		return (built_in2(env, lstav, hist));
-	return (1);
-}
-
-static void	fork_exec(char **lstav, char **fullpaths)
+static void	fork_exec(char **lstav, char **fullpaths, t_env **env)
 {
 	pid_t	pid;
 	size_t	i;
@@ -72,14 +32,17 @@ static void	fork_exec(char **lstav, char **fullpaths)
 				j++;
 	if (j < i)
 	{
-		ft_putstr_fd("\e[31mminishell:\e[0m command not found: ", 2);
-		ft_putstr_fd(lstav[0], 2);
-		ft_putstr_fd("\n", 2);
-		exit(0);
+		if (execve(test_absolute(*env, lstav[0]), lstav, NULL) != -1)
+		{
+			ft_putstr_fd("\e[31mminishell:\e[0m command not found: ", 2);
+			ft_putstr_fd(lstav[0], 2);
+			ft_putstr_fd("\n", 2);
+			exit(0);
+		}
 	}
 }
 
-void		exec2(char **lstav, char **paths, char **fullpaths)
+static void		exec2(char **lstav, char **paths, char **fullpaths, t_env **env)
 {
 	char	*tmp;
 	size_t	i;
@@ -95,27 +58,23 @@ void		exec2(char **lstav, char **paths, char **fullpaths)
 		fullpaths[i++] = ft_strjoin(tmp, lstav[0]);
 		free(tmp);
 	}
-	fork_exec(lstav, fullpaths);
+	fork_exec(lstav, fullpaths, env);
 	i = 0;
 	while (paths[i])
 		free(fullpaths[i++]);
 	free(fullpaths);
 }
 
-int			exec(t_env *env, char *line, t_hist *hist)
+int			exec(t_env **env, char *line, t_hist *hist)
 {
 	char	**lstav;
 	char	**paths;
 	char	**fullpaths;
 	int		i;
 
-	if (!env)
-		ft_putstr_fd("\e[31mNo environnement defined.\e[0m\n", 2);
-	if (!env)
-		return (-1);
 	handbackslash(&line);
 	lstav = ft_strsplit(line, ' ');
-	line = get_elem(env, "PATH");
+	line = get_elem(*env, "PATH");
 	paths = ft_strsplit(line, ':');
 	if ((i = built_in(env, lstav, hist)) || !test_paths(paths))
 	{
@@ -125,7 +84,7 @@ int			exec(t_env *env, char *line, t_hist *hist)
 	}
 	if (i == -1)
 		exit(EXIT_SUCCESS);
-	exec2(lstav, paths, fullpaths);
+	exec2(lstav, paths, fullpaths, env);
 	free_tab(paths);
 	free_tab(lstav);
 	return (0);

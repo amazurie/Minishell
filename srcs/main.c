@@ -58,7 +58,7 @@ static int	in(t_hist *hist, char **line, char *tmp)
 	return (j);
 }
 
-static int	hand_arg(char *line, t_hist **hist, t_env *env)
+static int	hand_arg(char *line, t_hist **hist, t_env **env)
 {
 	char	**lstline;
 	size_t	i;
@@ -80,7 +80,7 @@ static int	hand_arg(char *line, t_hist **hist, t_env *env)
 	return (j);
 }
 
-static void	shell(t_env *env)
+static void	shell(t_env **env)
 {
 	t_hist	*hist;
 	char	*line;
@@ -92,9 +92,9 @@ static void	shell(t_env *env)
 	while (i[0] == 1)
 	{
 		line = (char *)ft_memalloc(2048);
-		g_prompt = get_elem(env, "PWD");
+		g_prompt = get_elem(*env, "PWD");
 		if (g_siginted == 0)
-			display_prompt(get_elem(env, "PWD"));
+			display_prompt(get_elem(*env, "PWD"));
 		g_siginted = 0;
 		tmp = (char *)ft_memalloc(6);
 		if ((i[1] = in(hist, &line, tmp)) == -1)
@@ -121,7 +121,7 @@ int			main(int ac, char **av, char **env)
 	tcsetattr(0, TCSANOW, &new);
 	signal(SIGINT, sighandler);
 	e = char_to_lst(env);
-	shell(e);
+	shell(&e);
 	tcsetattr(0, TCSANOW, &old);
 	return (0);
 }
