@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:13:41 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 14:10:02 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/23 11:39:41 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,20 @@ static void	check_dotdot(char **tmp, char **path)
 	size_t	i;
 	size_t	j;
 
+	if (!*tmp)
+		return ;
 	i = ft_strlen(*tmp) - 1;
 	while (ft_strschr(*path, ".."))
 	{
+		ssupprchr(tmp, i--);
 		while ((*path)[0] && (*path)[0] != '/')
 			ssupprchr(path, 0);
 		while ((*path)[0] && (*path)[0] == '/')
 			ssupprchr(path, 0);
-		ssupprchr(tmp, i--);
 		while ((*tmp) && (*tmp)[i] != '/')
 			ssupprchr(tmp, i--);
 		if (!(*path)[0])
-			while ((*tmp) && (*tmp)[i] != '/')
+			while ((*tmp) && (*tmp)[i] == '/')
 				ssupprchr(tmp, i--);
 	}
 }
@@ -110,7 +112,8 @@ static int	check_pwd(char *path, t_env *env, char *rep)
 	}
 	else
 		check_pwd2(path, env, rep, tmp);
-	free(tmp);
+	if (tmp)
+		free(tmp);
 	return (0);
 }
 
@@ -120,6 +123,7 @@ int			cd(char **path, t_env *env)
 	int		i;
 
 	i = 0;
+	tmp = NULL;
 	while (path[i])
 		i++;
 	if (i > 3)
@@ -128,8 +132,13 @@ int			cd(char **path, t_env *env)
 		return (check_pwd(path[1], env, path[2]));
 	else
 	{
-		if (i == 1)
-			tmp = ft_strdup(get_elem(env, "HOME"));
+		if (i == 1 || ft_strcmp(path[1], "~") == 0)
+		{
+			if (!get_elem(env, "HOME"))
+				ft_putstr_fd("cd: HOME not set.\n", 2);
+			else
+				tmp = ft_strdup(get_elem(env, "HOME"));
+		}
 		else if (ft_strcmp(path[1], "-") == 0)
 		{
 			if (!get_elem(env, "OLDPWD"))
@@ -142,7 +151,8 @@ int			cd(char **path, t_env *env)
 		}
 		else
 			tmp = ft_strdup(path[1]);
-		change_pwd(tmp, env);
+		if (tmp)
+			change_pwd(tmp, env);
 		free(tmp);
 	}
 	return (0);

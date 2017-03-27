@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:31:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 15:09:12 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/23 11:39:59 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	set_env(t_env **env, char *elem, char *cont)
 	{
 		tmpenv->next = (t_env *)ft_memalloc(sizeof(t_env));
 		tmpenv = tmpenv->next;
-		tmpenv->elem = (ft_strdup(elem));
-		tmpenv->cont = (ft_strdup(cont));
+		tmpenv->elem = ft_strdup(elem);
+		tmpenv->cont = ft_strdup(cont);
 		tmpenv->next = NULL;
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 14:12:38 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/03/23 11:49:25 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	fork_exec(char **lstav, char **fullpaths, t_env **env)
 	pid_t	pid;
 	size_t	i;
 	size_t	j;
+	char	*tmp;
 
 	while ((pid = fork()) == -1)
 		sleep(2);
@@ -30,16 +31,15 @@ static void	fork_exec(char **lstav, char **fullpaths, t_env **env)
 		while (fullpaths[i])
 			if (execve(fullpaths[i++], lstav, NULL) != -1)
 				j++;
-	if (j < i)
+	tmp = test_absolute(lstav[0]);
+	if (j < i && execve(tmp, lstav, NULL) == -1)
 	{
-		if (execve(test_absolute(*env, lstav[0]), lstav, NULL) != -1)
-		{
-			ft_putstr_fd("\e[31mminishell:\e[0m command not found: ", 2);
-			ft_putstr_fd(lstav[0], 2);
-			ft_putstr_fd("\n", 2);
-			exit(0);
-		}
+		ft_putstr_fd("\e[31mminishell:\e[0m command not found: ", 2);
+		ft_putstr_fd(lstav[0], 2);
+		ft_putstr_fd("\n", 2);
+		exit(0);
 	}
+	free(tmp);
 }
 
 static void		exec2(char **lstav, char **paths, char **fullpaths, t_env **env)
@@ -76,14 +76,15 @@ int			exec(t_env **env, char *line, t_hist *hist)
 	lstav = ft_strsplit(line, ' ');
 	line = get_elem(*env, "PATH");
 	paths = ft_strsplit(line, ':');
-	if ((i = built_in(env, lstav, hist)) || !test_paths(paths))
+	if ((i = built_in(env, lstav, hist)))
 	{
 		free_tab(paths);
 		free_tab(lstav);
-		return (i);
 	}
-	if (i == -1)
-		exit(EXIT_SUCCESS);
+	if (!*env && i == 0)
+		ft_putstr_fd("\e[31mNo environnement defined.\e[0m\n", 2);
+	if (i || !test_paths(paths) || !*env)
+		return (i);
 	exec2(lstav, paths, fullpaths, env);
 	free_tab(paths);
 	free_tab(lstav);

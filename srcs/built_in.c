@@ -18,6 +18,7 @@ static int	built_in2(t_env **env, char **lstav, t_hist *hist)
 int		built_in(t_env **env, char **lstav, t_hist *hist)
 {
 	size_t	len;
+	char	tmp[5000];
 
 	if (!lstav[0])
 		return (0);
@@ -27,12 +28,13 @@ int		built_in(t_env **env, char **lstav, t_hist *hist)
 		set_env(env, lstav[1], lstav[2]);
 	else if (ft_strcmp(lstav[0], "unsetenv") == 0 && lstav[1])
 		unset_env(env, lstav[1]);
-	else if (ft_strcmp(lstav[0], "pwd") == 0)
+	else if (ft_strcmp(lstav[0], "pwd") == 0
+			|| ft_strcmp(lstav[0], "PWD") == 0)
 	{
 		if (lstav[1])
 			ft_putstr_fd("pwd: too many arguments", 2);
 		else
-			ft_putstr(get_elem(*env, "PWD"));
+			ft_putstr(getcwd(tmp, 5000));
 		ft_putstr("\n");
 	}
 	else

@@ -30,7 +30,7 @@ void		sighandler(int sig)
 	}
 }
 
-static int	in(t_hist *hist, char **line, char *tmp)
+static int	in(t_data **d, char *tmp)
 {
 	int		*i;
 	int		j;
@@ -43,13 +43,13 @@ static int	in(t_hist *hist, char **line, char *tmp)
 		read(0, tmp, 5);
 		if (g_siginted == 1)
 		{
-			ft_memset(*line, 0, i[2]);
+			ft_memset((*d)->line, 0, i[2]);
 			i[2] = 0;
 			i[3] = -1;
 			i[4] = 0;
 			g_siginted = 0;
 		}
-		if (gest_in(hist, line, tmp, &i) == -1)
+		if (gest_in(d, tmp, &i) == -1)
 			i[0] = -1;
 		ft_bzero(tmp, 6);
 	}
@@ -80,48 +80,51 @@ static int	hand_arg(char *line, t_hist **hist, t_env **env)
 	return (j);
 }
 
-static void	shell(t_env **env)
+static void	shell(t_data **d)
 {
-	t_hist	*hist;
-	char	*line;
 	char	*tmp;
 	int		i[2];
 
-	hist = NULL;
+	(*d)->hist = NULL;
 	i[0] = 1;
 	while (i[0] == 1)
 	{
-		line = (char *)ft_memalloc(2048);
-		g_prompt = get_elem(*env, "PWD");
+		(*d)->line = (char *)ft_memalloc(2048);
+		(*d)->prompt = ft_strdup(get_prompt(get_elem((*d)->env, "PWD")));
+		g_prompt = (*d)->prompt;
 		if (g_siginted == 0)
-			display_prompt(get_elem(*env, "PWD"));
+			display_prompt((*d)->prompt);
 		g_siginted = 0;
 		tmp = (char *)ft_memalloc(6);
-		if ((i[1] = in(hist, &line, tmp)) == -1)
+		if ((i[1] = in(d, tmp)) == -1)
 			i[0] = 0;
 		free(tmp);
 		ft_putchar('\n');
 		if (i[1] == 1 && i[0] == 1)
-			i[0] = hand_arg(line, &hist, env);
-		free(line);
+			i[0] = hand_arg((*d)->line, &((*d)->hist), &((*d)->env));
+		free((*d)->line);
+		if ((*d)->prompt)
+			free((*d)->prompt);
 	}
-	if (hist != NULL)
-		del_hist(hist);
+	if ((*d)->hist != NULL)
+		del_hist((*d)->hist);
 }
 
 int			main(int ac, char **av, char **env)
 {
 	static struct termios	old;
 	static struct termios	new;
-	t_env					*e;
+	t_data					*d;
 
 	tcgetattr(0, &old);
 	new = old;
 	new.c_lflag &= ~(ECHO | ICANON);
 	tcsetattr(0, TCSANOW, &new);
 	signal(SIGINT, sighandler);
-	e = char_to_lst(env);
-	shell(&e);
+	d = (t_data *)ft_memalloc(sizeof(t_data));
+	d->env = char_to_lst(env);
+	shell(&d);
 	tcsetattr(0, TCSANOW, &old);
+	free(d);
 	return (0);
 }

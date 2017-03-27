@@ -20,6 +20,7 @@
 # include <signal.h>
 # include <sys/stat.h>
 
+# define ERR_COL	"\e[31m"
 # define LIGHTRED_COL	"\e[1;31m"
 # define DEFAULT_COL	"\e[0m"
 # define PROMPT_COL		"\e[1;36m"
@@ -39,13 +40,22 @@ typedef struct		s_env
 	struct s_env	*next;
 }					t_env;
 
+typedef struct		s_data
+{
+	struct s_hist	*hist;
+	struct s_env	*env;
+	char			*line;
+	char			*buffline;
+	char			*prompt;
+}					t_data;
+
 char				*get_elem(t_env *env, char *elem);
 int					exec(t_env **env, char *line, t_hist *hist);
 int					built_in(t_env **env, char **lstav, t_hist *hist);
 t_env				*char_to_lst(char **env);
 void				display_env(t_env *env, int color);
 void				set_env(t_env **env, char *elem, char *cont);
-int					gest_in(t_hist *hist, char **line, char *tmp, int **i);
+int					gest_in(t_data **d, char *tmp, int **i);
 void				unset_env(t_env **env, char *elem);
 int					cd(char **path, t_env *env);
 void				add_hist(t_hist **lst, char *hist);
@@ -57,7 +67,7 @@ void				saddchr(char **s, char c, int pos);
 char				**splitsemicolon(char *s);
 void				handbackslash(char **s);
 void				get_ch(char **tmp);
-int					gest_spekey(char *tmp, t_hist *hist, int **i, char **line);
+int					gest_spekey(char *tmp, t_data **d, int **i);
 void				display_prompt(char *pwd);
 int					del_line(char **line, char *tmp, int **i);
 void				del_hist(t_hist *hist);
@@ -66,6 +76,11 @@ void				free_tab(char **tab);
 int					test_paths(char **paths);
 t_env				*env_cpy(t_env *env);
 void				envcom(char **lstav, t_env *env, t_hist *hist);
-char				*test_absolute(t_env *env, char *command);
+char				*test_absolute(char *command);
+char				*get_prompt(char *pwd);
+void				maxline(char **line, int **i);
+void				del_in(t_data **d, int **i);
+int					del_key(char *tmp, int **i, t_data **d);
+void				erase_printline(t_data **d, int **i);
 
 #endif
