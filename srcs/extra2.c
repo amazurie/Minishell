@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 13:44:01 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 14:17:24 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 16:41:59 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,28 +67,12 @@ int		test_paths(char **path)
 
 char	*test_absolute(char *command)
 {
-	struct stat	atr;
 	char		*path;
-	char		tmp[4096];
-	char		*tmp2;
 	int			i;
 
 	if (!command)
 		return (NULL);
-	if (command[0] != '/')
-	{
-		path = ft_strdup(command);
-		if (stat(command, &atr) == 0)
-			getcwd(tmp, 4095);
-		tmp2 = ft_strjoin(tmp, "/");
-		if (ft_strncmp(command, "./", 2) == 0)
-		{
-			ssupprchr(&command, 0);
-			ssupprchr(&command, 0);
-		}
-	}
-	else
-		path = ft_strdup(command);
+	path = ft_strdup(command);
 	if (access(path, F_OK) == -1)
 		ft_bzero(path, ft_strlen(path));
 	return (path);

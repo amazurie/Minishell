@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:07:35 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 11:27:39 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 16:43:22 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ static void	envcom2(char **lstav, t_env **envcpy, t_hist *hist)
 			}
 			exec(envcpy, tmp[1], hist);
 			free(tmp[1]);
+			free(tmp);
 			k = 0;
 			i--;
 		}
