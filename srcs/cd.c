@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:13:41 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 11:26:54 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 12:48:18 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	change_pwd(char *path, t_env *env)
 {
 	char	*tmp;
-	char	*tmp2;
 
 	if (chdir(path) == -1)
 	{
@@ -27,15 +26,13 @@ static void	change_pwd(char *path, t_env *env)
 	set_env(&env, "OLDPWD", get_elem(env, "PWD"));
 	if (path[0] != '/')
 	{
-		tmp = ft_strjoin(get_elem(env, "PWD"), "/");
-		check_dotdot(&tmp, &path);
-		tmp2 = ft_strjoin(tmp, path);
-		free(tmp);
+		tmp = (char *)ft_memalloc(5001);
+		getcwd(tmp, 5000);
 	}
 	else
-		tmp2 = ft_strdup(path);
-	set_env(&env, "PWD", tmp2);
-	free(tmp2);
+		tmp = ft_strdup(path);
+	set_env(&env, "PWD", tmp);
+	free(tmp);
 }
 
 static void	check_pwd2(char *path, t_env *env, char *rep, char *tmp)

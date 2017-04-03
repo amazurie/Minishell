@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:31:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/23 11:39:59 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 12:42:19 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	set_env(t_env **env, char *elem, char *cont)
 	if (!*env || !elem)
 		return ;
 	tmpenv = *env;
-	while (tmpenv && ft_strcmp(tmpenv->elem, elem))
+	while (tmpenv->next && ft_strcmp(tmpenv->elem, elem))
 		tmpenv = tmpenv->next;
-	if (!tmpenv->next)
+	if (!tmpenv->next && ft_strcmp(tmpenv->elem, elem))
 	{
 		tmpenv->next = (t_env *)ft_memalloc(sizeof(t_env));
 		tmpenv = tmpenv->next;

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 13:44:01 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/23 12:06:49 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 14:17:24 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ char	*get_prompt(char *pwd)
 	if (pwd)
 	{
 		i = ft_strlen(pwd);
+		if (i == 1)
+			return (pwd);
 		while (i > 0 && pwd[i] != '/')
 			i--;
 	}
 	else
-		i = 0;
-	if (i)
+		i = -1;
+	if (i >= 0)
 		return ((pwd + i + 1));
 	return ("@?");
 }
@@ -73,19 +75,21 @@ char	*test_absolute(char *command)
 
 	if (!command)
 		return (NULL);
-	ft_bzero(tmp, 4096);
-	path = ft_strjoin(tmp, command);
-	if (stat(command, &atr) == 0)
-		getcwd(tmp, 4095);
-	tmp2 = ft_strjoin(tmp, "/");
-	if (ft_strncmp(command, "./", 2) == 0)
+	if (command[0] != '/')
 	{
-		ssupprchr(&command, 0);
-		ssupprchr(&command, 0);
+		path = ft_strdup(command);
+		if (stat(command, &atr) == 0)
+			getcwd(tmp, 4095);
+		tmp2 = ft_strjoin(tmp, "/");
+		if (ft_strncmp(command, "./", 2) == 0)
+		{
+			ssupprchr(&command, 0);
+			ssupprchr(&command, 0);
+		}
 	}
-	path = ft_strjoin(tmp2, command);
+	else
+		path = ft_strdup(command);
 	if (access(path, F_OK) == -1)
 		ft_bzero(path, ft_strlen(path));
-	free(tmp2);
 	return (path);
 }
