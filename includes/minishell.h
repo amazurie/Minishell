@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 13:35:30 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 16:56:38 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char				**splitsemicolon(char *s);
 void				handbackslash(char **s);
 void				get_ch(char **tmp);
 int					gest_spekey(char *tmp, t_data **d, int **i);
-void				display_prompt(char *pwd);
+void				display_prompt(void);
 int					del_line(char **line, char *tmp, int **i);
 void				del_hist(t_hist *hist);
 void				del_env(t_env **e);
@@ -77,7 +77,7 @@ int					test_paths(char **paths);
 t_env				*env_cpy(t_env *env);
 void				envcom(char **lstav, t_env *env, t_hist *hist);
 char				*test_absolute(char *command);
-char				*get_prompt(char *pwd);
+char				*get_prompt(void);
 void				maxline(char **line, int **i);
 void				del_in(t_data **d, int **i);
 int					del_key(char *tmp, int **i, t_data **d);

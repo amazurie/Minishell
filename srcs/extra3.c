@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:08:40 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 11:11:33 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 16:58:17 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	erase_printline(t_data **d, int **i)
 	ft_putstr(temp);
 	ft_memset(temp, '\b', j + (*i)[2]);
 	ft_putstr(temp);
-	display_prompt((*d)->prompt);
+	display_prompt();
 	free(temp);
 }
 

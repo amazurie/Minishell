@@ -6,16 +6,19 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 13:44:01 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 16:41:59 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 17:00:40 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_prompt(char *pwd)
+char	*get_prompt(void)
 {
 	int		i;
+	char	*pwd;
 
+	pwd = (char *)ft_memalloc(5000);
+	getcwd(pwd, 4999);
 	if (pwd)
 	{
 		i = ft_strlen(pwd);
@@ -26,18 +29,23 @@ char	*get_prompt(char *pwd)
 	}
 	else
 		i = -1;
-	if (i >= 0)
-		return ((pwd + i + 1));
-	return ("@?");
+	if (i++ >= 0)
+		while (i--)
+			ssupprchr(&pwd, 0);
+	return (pwd);
 }
 
-void	display_prompt(char *pwd)
+void	display_prompt(void)
 {
+	char	*pwd;
+
+	pwd = get_prompt();
 	ft_putstr(PROMPT_COL);
 	ft_putstr("$");
 	ft_putstr(pwd);
 	ft_putstr("> ");
 	ft_putstr(DEFAULT_COL);
+	free(pwd);
 }
 
 void	free_tab(char **tab)

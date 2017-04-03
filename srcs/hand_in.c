@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 12:16:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/23 12:15:01 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 16:59:56 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	chr_in(t_data **d, char *tmp, int **i)
 	ft_putstr(temp);
 	ft_memset(temp, '\b', j + (*i)[2]);
 	ft_putstr(temp);
-	display_prompt((*d)->prompt);
+	display_prompt();
 	saddchr(&((*d)->line), tmp[0], (*i)[4]);
 	ft_putstr((*d)->line);
 	(*i)[2]++;
@@ -61,7 +61,7 @@ void		del_in(t_data **d, int **i)
 	ft_putstr(temp);
 	ft_memset(temp, '\b', j + (*i)[2]);
 	ft_putstr(temp);
-	display_prompt((*d)->prompt);
+	display_prompt();
 	ssupprchr(&((*d)->line), --(*i)[4]);
 	ft_putstr((*d)->line);
 	ft_memset(temp, 0, j + (*i)[2]);
@@ -77,7 +77,7 @@ int			gest_in(t_data **d, char *tmp, int **i)
 	else if (tmp[0] == 12)
 	{
 		ft_putstr("\033c");
-		display_prompt((*d)->prompt);
+		display_prompt();
 		ft_putstr((*d)->line);
 	}
 	else if (tmp[0] == 10)

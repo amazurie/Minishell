@@ -6,13 +6,12 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 15:03:37 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 16:59:00 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*g_prompt;
 static int	g_siginted;
 
 void		sighandler(int sig)
@@ -20,7 +19,7 @@ void		sighandler(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putchar('\n');
-		display_prompt(g_prompt);
+		display_prompt();
 		g_siginted = 1;
 	}
 	if (sig == SIGSTOP)
@@ -89,10 +88,9 @@ static void	shell(t_data **d)
 	i[0] = 1;
 	while (i[0] == 1)
 	{
-		(*d)->prompt = ft_strdup(get_prompt(get_elem((*d)->env, "PWD")));
-		g_prompt = (*d)->prompt;
+		(*d)->prompt = get_prompt();
 		if (g_siginted == 0)
-			display_prompt((*d)->prompt);
+			display_prompt();
 		g_siginted = 0;
 		tmp = (char *)ft_memalloc(6);
 		if ((i[1] = in(d, tmp)) == -1)
