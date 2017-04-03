@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 15:34:07 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 11:17:57 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,7 @@ void				maxline(char **line, int **i);
 void				del_in(t_data **d, int **i);
 int					del_key(char *tmp, int **i, t_data **d);
 void				erase_printline(t_data **d, int **i);
+int					is_onlytab(char *s);
+void				check_dotdot(char **tmp, char **path);
 
 #endif

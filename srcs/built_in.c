@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_in.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/03 11:06:19 by amazurie          #+#    #+#             */
+/*   Updated: 2017/04/03 11:06:28 by amazurie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	built_in2(t_env **env, char **lstav, t_hist *hist)
@@ -15,7 +27,7 @@ static int	built_in2(t_env **env, char **lstav, t_hist *hist)
 	return (1);
 }
 
-int		built_in(t_env **env, char **lstav, t_hist *hist)
+int			built_in(t_env **env, char **lstav, t_hist *hist)
 {
 	size_t	len;
 	char	tmp[5000];

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 16:07:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/14 16:07:49 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 11:09:43 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ static int	endhome_key(char *tmp, int **i, char **line)
 	return (0);
 }
 
-int		del_key(char *tmp, int **i, t_data **d)
+int			del_key(char *tmp, int **i, t_data **d)
 {
 	char	*temp;
+
 	if (tmp[2] == 51 || tmp[0] == 4)
 	{
 		if ((tmp[0] == 4 || tmp[3] == 126) && (*i)[4] < (*i)[2])
@@ -48,7 +49,7 @@ int		del_key(char *tmp, int **i, t_data **d)
 	return (endhome_key(tmp, i, &((*d)->line)));
 }
 
-int		del_line(char **line, char *tmp, int **i)
+int			del_line(char **line, char *tmp, int **i)
 {
 	if (tmp[0] == 21)
 	{

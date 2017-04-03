@@ -88,7 +88,7 @@ char			**splitsemicolon(char *s)
 	size_t	j;
 
 	j = 0;
-	while (s[j] == ';' || s[j] == ' ')
+	while (s[j] == ';' || s[j] == ' ' || s[j] == '\t')
 		j++;
 	if (!s)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 15:36:51 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 11:22:30 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,6 @@ static void	shell(t_data **d)
 		if ((*d)->prompt)
 			free((*d)->prompt);
 	}
-	if ((*d)->hist != NULL)
-		del_hist((*d)->hist);
 }
 
 int			main(int ac, char **av, char **env)
@@ -124,6 +122,8 @@ int			main(int ac, char **av, char **env)
 	d = (t_data *)ft_memalloc(sizeof(t_data));
 	d->env = char_to_lst(env);
 	shell(&d);
+	if (d->hist != NULL)
+		del_hist(d->hist);
 	tcsetattr(0, TCSANOW, &old);
 	free(d);
 	return (0);

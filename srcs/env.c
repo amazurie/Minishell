@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/03 11:07:35 by amazurie          #+#    #+#             */
+/*   Updated: 2017/04/03 11:27:39 by amazurie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	hand_u(char *uelem, t_env **envcpy)
@@ -37,7 +49,7 @@ static void	envcom2(char **lstav, t_env **envcpy, t_hist *hist)
 			{
 				if (lstav[i][j + 1])
 				{
-					hand_u((lstav[i] + ft_strlen_chr(lstav[i], 'u') + 1),  envcpy);
+					hand_u((lstav[i] + ft_strlen_chr(lstav[i], 'u') + 1), envcpy);
 					j = ft_strlen(lstav[i]);
 				}
 				else if (lstav[i + 1])

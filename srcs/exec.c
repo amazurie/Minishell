@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/23 11:49:25 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 11:07:11 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	fork_exec(char **lstav, char **fullpaths, t_env **env)
 	free(tmp);
 }
 
-static void		exec2(char **lstav, char **paths, char **fullpaths, t_env **env)
+static void	exec2(char **lstav, char **paths, char **fullpaths, t_env **env)
 {
 	char	*tmp;
 	size_t	i;

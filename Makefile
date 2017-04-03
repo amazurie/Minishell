@@ -6,7 +6,7 @@
 #    By: jmoucade <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by jmoucade          #+#    #+#              #
-#    Updated: 2017/03/08 12:17:32 by amazurie         ###   ########.fr        #
+#    Updated: 2017/04/03 11:24:29 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,9 @@ SRC =	$(SRC_PATH)/main.c			\
 		$(SRC_PATH)/history.c		\
 		$(SRC_PATH)/extra.c			\
 		$(SRC_PATH)/extra2.c		\
+		$(SRC_PATH)/extra3.c		\
 		$(SRC_PATH)/cd.c			\
+		$(SRC_PATH)/cd2.c			\
 		$(SRC_PATH)/hand_key.c		\
 		$(SRC_PATH)/hand_key2.c		\
 		$(SRC_PATH)/hand_in.c		\
