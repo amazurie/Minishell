@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 13:01:30 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 15:03:37 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ static void	shell(t_data **d)
 	i[0] = 1;
 	while (i[0] == 1)
 	{
-		(*d)->line = (char *)ft_memalloc(2048);
 		(*d)->prompt = ft_strdup(get_prompt(get_elem((*d)->env, "PWD")));
 		g_prompt = (*d)->prompt;
 		if (g_siginted == 0)
@@ -102,7 +101,7 @@ static void	shell(t_data **d)
 		ft_putchar('\n');
 		if (i[1] == 1 && i[0] == 1)
 			i[0] = hand_arg((*d)->line, &((*d)->hist), &((*d)->env));
-		free((*d)->line);
+		ft_bzero((*d)->line, ft_strlen((*d)->line));
 		if ((*d)->prompt)
 			free((*d)->prompt);
 	}
@@ -121,10 +120,14 @@ int			main(int ac, char **av, char **env)
 	signal(SIGINT, sighandler);
 	d = (t_data *)ft_memalloc(sizeof(t_data));
 	d->env = char_to_lst(env);
+	d->line = (char *)ft_memalloc(2048);
+	d->buffline = (char *)ft_memalloc(2048);
 	shell(&d);
 	if (d->hist != NULL)
 		del_hist(d->hist);
 	tcsetattr(0, TCSANOW, &old);
+	free(d->buffline);
+	free(d->line);
 	free(d);
 	return (0);
 }

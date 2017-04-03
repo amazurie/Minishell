@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 13:08:54 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 15:00:30 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	updown_key(char *tmp, t_hist *hist, int **i, char **line)
 			(*i)[4] = (*i)[1];
 		}
 		else
-			return (-1);
+			return (0);
 	}
 	else
 	{
@@ -60,7 +60,7 @@ int	updown_gest(char *tmp, t_data **d, int **i)
 	int j;
 
 	if ((*i)[3] == -1)
-		(*d)->buffline = ft_strdup((*d)->line);
+		ft_strcpy(((*d)->buffline), (*d)->line);
 	erase_printline(d, i);
 	if ((j = updown_key(tmp, (*d)->hist, i, &((*d)->line))) <= 0)
 	{
@@ -71,6 +71,7 @@ int	updown_gest(char *tmp, t_data **d, int **i)
 			ft_putstr((*d)->line);
 			(*i)[2] = ft_strlen((*d)->line);
 			(*i)[4] = (*i)[2];
+			ft_bzero((*d)->buffline, ft_strlen((*d)->buffline));
 		}
 		else
 		{

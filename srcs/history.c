@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 16:28:50 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 14:13:35 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/03 15:02:29 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		disp_hist_prec(t_hist *lst, int **i, char **line)
 	if (tmp != NULL && (h->num == (*i)[3] || (*i)[3] == 0))
 	{
 		ft_putstr(tmp->hist);
-		*line = ft_strdup(tmp->hist);
+		ft_strcpy(*line, tmp->hist);
 		(*i)[3] = tmp->num;
 		return (ft_strlen(tmp->hist));
 	}
