@@ -6,7 +6,7 @@
 #    By: jmoucade <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by jmoucade          #+#    #+#              #
-#    Updated: 2017/04/03 11:24:29 by amazurie         ###   ########.fr        #
+#    Updated: 2017/04/11 15:57:15 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = #-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 INC_PATH = includes
 SRC_PATH = srcs
@@ -36,6 +36,7 @@ SRC =	$(SRC_PATH)/main.c			\
 		$(SRC_PATH)/hand_key2.c		\
 		$(SRC_PATH)/hand_in.c		\
 		$(SRC_PATH)/env.c			\
+		$(SRC_PATH)/env2.c			\
 		$(SRC_PATH)/exec.c			\
 		$(SRC_PATH)/built_in.c
 
@@ -43,6 +44,7 @@ OSRC = $(SRC:.c=.o)
 
 NO_COLOR=\x1b[0m
 OK_COLOR=\x1b[32;01m
+DEL_COLOR=\x1b[33m
 
 all: $(NAME)
 
@@ -61,12 +63,12 @@ $(LIB):
 clean:
 	@make -C libft clean
 	@/bin/rm -f $(OSRC)
-	@echo "Cleaning temporary files."
+	@echo "$(DEL_COLOR)Cleaning temporary files.$(NO_COLOR)"
 
 fclean: clean
 	@make -C libft fclean
 	@/bin/rm -f $(NAME)
 	@/bin/rm -f a.out
-	@echo "Delete $(NAME) file."
+	@echo "$(DEL_COLOR)Delete $(NAME) file.$(NO_COLOR)"
 
 re: fclean all

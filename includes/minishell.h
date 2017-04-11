@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 16:56:38 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/11 15:57:51 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ int					del_key(char *tmp, int **i, t_data **d);
 void				erase_printline(t_data **d, int **i);
 int					is_onlytab(char *s);
 void				check_dotdot(char **tmp, char **path);
+void				builtu_env(char **lstav, t_env **envcpy, size_t *i);
 
 #endif

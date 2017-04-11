@@ -6,13 +6,15 @@
 #    By: amazurie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by amazurie          #+#    #+#              #
-#    Updated: 2017/03/03 14:10:09 by amazurie         ###   ########.fr        #
+#    Updated: 2017/04/11 12:24:49 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
 CC = gcc
+
+INC = includes
 
 SRC = ft_itoa.c ft_memccpy.c ft_putchar_fd.c ft_strcat.c ft_striter.c \
 ft_strncmp.c ft_strsub.c ft_atoi.c ft_memchr.c ft_putendl.c ft_strchr.c \
@@ -37,26 +39,27 @@ HEADER = libft.h
 
 NO_COLOR=\x1b[0m
 OK_COLOR=\x1b[32;01m
+DEL_COLOR=\x1b[33m
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(OSRC)
 	@echo "Compiling..."
-	$(CC) $(FLAGS) -c $(SRC) -I includes
-	ar rc $(NAME) $(OSRC)
-	ranlib $(NAME)
+	@$(CC) $(FLAGS) -c $(SRC) -I $(INC)
+	@ar rc $(NAME) $(OSRC)
+	@ranlib $(NAME)
 	@echo "$(OK_COLOR)$@ compiled.$(NO_COLOR)"
 
 %.o: %.c
-	$(CC) -o $@ $(FLAGS) -c $<
+	@$(CC) -o $@ $(FLAGS) -I $(INC) -c $<
 	@echo "Linking file $@"
 
 clean:
-	-rm -f $(OSRC)
-	@echo "Cleaning temporary files."
+	@rm -f $(OSRC)
+	@echo "$(DEL_COLOR)Cleaning temporary files.$(NO_COLOR)"
 
 fclean: clean
-	-rm -f $(NAME)
-	@echo "Delete $(NAME) file."
+	@rm -f $(NAME)
+	@echo "$(DEL_COLOR)Delete $(NAME) file.$(NO_COLOR)"
 
 re: fclean all

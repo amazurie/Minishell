@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:31:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 12:42:19 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/11 13:43:54 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,20 +93,23 @@ void	unset_env(t_env **env, char *elem)
 
 void	display_env(t_env *env, int c)
 {
-	while (env)
+	t_env *tmp;
+
+	tmp = env;
+	while (tmp)
 	{
 		if (c)
 		{
 			ft_putstr(LIGHTRED_COL);
-			ft_putstr(env->elem);
+			ft_putstr(tmp->elem);
 			ft_putstr(DEFAULT_COL);
 		}
 		else
-			ft_putstr(env->elem);
+			ft_putstr(tmp->elem);
 		ft_putchar('=');
-		ft_putstr(env->cont);
+		ft_putstr(tmp->cont);
 		ft_putchar('\n');
-		env = env->next;
+		tmp = tmp->next;
 	}
 }
 
