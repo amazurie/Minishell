@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 16:35:22 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/12 10:33:50 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <curses.h>
 #include <term.h>
 
-static void	fork_exec2(char **lstav, char **fullpaths, t_env **env)
+static void	fork_exec2(char **lstav, t_env **env)
 {
 	char	*tmp;
 
@@ -49,7 +49,7 @@ static void	fork_exec(char **lstav, char **fullpaths, t_env **env)
 				j++;
 	if (j < i)
 	{
-		fork_exec2(lstav, fullpaths, env);
+		fork_exec2(lstav, env);
 		exit(0);
 	}
 }
@@ -83,8 +83,8 @@ int			exec(t_env **env, char *line, t_hist *hist)
 	char	**paths;
 	char	**fullpaths;
 	int		i;
-	char	*tmp;
 
+	fullpaths = NULL;
 	handbackslash(&line);
 	lstav = ft_strsplit(line, ' ');
 	line = get_elem(*env, "PATH");

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:13:41 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 12:48:18 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/12 10:31:34 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ static int	check_pwd(char *path, t_env *env, char *rep)
 {
 	char	*tmp;
 	char	*tmp2;
-	size_t	i;
-	size_t	j;
 
 	if (!get_elem(env, "HOME"))
 	{
@@ -112,8 +110,7 @@ char		*cd2(char **path, t_env *env, int i)
 		else
 			tmp = ft_strdup(get_elem(env, "OLDPWD"));
 	}
-	else
-		tmp = ft_strdup(path[1]);
+	tmp = ft_strdup(path[1]);
 	return (tmp);
 }
 

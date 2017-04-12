@@ -6,65 +6,60 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 16:28:50 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 15:02:29 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/12 12:42:54 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		disp_hist_next(t_hist *lst, int **i, char **line)
+int		disp_hist_next(t_data **d, int **i)
 {
-	t_hist *h;
+	t_hist	*h;
 
-	h = lst;
+	(*i)[5] = 0;
+	h = (*d)->hist;
 	if (!h)
 		return (-1);
-	if ((*i)[3] == -1)
+	while (h->next && ((h->num >= (*i)[3] && (*i)[3] != -1)
+			|| (((*i)[3] == -1 || h->num < (*i)[3])
+			&& ft_strncmp(h->hist, (*d)->buffline, ft_strlen((*d)->buffline)))))
+		h = h->next;
+	if (!ft_strncmp(h->hist, (*d)->buffline, ft_strlen((*d)->buffline)))
 	{
+		ft_bzero((*d)->line, ft_strlen((*d)->line));
 		ft_putstr(h->hist);
-		ft_strcpy(*line, h->hist);
+		ft_strcpy((*d)->line, h->hist);
 		(*i)[3] = h->num;
 		return (ft_strlen(h->hist));
 	}
-	while (h->next && h->num != (*i)[3])
-		h = h->next;
-	if (h->next && h->num == (*i)[3])
-	{
-		h = h->next;
-		ft_putstr(h->hist);
-		ft_strcpy(*line, h->hist);
-		(*i)[3] = h->num;
-		return (ft_strlen(h->hist));
-	}
-	if (!h->next)
-		(*i)[3] = 0;
+	ft_putstr((*d)->line);
 	return (-1);
 }
 
-int		disp_hist_prec(t_hist *lst, int **i, char **line)
+int		disp_hist_prec(t_data **d, int **i)
 {
-	t_hist *h;
-	t_hist *tmp;
+	t_hist	*h;
+	t_hist	*tmp;
 
-	h = lst;
+	(*i)[5] = 0;
+	h = (*d)->hist;
 	tmp = NULL;
 	if (!h || (*i)[3] == -1)
 		return (-1);
-	while (h->next && h->num != (*i)[3])
+	while (h->next && h->num > (*i)[3])
 	{
-		tmp = h;
+		if (!ft_strncmp(h->hist, (*d)->buffline, ft_strlen((*d)->buffline)))
+			tmp = h;
 		h = h->next;
 	}
-	if ((*i)[3] == 0 && h != NULL)
-		tmp = h;
-	if (tmp != NULL && (h->num == (*i)[3] || (*i)[3] == 0))
+	if (tmp)
 	{
+		ft_bzero((*d)->line, ft_strlen((*d)->line));
 		ft_putstr(tmp->hist);
-		ft_strcpy(*line, tmp->hist);
+		ft_strcpy((*d)->line, tmp->hist);
 		(*i)[3] = tmp->num;
 		return (ft_strlen(tmp->hist));
 	}
-	if (tmp == NULL)
-		(*i)[3] = -1;
+	(*i)[3] = -1;
 	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 12:16:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 16:59:56 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/12 11:36:39 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,17 @@ int			gest_in(t_data **d, char *tmp, int **i)
 	else if (tmp[0] == 10)
 		(*i)[0] = 1;
 	else if (tmp[0] == 127 || tmp[0] == 8)
+	{
 		del_in(d, i);
+		if (!(*d)->line[0])
+			(*i)[5] = 0;
+	}
 	else if (ft_isprint(tmp[0]) || (tmp[0] == 9
 				&& is_onlytab((*d)->line)))
+	{
 		chr_in(d, &tmp[0], i);
+		(*i)[5] = 1;
+	}
 	else
 		gest_spekey(tmp, d, i);
 	return (0);

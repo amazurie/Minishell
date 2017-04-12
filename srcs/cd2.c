@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:16:27 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 12:34:34 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/12 10:31:48 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	check_dotdot(char **tmp, char **path)
 {
 	size_t	i;
-	size_t	j;
 
 	if (!*tmp)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 13:44:01 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 17:00:40 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/12 10:30:37 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int		test_paths(char **path)
 char	*test_absolute(char *command)
 {
 	char		*path;
-	int			i;
 
 	if (!command)
 		return (NULL);

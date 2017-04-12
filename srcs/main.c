@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/11 15:39:44 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/12 11:35:58 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ static int	in(t_data **d, char *tmp)
 	int		*i;
 	int		j;
 
-	i = (int *)ft_memalloc(sizeof(int) * 5);
+	i = (int *)ft_memalloc(sizeof(int) * 6);
 	i[0] = 0;
+	i[5] = 0;
 	i[3] = -1;
 	while (i[0] == 0)
 	{
@@ -127,5 +128,6 @@ int			main(int ac, char **av, char **env)
 	free(d->buffline);
 	free(d->line);
 	free(d);
+	av[0][0] = ac;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:06:19 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/11 15:39:01 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/12 10:34:03 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ static int	built_in2(t_env **env, char **lstav, t_hist *hist)
 
 int			built_in(t_env **env, char **lstav, t_hist *hist)
 {
-	size_t	len;
-
 	if (!lstav[0])
 		return (0);
 	else if (ft_strcmp(lstav[0], "env") == 0)

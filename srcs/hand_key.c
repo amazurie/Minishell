@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 15:00:30 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/12 12:32:38 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ int	leftright_key(char *tmp, int **i, char **line)
 	return (0);
 }
 
-int	updown_key(char *tmp, t_hist *hist, int **i, char **line)
+int	updown_key(t_data **d, char *tmp, int **i)
 {
 	if (tmp[2] == 65 || tmp[2] == 53 || tmp[0] == 16)
 	{
-		if (((*i)[1] = disp_hist_next(hist, i, line)) != -1)
+		if (((*i)[1] = disp_hist_next(d, i)) != -1)
 		{
 			(*i)[2] = (*i)[1];
 			(*i)[4] = (*i)[1];
@@ -44,7 +44,7 @@ int	updown_key(char *tmp, t_hist *hist, int **i, char **line)
 	}
 	else
 	{
-		if (((*i)[1] = disp_hist_prec(hist, i, line)) != -1)
+		if (((*i)[1] = disp_hist_prec(d, i)) != -1)
 		{
 			(*i)[2] = (*i)[1];
 			(*i)[4] = (*i)[1];
@@ -59,24 +59,20 @@ int	updown_gest(char *tmp, t_data **d, int **i)
 {
 	int j;
 
-	if ((*i)[3] == -1)
+	if ((*i)[5] == 1)
 		ft_strcpy(((*d)->buffline), (*d)->line);
 	erase_printline(d, i);
-	if ((j = updown_key(tmp, (*d)->hist, i, &((*d)->line))) <= 0)
+	if ((j = updown_key(d, tmp, i)) <= 0)
 	{
-		ft_memset((*d)->line, 0, (*i)[2]);
 		if (j == -1)
 		{
+			ft_memset((*d)->line, 0, (*i)[2]);
 			ft_strcpy((*d)->line, (*d)->buffline);
 			ft_putstr((*d)->line);
 			(*i)[2] = ft_strlen((*d)->line);
 			(*i)[4] = (*i)[2];
 			ft_bzero((*d)->buffline, ft_strlen((*d)->buffline));
-		}
-		else
-		{
-			(*i)[2] = 0;
-			(*i)[4] = 0;
+			(*i)[5] = 1;
 		}
 	}
 	return (0);
