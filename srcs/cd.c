@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:13:41 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/12 10:31:34 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/12 16:16:43 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ static void	change_pwd(char *path, t_env *env)
 {
 	char	*tmp;
 
+	if (!ft_strncmp(path, "~/", 2))
+	{
+		tmp = ft_strjoin(get_elem(env, "HOME"), (path + 1));
+		path = tmp;
+		free(tmp);
+	}
 	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("cd: no such file or directory: ", 2);
@@ -93,7 +99,9 @@ char		*cd2(char **path, t_env *env, int i)
 {
 	char	*tmp;
 
-	if (i == 1 || ft_strcmp(path[1], "~") == 0)
+	tmp = NULL;
+	if (i == 1 || !ft_strcmp(path[1], "~") || (path[1][0] == '~'
+				&& path[1][1] == '/' && !path[1][2]))
 	{
 		if (!get_elem(env, "HOME"))
 			ft_putstr_fd("cd: HOME not set.\n", 2);
@@ -110,7 +118,8 @@ char		*cd2(char **path, t_env *env, int i)
 		else
 			tmp = ft_strdup(get_elem(env, "OLDPWD"));
 	}
-	tmp = ft_strdup(path[1]);
+	else
+		tmp = ft_strdup(path[1]);
 	return (tmp);
 }
 

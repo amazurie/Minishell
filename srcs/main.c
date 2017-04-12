@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/12 11:35:58 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/12 15:32:29 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ static int	in(t_data **d, char *tmp)
 	int		*i;
 	int		j;
 
+	g_siginted = 1;
 	i = (int *)ft_memalloc(sizeof(int) * 6);
-	i[0] = 0;
-	i[5] = 0;
-	i[3] = -1;
 	while (i[0] == 0)
 	{
 		read(0, tmp, 5);
@@ -46,6 +44,7 @@ static int	in(t_data **d, char *tmp)
 			ft_memset((*d)->line, 0, i[2]);
 			i[2] = 0;
 			i[3] = -1;
+			i[5] = 0;
 			i[4] = 0;
 			g_siginted = 0;
 		}
