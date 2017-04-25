@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/25 15:24:08 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 17:52:40 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void		sighandler(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putchar('\n');
-		display_prompt();
 		is_siginted(1);
 	}
 	if (sig == SIGSTOP)

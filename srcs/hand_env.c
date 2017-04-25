@@ -6,13 +6,13 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:31:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/25 17:39:50 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 18:04:53 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*char_to_lst(char **env)
+t_env		*char_to_lst(char **env)
 {
 	t_env	*envlst;
 	t_env	*envtmp;
@@ -38,14 +38,30 @@ t_env	*char_to_lst(char **env)
 	return (envlst);
 }
 
-void	set_env(t_env **env, char *av)
+static void	set_on_new(t_env **env, char *av)
+{
+	char	*elem;
+	char	*cont;
+
+	elem = ft_strndup(av, ft_strlen_chr(av, '='));
+	cont = ft_strdup((av + ft_strlen_chr(av, '=') + 1));
+	*env = (t_env *)ft_memalloc(sizeof(t_env));
+	(*env)->elem = ft_strdup(elem);
+	(*env)->cont = (!cont) ? NULL : ft_strdup(cont);
+	(*env)->next = NULL;
+	return ;
+}
+
+void		set_env(t_env **env, char *av)
 {
 	t_env	*tmpenv;
 	char	*elem;
 	char	*cont;
 
-	if (!*env || !elem)
+	if (!av)
 		return ;
+	if (!*env)
+		return (set_on_new(env, av));
 	elem = ft_strndup(av, ft_strlen_chr(av, '='));
 	cont = ft_strdup((av + ft_strlen_chr(av, '=') + 1));
 	tmpenv = *env;
@@ -58,15 +74,13 @@ void	set_env(t_env **env, char *av)
 		tmpenv->elem = ft_strdup(elem);
 		tmpenv->cont = (!cont) ? NULL : ft_strdup(cont);
 		tmpenv->next = NULL;
+		return ;
 	}
-	else
-	{
-		free(tmpenv->cont);
-		tmpenv->cont = (!cont) ? NULL : ft_strdup(cont);
-	}
+	free(tmpenv->cont);
+	tmpenv->cont = (!cont) ? NULL : ft_strdup(cont);
 }
 
-void	del_elem(t_env **env, char *elem)
+void		del_elem(t_env **env, char *elem)
 {
 	t_env	*tmpenv;
 	t_env	*tmp;
@@ -93,7 +107,7 @@ void	del_elem(t_env **env, char *elem)
 	}
 }
 
-void	unset_env(t_env **env, char **lstav)
+void		unset_env(t_env **env, char **lstav)
 {
 	int		i;
 
