@@ -6,11 +6,44 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:08:02 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/12 15:39:18 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 17:28:13 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	display_env(t_env *env, int c)
+{
+	t_env *tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (c)
+		{
+			ft_putstr(LIGHTRED_COL);
+			ft_putstr(tmp->elem);
+			ft_putstr(DEFAULT_COL);
+		}
+		else
+			ft_putstr(tmp->elem);
+		ft_putchar('=');
+		ft_putstr(tmp->cont);
+		ft_putchar('\n');
+		tmp = tmp->next;
+	}
+}
+
+char	*get_elem(t_env *env, char *elem)
+{
+	while (env)
+	{
+		if (ft_strcmp(env->elem, elem) == 0)
+			return (env->cont);
+		env = env->next;
+	}
+	return (NULL);
+}
 
 void	del_env(t_env **env)
 {

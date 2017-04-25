@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/25 16:23:29 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 17:44:03 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,10 @@ int					built_in(t_env **env, char **lstav, t_hist *hist);
 t_env				*char_to_lst(char **env);
 t_env				*default_env(void);
 void				display_env(t_env *env, int color);
-void				set_env(t_env **env, char *elem, char *cont);
+void				set_env(t_env **env, char *av);
 int					gest_in(t_data **d, char *tmp, int **i);
-void				unset_env(t_env **env, char *elem);
+void				unset_env(t_env **env, char **lstav);
+void				del_elem(t_env **env, char *elem);
 int					cd(char **path, t_env *env);
 void				add_hist(t_hist **lst, char *hist);
 void				display_hist(t_hist *hist);
@@ -89,5 +90,6 @@ void				builtu_env(char **lstav, t_env **envcpy, size_t *i);
 void				echo_doing(t_env **env, char **lstav, t_hist *hist);
 int					is_siginted(int sig);
 char				**lst_to_char(t_env *env);
+int					check_path(char *path);
 
 #endif

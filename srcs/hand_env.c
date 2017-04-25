@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:31:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/25 15:27:18 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 17:39:50 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,16 @@ t_env	*char_to_lst(char **env)
 	return (envlst);
 }
 
-void	set_env(t_env **env, char *elem, char *cont)
+void	set_env(t_env **env, char *av)
 {
-	t_env *tmpenv;
+	t_env	*tmpenv;
+	char	*elem;
+	char	*cont;
 
 	if (!*env || !elem)
 		return ;
+	elem = ft_strndup(av, ft_strlen_chr(av, '='));
+	cont = ft_strdup((av + ft_strlen_chr(av, '=') + 1));
 	tmpenv = *env;
 	while (tmpenv->next && ft_strcmp(tmpenv->elem, elem))
 		tmpenv = tmpenv->next;
@@ -62,14 +66,12 @@ void	set_env(t_env **env, char *elem, char *cont)
 	}
 }
 
-void	unset_env(t_env **env, char *elem)
+void	del_elem(t_env **env, char *elem)
 {
-	t_env *tmpenv;
-	t_env *tmp;
-	t_env *tmp2;
+	t_env	*tmpenv;
+	t_env	*tmp;
+	t_env	*tmp2;
 
-	if (!*env || !elem)
-		return ;
 	tmpenv = *env;
 	tmp = NULL;
 	while (tmpenv && ft_strcmp(tmpenv->elem, elem))
@@ -91,35 +93,13 @@ void	unset_env(t_env **env, char *elem)
 	}
 }
 
-void	display_env(t_env *env, int c)
+void	unset_env(t_env **env, char **lstav)
 {
-	t_env *tmp;
+	int		i;
 
-	tmp = env;
-	while (tmp)
-	{
-		if (c)
-		{
-			ft_putstr(LIGHTRED_COL);
-			ft_putstr(tmp->elem);
-			ft_putstr(DEFAULT_COL);
-		}
-		else
-			ft_putstr(tmp->elem);
-		ft_putchar('=');
-		ft_putstr(tmp->cont);
-		ft_putchar('\n');
-		tmp = tmp->next;
-	}
-}
-
-char	*get_elem(t_env *env, char *elem)
-{
-	while (env)
-	{
-		if (ft_strcmp(env->elem, elem) == 0)
-			return (env->cont);
-		env = env->next;
-	}
-	return (NULL);
+	if (!*env || !lstav | !lstav[1])
+		return ;
+	i = 0;
+	while (lstav[i])
+		del_elem(env, lstav[i++]);
 }

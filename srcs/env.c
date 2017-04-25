@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:07:35 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/11 15:59:11 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 17:32:18 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ static void	envcom2(char **lstav, t_env **envcpy, t_hist *hist)
 		built_env(lstav, envcpy, i);
 		if (!lstav[i[0]][1] && lstav[i[0]][0] == '-')
 			del_env(envcpy);
-		if (lstav[i[0]] && lstav[i[0]][0] != '-'
+		if (ft_strchr(lstav[i[0]], '='))
+			set_env(envcpy, lstav[i[0]]);
+		else if (lstav[i[0]] && lstav[i[0]][0] != '-'
 				&& (!ft_strchr(lstav[i[0] - 1], 'u')
 				|| lstav[i[0] - 1][ft_strlen_chr(lstav[i[0] - 1], 'u') + 1]))
 			envexec(lstav, envcpy, hist, i);

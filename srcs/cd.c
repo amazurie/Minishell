@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:13:41 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/25 11:03:48 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 17:43:46 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	change_pwd(char *path, t_env *env)
 {
 	char	*tmp;
+	char	*tmp2;
 
 	if (!ft_strncmp(path, "~/", 2))
 	{
@@ -22,14 +23,11 @@ static void	change_pwd(char *path, t_env *env)
 		path = tmp;
 		free(tmp);
 	}
-	if (chdir(path) == -1)
-	{
-		ft_putstr_fd("cd: no such file or directory: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putchar_fd('\n', 2);
+	if (check_path(path) == -1)
 		return ;
-	}
-	set_env(&env, "OLDPWD", get_elem(env, "PWD"));
+	tmp2 = ft_strjoin("OLDPWD=", get_elem(env, "PWD"));
+	set_env(&env, tmp2);
+	free(tmp2);
 	if (path[0] != '/')
 	{
 		tmp = (char *)ft_memalloc(5001);
@@ -37,7 +35,9 @@ static void	change_pwd(char *path, t_env *env)
 	}
 	else
 		tmp = ft_strdup(path);
-	set_env(&env, "PWD", tmp);
+	tmp2 = ft_strjoin("PWD=", tmp);
+	set_env(&env, tmp2);
+	free(tmp2);
 	free(tmp);
 }
 

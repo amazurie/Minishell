@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 15:51:39 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/11 15:58:46 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 17:40:35 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	hand_u(char *uelem, t_env **envcpy)
 {
+	char **tmp;
+
 	if (!uelem)
 	{
 		ft_putstr_fd("env: option requires an arguments -- u\n", 2);
@@ -26,7 +28,7 @@ static void	hand_u(char *uelem, t_env **envcpy)
 		ft_putstr_fd(": Invalid argument\n", 2);
 	}
 	else
-		unset_env(envcpy, uelem);
+		del_elem(envcpy, uelem);
 }
 
 void		builtu_env(char **lstav, t_env **envcpy, size_t *i)
