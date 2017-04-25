@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:08:40 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/03 16:58:17 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 16:00:53 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,32 @@ void	handbackslash(char **s)
 		}
 		i++;
 	}
+}
+
+char	**lst_to_char(t_env *env)
+{
+	char	**lstenv;
+	t_env	*tmp;
+	char	*buff;
+	int		i;
+
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	lstenv = (char **)ft_memalloc(sizeof(char *) * (i + 1));
+	tmp = env;
+	i = 0;
+	while (tmp)
+	{
+		buff = ft_strjoin(tmp->elem, "=");
+		lstenv[i] = ft_strjoin(buff, tmp->cont);
+		free(buff);
+		tmp = tmp->next;
+		i++;
+	}
+	return (lstenv);
 }

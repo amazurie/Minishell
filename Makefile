@@ -6,7 +6,7 @@
 #    By: jmoucade <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by jmoucade          #+#    #+#              #
-#    Updated: 2017/04/25 12:29:55 by amazurie         ###   ########.fr        #
+#    Updated: 2017/04/25 15:33:55 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC =	$(SRC_PATH)/main.c			\
 		$(SRC_PATH)/exec.c			\
 		$(SRC_PATH)/built_in.c		\
 		$(SRC_PATH)/echo.c			\
+		$(SRC_PATH)/default_env.c	\
 		$(SRC_PATH)/sig_handle.c
 
 OSRC = $(SRC:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:31:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/12 15:38:12 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 15:27:18 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_env	*char_to_lst(char **env)
 	t_env	*envtmp2;
 	int		i;
 
+	if (!env || !*env)
+		return (default_env());
 	envlst = (t_env *)ft_memalloc(sizeof(t_env));
 	envtmp = envlst;
 	i = 0;

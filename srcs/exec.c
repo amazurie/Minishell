@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/12 10:33:50 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 16:23:49 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #include <curses.h>
 #include <term.h>
 
-static void	fork_exec2(char **lstav, t_env **env)
+static void	fork_exec2(char **lstav, t_env **env, char **tmpenv)
 {
 	char	*tmp;
 
 	tmp = test_absolute(lstav[0]);
-	if (execve(tmp, lstav, NULL) == -1)
+	if (execve(tmp, lstav, tmpenv) == -1)
 		if (!*env)
 			ft_putstr_fd("\e[31mNo environnement defined.\e[0m\n", 2);
 	free(tmp);
@@ -29,29 +29,34 @@ static void	fork_exec2(char **lstav, t_env **env)
 		ft_putstr_fd(lstav[0], 2);
 		ft_putstr_fd("\n", 2);
 	}
+	exit(0);
 }
 
 static void	fork_exec(char **lstav, char **fullpaths, t_env **env)
 {
 	pid_t	pid;
+	char	**tmpenv;
 	size_t	i;
 	size_t	j;
 
 	while ((pid = fork()) == -1)
 		sleep(2);
+	tmpenv = lst_to_char(*env);
 	i = 0;
 	j = 0;
 	if (pid > 0)
 		wait(0);
-	else
-		while (fullpaths[i])
-			if (execve(fullpaths[i++], lstav, NULL) != -1)
-				j++;
-	if (j < i)
+	else if (fullpaths != NULL)
 	{
-		fork_exec2(lstav, env);
-		exit(0);
+		while (fullpaths[i])
+			if (execve(fullpaths[i++], lstav, tmpenv) != -1)
+				j++;
 	}
+	else
+		i = j + 1;
+	if (j < i)
+		fork_exec2(lstav, env, tmpenv);
+	free_tab(tmpenv);
 }
 
 static void	exec2(char **lstav, char **paths, char **fullpaths, t_env **env)
@@ -62,7 +67,10 @@ static void	exec2(char **lstav, char **paths, char **fullpaths, t_env **env)
 	i = 0;
 	while (paths && paths[i])
 		i++;
-	fullpaths = (char **)ft_memalloc(sizeof(char *) * i + 1);
+	if (i)
+		fullpaths = (char **)ft_memalloc(sizeof(char *) * (i + 1));
+	else
+		fullpaths = NULL;
 	i = 0;
 	while (paths && paths[i])
 	{
