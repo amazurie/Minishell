@@ -6,7 +6,7 @@
 #    By: jmoucade <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by jmoucade          #+#    #+#              #
-#    Updated: 2017/04/12 12:42:12 by amazurie         ###   ########.fr        #
+#    Updated: 2017/04/25 12:29:55 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = #-Wall -Wextra -Werror
 
 INC_PATH = includes
 SRC_PATH = srcs
@@ -38,7 +38,9 @@ SRC =	$(SRC_PATH)/main.c			\
 		$(SRC_PATH)/env.c			\
 		$(SRC_PATH)/env2.c			\
 		$(SRC_PATH)/exec.c			\
-		$(SRC_PATH)/built_in.c
+		$(SRC_PATH)/built_in.c		\
+		$(SRC_PATH)/echo.c			\
+		$(SRC_PATH)/sig_handle.c
 
 OSRC = $(SRC:.c=.o)
 

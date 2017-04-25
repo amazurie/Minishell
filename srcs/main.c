@@ -6,13 +6,11 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/12 15:32:29 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 12:00:20 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	g_siginted;
 
 void		sighandler(int sig)
 {
@@ -20,7 +18,7 @@ void		sighandler(int sig)
 	{
 		ft_putchar('\n');
 		display_prompt();
-		g_siginted = 1;
+		is_siginted(1);
 	}
 	if (sig == SIGSTOP)
 	{
@@ -34,19 +32,18 @@ static int	in(t_data **d, char *tmp)
 	int		*i;
 	int		j;
 
-	g_siginted = 1;
+	is_siginted(1);
 	i = (int *)ft_memalloc(sizeof(int) * 6);
 	while (i[0] == 0)
 	{
 		read(0, tmp, 5);
-		if (g_siginted == 1)
+		if (is_siginted(0) == 1)
 		{
 			ft_memset((*d)->line, 0, i[2]);
 			i[2] = 0;
 			i[3] = -1;
 			i[5] = 0;
 			i[4] = 0;
-			g_siginted = 0;
 		}
 		if (gest_in(d, tmp, &i) == -1)
 			i[0] = -1;
@@ -89,9 +86,7 @@ static void	shell(t_data **d)
 	while (i[0] == 1)
 	{
 		(*d)->prompt = get_prompt();
-		if (g_siginted == 0)
-			display_prompt();
-		g_siginted = 0;
+		display_prompt();
 		tmp = (char *)ft_memalloc(6);
 		if ((i[1] = in(d, tmp)) == -1)
 			i[0] = 0;

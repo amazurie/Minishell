@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:13:41 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/12 16:16:43 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/25 11:03:48 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ char		*cd2(char **path, t_env *env, int i)
 
 	tmp = NULL;
 	if (i == 1 || !ft_strcmp(path[1], "~") || (path[1][0] == '~'
-				&& path[1][1] == '/' && !path[1][2]))
+			&& path[1][1] == '/' && !path[1][2])
+			|| (path[1][0] == '-' && path[1][1] == '-'))
 	{
 		if (!get_elem(env, "HOME"))
 			ft_putstr_fd("cd: HOME not set.\n", 2);
