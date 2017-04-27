@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:06:19 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/25 17:22:20 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/27 13:47:09 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 static int	built_in2(t_env **env, char **lstav, t_hist *hist)
 {
-	char	tmp[5000];
-
 	if (ft_strcmp(lstav[0], "history") == 0 && !lstav[1])
 		display_hist(hist);
 	else if (ft_strcmp(lstav[0], "cd") == 0)
@@ -44,7 +42,7 @@ int			built_in(t_env **env, char **lstav, t_hist *hist)
 	else if (ft_strcmp(lstav[0], "unsetenv") == 0 && lstav[1])
 		unset_env(env, lstav);
 	else if (ft_strcmp(lstav[0], "echo") == 0)
-		echo_doing(env, lstav, hist);
+		echo_doing(lstav);
 	else
 		return (built_in2(env, lstav, hist));
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 15:51:39 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/27 12:59:46 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/27 13:44:12 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 static void	hand_u(char *uelem, t_env **envcpy, size_t *i)
 {
-	char **tmp;
-
 	if (!uelem)
 	{
 		ft_putstr_fd("env: option requires an arguments -- u\n", 2);

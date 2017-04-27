@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/25 17:44:03 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/27 13:45:59 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 # include <signal.h>
 # include <sys/stat.h>
 
-# define ERR_COL	"\e[31m"
+# define ERR_COL		"\e[31m"
 # define LIGHTRED_COL	"\e[1;31m"
 # define DEFAULT_COL	"\e[0m"
 # define PROMPT_COL		"\e[1;36m"
-# define MAX_HISTORY	256
+# define MAX_HISTORY	5000
 
 typedef struct		s_hist
 {
@@ -87,7 +87,7 @@ void				erase_printline(t_data **d, int **i);
 int					is_onlytab(char *s);
 void				check_dotdot(char **tmp, char **path);
 void				builtu_env(char **lstav, t_env **envcpy, size_t *i);
-void				echo_doing(t_env **env, char **lstav, t_hist *hist);
+void				echo_doing(char **lstav);
 int					is_siginted(int sig);
 char				**lst_to_char(t_env *env);
 int					check_path(char *path);
