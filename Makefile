@@ -6,7 +6,7 @@
 #    By: jmoucade <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by jmoucade          #+#    #+#              #
-#    Updated: 2017/04/25 15:33:55 by amazurie         ###   ########.fr        #
+#    Updated: 2017/04/27 12:21:45 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC =	$(SRC_PATH)/main.c			\
 		$(SRC_PATH)/hand_in.c		\
 		$(SRC_PATH)/env.c			\
 		$(SRC_PATH)/env2.c			\
+		$(SRC_PATH)/setenv.c			\
 		$(SRC_PATH)/exec.c			\
 		$(SRC_PATH)/built_in.c		\
 		$(SRC_PATH)/echo.c			\

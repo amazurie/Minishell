@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:16:27 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/25 17:43:32 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/27 11:51:56 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 int		check_path(char *path)
 {
+	struct stat	atr;
+
 	if (chdir(path) == -1)
 	{
-		ft_putstr_fd("cd: no such file or directory: ", 2);
+		if (lstat(path, &atr) == -1)
+			ft_putstr_fd("cd: no such file or directory: ", 2);
+		else
+			ft_putstr_fd("cd: permission denied: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putchar_fd('\n', 2);
-		return (0);
+		return (-1);
 	}
-	return (1);
+	return (0);
 }
 
 void	check_dotdot(char **tmp, char **path)

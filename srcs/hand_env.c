@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:31:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/25 18:04:53 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/27 13:05:24 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,49 +35,9 @@ t_env		*char_to_lst(char **env)
 	}
 	free(envtmp);
 	envtmp2->next = NULL;
+	set_env(&envlst, "CLICOLOR=true");
+	set_env(&envlst, "LSCOLORS=Gxfxcxdxbxegedabagacad");
 	return (envlst);
-}
-
-static void	set_on_new(t_env **env, char *av)
-{
-	char	*elem;
-	char	*cont;
-
-	elem = ft_strndup(av, ft_strlen_chr(av, '='));
-	cont = ft_strdup((av + ft_strlen_chr(av, '=') + 1));
-	*env = (t_env *)ft_memalloc(sizeof(t_env));
-	(*env)->elem = ft_strdup(elem);
-	(*env)->cont = (!cont) ? NULL : ft_strdup(cont);
-	(*env)->next = NULL;
-	return ;
-}
-
-void		set_env(t_env **env, char *av)
-{
-	t_env	*tmpenv;
-	char	*elem;
-	char	*cont;
-
-	if (!av)
-		return ;
-	if (!*env)
-		return (set_on_new(env, av));
-	elem = ft_strndup(av, ft_strlen_chr(av, '='));
-	cont = ft_strdup((av + ft_strlen_chr(av, '=') + 1));
-	tmpenv = *env;
-	while (tmpenv->next && ft_strcmp(tmpenv->elem, elem))
-		tmpenv = tmpenv->next;
-	if (!tmpenv->next && ft_strcmp(tmpenv->elem, elem))
-	{
-		tmpenv->next = (t_env *)ft_memalloc(sizeof(t_env));
-		tmpenv = tmpenv->next;
-		tmpenv->elem = ft_strdup(elem);
-		tmpenv->cont = (!cont) ? NULL : ft_strdup(cont);
-		tmpenv->next = NULL;
-		return ;
-	}
-	free(tmpenv->cont);
-	tmpenv->cont = (!cont) ? NULL : ft_strdup(cont);
 }
 
 void		del_elem(t_env **env, char *elem)

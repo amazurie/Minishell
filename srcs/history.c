@@ -27,12 +27,12 @@ int		disp_hist_next(t_data **d, int **i)
 	if (!ft_strncmp(h->hist, (*d)->buffline, ft_strlen((*d)->buffline)))
 	{
 		ft_bzero((*d)->line, ft_strlen((*d)->line));
-		ft_putstr(h->hist);
+		ft_putstr_fd(h->hist, 0);
 		ft_strcpy((*d)->line, h->hist);
 		(*i)[3] = h->num;
 		return (ft_strlen(h->hist));
 	}
-	ft_putstr((*d)->line);
+	ft_putstr_fd((*d)->line, 0);
 	return (-1);
 }
 
@@ -55,7 +55,7 @@ int		disp_hist_prec(t_data **d, int **i)
 	if (tmp)
 	{
 		ft_bzero((*d)->line, ft_strlen((*d)->line));
-		ft_putstr(tmp->hist);
+		ft_putstr_fd(tmp->hist, 0);
 		ft_strcpy((*d)->line, tmp->hist);
 		(*i)[3] = tmp->num;
 		return (ft_strlen(tmp->hist));

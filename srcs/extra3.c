@@ -37,11 +37,11 @@ void	erase_printline(t_data **d, int **i)
 	temp = (char *)ft_memalloc((*i)[2] + j + 1);
 	ft_memset(temp, '\b', j + (*i)[4]);
 	ft_memset(temp, '\b', j + (*i)[4]);
-	ft_putstr(temp);
+	ft_putstr_fd(temp, 0);
 	ft_memset(temp, ' ', j + (*i)[2]);
-	ft_putstr(temp);
+	ft_putstr_fd(temp, 0);
 	ft_memset(temp, '\b', j + (*i)[2]);
-	ft_putstr(temp);
+	ft_putstr_fd(temp, 0);
 	display_prompt();
 	free(temp);
 }

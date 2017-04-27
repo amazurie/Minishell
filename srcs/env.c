@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:07:35 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/25 17:59:48 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/04/27 13:05:02 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,16 @@ static void	envcom2(char **lstav, t_env **envcpy, t_hist *hist)
 {
 	size_t	*i;
 
-	i = (size_t *)ft_memalloc(sizeof(size_t) * 4);
+	i = (size_t *)ft_memalloc(sizeof(size_t) * 5);
 	i[0] = 0;
 	i[2] = 1;
 	while (lstav[++i[0]])
 	{
+		i[3] = 0;
 		built_env(lstav, envcpy, i);
 		if (!lstav[i[0]][1] && lstav[i[0]][0] == '-')
 			del_env(envcpy);
-		if (ft_strchr(lstav[i[0]], '='))
+		if (!i[3] && ft_strchr(lstav[i[0]], '='))
 			set_env(envcpy, lstav[i[0]]);
 		else if (lstav[i[0]] && lstav[i[0]][0] != '-'
 				&& (!ft_strchr(lstav[i[0] - 1], 'u')
@@ -83,7 +84,7 @@ static void	envcom2(char **lstav, t_env **envcpy, t_hist *hist)
 
 void		envcom(char **lstav, t_env *env, t_hist *hist)
 {
-	t_env *envcpy;
+	t_env	*envcpy;
 
 	if (!lstav[1])
 		display_env(env, 0);
@@ -91,6 +92,7 @@ void		envcom(char **lstav, t_env *env, t_hist *hist)
 	{
 		envcpy = env_cpy(env);
 		envcom2(lstav, &envcpy, hist);
+		chdir(get_elem(env, "PWD"));
 		del_env(&envcpy);
 	}
 }

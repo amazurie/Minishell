@@ -40,11 +40,11 @@ void	display_prompt(void)
 	char	*pwd;
 
 	pwd = get_prompt();
-	ft_putstr(PROMPT_COL);
-	ft_putstr("$");
-	ft_putstr(pwd);
-	ft_putstr("> ");
-	ft_putstr(DEFAULT_COL);
+	ft_putstr_fd(PROMPT_COL, 0);
+	ft_putstr_fd("$", 0);
+	ft_putstr_fd(pwd, 0);
+	ft_putstr_fd("> ", 0);
+	ft_putstr_fd(DEFAULT_COL, 0);
 	free(pwd);
 }
 

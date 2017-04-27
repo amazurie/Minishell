@@ -16,7 +16,8 @@ void		sighandler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_putchar('\n');
+		ft_putchar_fd('\n', 0);
+		display_prompt();
 		is_siginted(1);
 	}
 	if (sig == SIGSTOP)
@@ -33,6 +34,8 @@ static int	in(t_data **d, char *tmp)
 
 	is_siginted(1);
 	i = (int *)ft_memalloc(sizeof(int) * 6);
+	if (read(0, tmp, 0) == -1)
+		return (-1);
 	while (i[0] == 0)
 	{
 		read(0, tmp, 5);
@@ -85,12 +88,13 @@ static void	shell(t_data **d)
 	while (i[0] == 1)
 	{
 		(*d)->prompt = get_prompt();
-		display_prompt();
+		if (!is_siginted(0))
+			display_prompt();
 		tmp = (char *)ft_memalloc(6);
 		if ((i[1] = in(d, tmp)) == -1)
 			i[0] = 0;
 		free(tmp);
-		ft_putchar('\n');
+		ft_putchar_fd('\n', 0);
 		if (i[1] == 1 && i[0] == 1)
 			i[0] = hand_arg((*d)->line, &((*d)->hist), &((*d)->env));
 		ft_bzero((*d)->line, ft_strlen((*d)->line));

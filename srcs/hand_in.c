@@ -27,16 +27,16 @@ static void	chr_in(t_data **d, char *tmp, int **i)
 	(*i)[1] = 0;
 	temp = (char *)ft_memalloc((*i)[2] + j + 1);
 	ft_memset(temp, ' ', (*i)[2] - (*i)[4]);
-	ft_putstr(temp);
+	ft_putstr_fd(temp, 0);
 	ft_memset(temp, '\b', j + (*i)[2]);
-	ft_putstr(temp);
+	ft_putstr_fd(temp, 0);
 	display_prompt();
 	saddchr(&((*d)->line), tmp[0], (*i)[4]);
-	ft_putstr((*d)->line);
+	ft_putstr_fd((*d)->line, 0);
 	(*i)[2]++;
 	ft_memset(temp, 0, j + (*i)[2]);
 	ft_memset(temp, '\b', (*i)[2] - (*i)[4] - 1);
-	ft_putstr(temp);
+	ft_putstr_fd(temp, 0);
 	(*i)[4]++;
 	free(temp);
 }
@@ -56,17 +56,17 @@ void		del_in(t_data **d, int **i)
 	(*i)[1] = 0;
 	temp = (char *)ft_memalloc((*i)[2] + j + 1);
 	ft_memset(temp, '\b', j + (*i)[4]);
-	ft_putstr(temp);
+	ft_putstr_fd(temp, 0);
 	ft_memset(temp, ' ', j + (*i)[2]);
-	ft_putstr(temp);
+	ft_putstr_fd(temp, 0);
 	ft_memset(temp, '\b', j + (*i)[2]);
-	ft_putstr(temp);
+	ft_putstr_fd(temp, 0);
 	display_prompt();
 	ssupprchr(&((*d)->line), --(*i)[4]);
-	ft_putstr((*d)->line);
+	ft_putstr_fd((*d)->line, 0);
 	ft_memset(temp, 0, j + (*i)[2]);
 	ft_memset(temp, '\b', (*i)[2]-- - (*i)[4] - 1);
-	ft_putstr(temp);
+	ft_putstr_fd(temp, 0);
 	free(temp);
 }
 
@@ -78,7 +78,7 @@ int			gest_in(t_data **d, char *tmp, int **i)
 	{
 		ft_putstr("\033c");
 		display_prompt();
-		ft_putstr((*d)->line);
+		ft_putstr_fd((*d)->line, 0);
 	}
 	else if (tmp[0] == 10)
 		(*i)[0] = 1;

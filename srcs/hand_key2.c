@@ -21,11 +21,11 @@ static int	endhome_key(char *tmp, int **i, char **line)
 		{
 			(*i)[1] = 0;
 			while ((*i)[1]++ < (*i)[4])
-				ft_putchar('\b');
+				ft_putchar_fd('\b', 0);
 			(*i)[4] = 0;
 			return (1);
 		}
-		ft_putstr(((*line) + (*i)[4]));
+		ft_putstr_fd(((*line) + (*i)[4]), 0);
 		(*i)[4] = (*i)[2];
 		return (1);
 	}
@@ -38,7 +38,7 @@ int			del_key(char *tmp, int **i, t_data **d)
 	{
 		if ((tmp[0] == 4 || tmp[3] == 126) && (*i)[4] < (*i)[2])
 		{
-			ft_putchar((*d)->line[(*i)[4]]);
+			ft_putchar_fd((*d)->line[(*i)[4]], 0);
 			(*i)[4]++;
 			del_in(d, i);
 		}
@@ -53,11 +53,11 @@ int			del_line(char **line, char *tmp, int **i)
 	{
 		(*i)[1] = 0;
 		while ((*i)[1]++ < (*i)[4])
-			ft_putchar('\b');
+			ft_putchar_fd('\b', 0);
 		ft_memset(*line, ' ', (*i)[2]);
-		ft_putstr(*line);
+		ft_putstr_fd(*line, 0);
 		ft_memset(*line, '\b', (*i)[2]);
-		ft_putstr(*line);
+		ft_putstr_fd(*line, 0);
 		ft_memset(*line, 0, (*i)[2]);
 		(*i)[2] = 0;
 		(*i)[3] = -1;

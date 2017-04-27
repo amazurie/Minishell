@@ -19,12 +19,12 @@ int	leftright_key(char *tmp, int **i, char **line)
 	{
 		if ((*i)[4] > 0 && (tmp[2] == 68 || tmp[0] == 2))
 		{
-			ft_putchar('\b');
+			ft_putchar_fd('\b', 0);
 			(*i)[4]--;
 		}
 		else if ((*i)[4] < (*i)[2] && (tmp[2] == 67
 					|| tmp[0] == 6))
-			ft_putchar((*line)[(*i)[4]++]);
+			ft_putchar_fd((*line)[(*i)[4]++], 0);
 		return (1);
 	}
 	return (0);
@@ -68,7 +68,7 @@ int	updown_gest(char *tmp, t_data **d, int **i)
 		{
 			ft_memset((*d)->line, 0, (*i)[2]);
 			ft_strcpy((*d)->line, (*d)->buffline);
-			ft_putstr((*d)->line);
+			ft_putstr_fd((*d)->line, 0);
 			(*i)[2] = ft_strlen((*d)->line);
 			(*i)[4] = (*i)[2];
 			ft_bzero((*d)->buffline, ft_strlen((*d)->buffline));
