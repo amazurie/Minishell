@@ -6,11 +6,28 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:16:27 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/27 11:51:56 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 16:26:46 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		change_envpwd(char *tmp, t_env *env)
+{
+	char	*tmp2;
+	char	*tmp3;
+
+	if ((tmp2 = ft_strjoin("OLDPWD=", get_elem(env, "PWD"))) == NULL)
+		return (0);
+	if ((tmp3= ft_strjoin("PWD=", tmp)) == NULL)
+		return (0);
+	free(tmp);
+	set_env(&env, tmp2);
+	free(tmp2);
+	set_env(&env, tmp3);
+	free(tmp3);
+	return (1);
+}
 
 int		check_path(char *path)
 {

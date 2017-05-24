@@ -6,13 +6,13 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/27 13:37:22 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/27 13:37:32 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 19:04:29 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void			handbackslash(char **s)
+static void		handbackslash(char **s)
 {
 	size_t i;
 
@@ -46,13 +46,11 @@ static size_t	ft_wds(char *str)
 	{
 		if (str[i] == ';')
 			i++;
-		while (str[i] == ';' && str[i - 1] != '\\')
+		while (str[i] == ';')
 			i++;
-		if (str[i] && (str[i] != ';' ||
-					(str[i] == ';' && str[i - 1] == '\\')))
+		if (str[i] && str[i] != ';')
 			j++;
-		while (str[i] && (str[i] != ';' ||
-					(str[i] == ';' && str[i - 1] == '\\')))
+		while (str[i] && str[i] != ';')
 			i++;
 	}
 	return (j + 1);
@@ -69,23 +67,24 @@ static char		**ft_split(char const *s, char **stab)
 	while (s[i])
 	{
 		j = 0;
-		if (s[i] != ';' || (i > 0 && s[i] == ';' && s[i - 1] == '\\'))
+		if (s[i] != ';')
 		{
-			while (s[i + j] && (s[i + j] != ';' || (s[i + j] == ';'
-							&& s[i + j - 1] == '\\')))
+			while (s[i] && s[i] == ' ')
+				i++;
+			while (s[i + j] && s[i + j] != ';')
 				j++;
 			stab[k++] = ft_strsub(s, i, j);
 			i += j;
 		}
 		else
-			while (s[i] && i > 0 && s[i] == ';' && s[i - 1] != '\\')
+			while (s[i] && s[i] == ';')
 				i++;
 		stab[k] = NULL;
 	}
 	return (stab);
 }
 
-char			**splitsemicolon(char *s)
+static char		**splitsemicolon(char *s)
 {
 	char	**stab;
 	size_t	j;
@@ -95,7 +94,7 @@ char			**splitsemicolon(char *s)
 		j++;
 	if (!s)
 		return (NULL);
-	if (!(stab = (char **)ft_memalloc(sizeof(char **) * ft_wds((char *)s))))
+	if (!(stab = (char **)ft_memalloc(sizeof(char *) * ft_wds(s) + 1)))
 		return (NULL);
 	stab = ft_split((s + j), stab);
 	return (stab);
@@ -104,15 +103,16 @@ char			**splitsemicolon(char *s)
 char			**parse_dollar(char *s)
 {
 	char	**stab;
-	char	**tmp;
 	size_t	i;
 	size_t	j;
 
-	stab = splitsemicolon(s);
-	i = 0;
+	handbackslash(&s);
+	if ((stab = splitsemicolon(s)) == NULL)
+		return (NULL);
+/*	i = 0;
 	while (stab[i])
 	{
-		while ((j = ft_strlen_chr(stab[i], '$')))
+		while ((j = ft_strlen_chr(stab[i], '$')) < ft_strlen(stab[i]) - 1)
 		{
 			if (stab[i][j + 1] != '$')
 				while (stab[i][j] && stab[i][j] != '$')
@@ -120,5 +120,5 @@ char			**parse_dollar(char *s)
 		}
 		i++;
 	}
-	return (stab);
+*/	return (stab);
 }

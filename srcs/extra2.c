@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 13:44:01 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/12 10:30:37 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 17:48:08 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ char	*get_prompt(void)
 	int		i;
 	char	*pwd;
 
-	pwd = (char *)ft_memalloc(5000);
+	if ((pwd = (char *)ft_memalloc(5000)) == NULL)
+		return (NULL);
 	getcwd(pwd, 4999);
 	if (pwd)
 	{
@@ -32,32 +33,34 @@ char	*get_prompt(void)
 	if (i++ >= 0)
 		while (i--)
 			ssupprchr(&pwd, 0);
+	saddchr(&pwd, '$', 0);
+	saddchr(&pwd, '>', ft_strlen(pwd));
+	saddchr(&pwd, ' ', ft_strlen(pwd));
 	return (pwd);
 }
 
-void	display_prompt(void)
+void	display_prompt(char *prompt)
 {
 	char	*pwd;
 
-	pwd = get_prompt();
+	if ((pwd = get_prompt()) == NULL)
+			return ;
 	ft_putstr_fd(PROMPT_COL, 0);
-	ft_putstr_fd("$", 0);
 	ft_putstr_fd(pwd, 0);
-	ft_putstr_fd("> ", 0);
 	ft_putstr_fd(DEFAULT_COL, 0);
 	free(pwd);
 }
 
-void	free_tab(char **tab)
+void	free_tab(char **tabl)
 {
 	int i;
 
-	if (!tab)
+	if (!tabl)
 		return ;
 	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
+	while (tabl[i])
+		free(tabl[i++]);
+	free(tabl);
 }
 
 int		test_paths(char **path)

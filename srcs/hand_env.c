@@ -6,11 +6,26 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:31:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/27 13:05:24 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 17:52:46 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	add_toenv(char **env, t_env **envtmp, int i, t_env **envtmp2)
+{
+	int	j;
+
+	j = ft_strlen_chr(env[i], '=');
+	if (!((*envtmp)->elem = ft_strndup(env[i], j)))
+		return (0);
+	if (!((*envtmp)->cont = ft_strdup((env[i] + j + 1))))
+		return (0);
+	if (((*envtmp)->next = (t_env *)ft_memalloc(sizeof(t_env))) == NULL)
+		return (0);
+	(*envtmp2) = (*envtmp);
+	return (1);
+}
 
 t_env		*char_to_lst(char **env)
 {
@@ -21,15 +36,14 @@ t_env		*char_to_lst(char **env)
 
 	if (!env || !*env)
 		return (default_env());
-	envlst = (t_env *)ft_memalloc(sizeof(t_env));
+	if ((envlst = (t_env *)ft_memalloc(sizeof(t_env))) == NULL)
+		return (NULL);
 	envtmp = envlst;
 	i = 0;
 	while (env[i])
 	{
-		envtmp->elem = ft_strndup(env[i], ft_strlen_chr(env[i], '='));
-		envtmp->cont = ft_strdup((env[i] + ft_strlen_chr(env[i], '=') + 1));
-		envtmp->next = (t_env *)ft_memalloc(sizeof(t_env));
-		envtmp2 = envtmp;
+		if (!add_toenv(env, &envtmp, i, &envtmp2))
+			return (NULL);
 		envtmp = envtmp->next;
 		i++;
 	}

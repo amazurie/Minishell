@@ -6,82 +6,91 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/12 12:32:38 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 16:18:20 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	leftright_key(char *tmp, int **i, char **line)
+static int	line_updown(t_data **d, char *tmp, int **i)
 {
-	if (tmp[2] == 67 || tmp[2] == 68 || tmp[2] == 126
-			|| tmp[0] == 6 || tmp[0] == 2)
+	struct winsize	w;
+	int				j;
+
+	if (tmp[0] != 27 || tmp[1] != 27 || tmp[2] != 91
+			|| (tmp[3] != 65 && tmp[3] != 66))
+		return (0);
+	ioctl(0, TIOCGWINSZ, &w);
+	j = 0;
+	if (tmp[3] == 65)
 	{
-		if ((*i)[4] > 0 && (tmp[2] == 68 || tmp[0] == 2))
+		while (j < w.ws_col && (*i)[4] > (*i)[6])
 		{
-			ft_putchar_fd('\b', 0);
+			curs_left(d, i);
+			j++;
 			(*i)[4]--;
 		}
-		else if ((*i)[4] < (*i)[2] && (tmp[2] == 67
-					|| tmp[0] == 6))
-			ft_putchar_fd((*line)[(*i)[4]++], 0);
 		return (1);
 	}
-	return (0);
-}
-
-int	updown_key(t_data **d, char *tmp, int **i)
-{
-	if (tmp[2] == 65 || tmp[2] == 53 || tmp[0] == 16)
+	while (j < w.ws_col && (*i)[4] < (*i)[2])
 	{
-		if (((*i)[1] = disp_hist_next(d, i)) != -1)
-		{
-			(*i)[2] = (*i)[1];
-			(*i)[4] = (*i)[1];
-		}
-		else
-			return (0);
-	}
-	else
-	{
-		if (((*i)[1] = disp_hist_prec(d, i)) != -1)
-		{
-			(*i)[2] = (*i)[1];
-			(*i)[4] = (*i)[1];
-		}
-		else
-			return (-1);
+		curs_right(d, i);
+		j++;
+		(*i)[4]++;
 	}
 	return (1);
 }
 
-int	updown_gest(char *tmp, t_data **d, int **i)
+static void	word_moveleft(t_data **d, int **i)
 {
-	int j;
-
-	if ((*i)[5] == 1)
-		ft_strcpy(((*d)->buffline), (*d)->line);
-	erase_printline(d, i);
-	if ((j = updown_key(d, tmp, i)) <= 0)
+	if ((*d)->line[(*i)[4]] && (*d)->line[(*i)[4]] != 32)
 	{
-		if (j == -1)
-		{
-			ft_memset((*d)->line, 0, (*i)[2]);
-			ft_strcpy((*d)->line, (*d)->buffline);
-			ft_putstr_fd((*d)->line, 0);
-			(*i)[2] = ft_strlen((*d)->line);
-			(*i)[4] = (*i)[2];
-			ft_bzero((*d)->buffline, ft_strlen((*d)->buffline));
-			(*i)[5] = 1;
-		}
+		curs_left(d, i);
+		(*i)[4]--;
 	}
-	return (0);
+	while (((*d)->line[(*i)[4]] && (*d)->line[(*i)[4]] == 32)
+			|| (*i)[4] == (*i)[2])
+	{
+		curs_left(d, i);
+		(*i)[4]--;
+	}
+	while ((*d)->line[(*i)[4]] && (*d)->line[(*i)[4]] != 32)
+	{
+		curs_left(d, i);
+		(*i)[4]--;
+	}
+	curs_right(d, i);
+	(*i)[4]++;
 }
 
-int	gest_spekey(char *tmp, t_data **d, int **i)
+static int		word_move(t_data **d, char *tmp, int **i)
 {
-	if (del_key(tmp, i, d) || leftright_key(tmp, i, &((*d)->line))
-			|| del_line(&((*d)->line), tmp, i))
+	if (tmp[0] != 27 || tmp[1] != 27 || tmp[2] != 91
+			|| (tmp[3] != 67 && tmp[3] != 68))
+		return (0);
+	if (tmp[3] == 67)
+	{
+		while ((*d)->line[(*i)[4]] && (*d)->line[(*i)[4]] != 32)
+		{
+			curs_right(d, i);
+			(*i)[4]++;
+		}
+		while ((*d)->line[(*i)[4]] && (*d)->line[(*i)[4]] == 32)
+		{
+			curs_right(d, i);
+			(*i)[4]++;
+		}
+		return (1);
+	}
+	word_moveleft(d, i);
+	return (1);
+}
+
+int		gest_spekey(char *tmp, t_data **d, int **i)
+{
+	if (del_key(tmp, i, d) || leftright_key(d, tmp, i)
+			|| del_line(&((*d)->line), tmp, i) || word_move(d, tmp, i)
+			|| line_updown(d, tmp, i))
 		return (0);
 	if (tmp[2] != 65 && tmp[2] != 53 && tmp[2] != 66
 			&& tmp[2] != 54 && tmp[0] != 16 && tmp[0] != 14)

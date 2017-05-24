@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 16:28:50 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/12 12:42:54 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 16:39:51 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,19 @@ int		disp_hist_next(t_data **d, int **i)
 		return (-1);
 	while (h->next && ((h->num >= (*i)[3] && (*i)[3] != -1)
 			|| (((*i)[3] == -1 || h->num < (*i)[3])
-			&& ft_strncmp(h->hist, (*d)->buffline, ft_strlen((*d)->buffline)))))
+			&& ft_strncmp(h->hist, (*d)->buffline,
+				ft_strlen((*d)->buffline)))))
 		h = h->next;
-	if (!ft_strncmp(h->hist, (*d)->buffline, ft_strlen((*d)->buffline)))
+	if (!ft_strncmp(h->hist, (*d)->buffline,
+				ft_strlen((*d)->buffline)))
 	{
-		ft_bzero((*d)->line, ft_strlen((*d)->line));
+		erase_printline(d, i);
+		ft_bzero(((*d)->line + (*i)[6]), (*i)[2] - (*i)[6]);
 		ft_putstr_fd(h->hist, 0);
-		ft_strcpy((*d)->line, h->hist);
+		ft_strcpy(((*d)->line + (*i)[6]), h->hist);
 		(*i)[3] = h->num;
-		return (ft_strlen(h->hist));
+		return (ft_strlen((*d)->line));
 	}
-	ft_putstr_fd((*d)->line, 0);
 	return (-1);
 }
 
@@ -54,11 +56,12 @@ int		disp_hist_prec(t_data **d, int **i)
 	}
 	if (tmp)
 	{
-		ft_bzero((*d)->line, ft_strlen((*d)->line));
+		erase_printline(d, i);
+		ft_bzero(((*d)->line + (*i)[6]), (*i)[2] - (*i)[6]);
 		ft_putstr_fd(tmp->hist, 0);
-		ft_strcpy((*d)->line, tmp->hist);
+		ft_strcpy(((*d)->line + (*i)[6]), tmp->hist);
 		(*i)[3] = tmp->num;
-		return (ft_strlen(tmp->hist));
+		return (ft_strlen((*d)->line));
 	}
 	(*i)[3] = -1;
 	return (-1);

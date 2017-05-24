@@ -6,9 +6,9 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 11:57:35 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/03 16:36:03 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 17:49:32 by amazurie         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/* ****************************************************************************/
 
 #include "minishell.h"
 
@@ -32,68 +32,76 @@ void			saddchr(char **s, char c, int pos)
 	(*s)[pos] = c;
 }
 
-static size_t	ft_wds(char *str)
+void	erase_printline(t_data **d, int **i)
 {
-	size_t	i;
-	size_t	j;
+	int		j;
+	int		k;
 
-	i = 0;
-	j = 0;
-	while (str[i])
+	(*i)[1] = 0;
+	j = ft_strlen((*d)->prompt) + (*i)[4] - (*i)[6];
+	k = (*i)[4];
+	while ((*i)[1]++ < j)
 	{
-		if (str[i] == ';')
-			i++;
-		while (str[i] == ';' && str[i - 1] != '\\')
-			i++;
-		if (str[i] && (str[i] != ';' ||
-					(str[i] == ';' && str[i - 1] == '\\')))
-			j++;
-		while (str[i] && (str[i] != ';' ||
-					(str[i] == ';' && str[i - 1] == '\\')))
-			i++;
+		curs_left(d, i);
+		(*i)[4]--;
 	}
-	return (j + 1);
+	(*i)[4] = k;
+	(*i)[1] = 0;
+	ft_putstr_fd(tgetstr("cd", NULL), 0);
+	if ((*i)[6] == 0)
+		display_prompt((*d)->prompt);
+	else
+		ft_putstr_fd((*d)->prompt, 0);
 }
 
-static char		**ft_split(char const *s, char **stab)
+void	maxline(t_data **d, char *tmp, int **i)
 {
-	unsigned int	i;
-	unsigned int	j;
-	unsigned int	k;
-
-	i = 0;
-	k = 0;
-	while (s[i])
-	{
-		j = 0;
-		if (s[i] != ';' || (i > 0 && s[i] == ';' && s[i - 1] == '\\'))
-		{
-			while (s[i + j] && (s[i + j] != ';' || (s[i + j] == ';'
-						&& s[i + j - 1] == '\\')))
-				j++;
-			stab[k++] = ft_strsub(s, i, j);
-			i += j;
-		}
-		else
-			while (s[i] && i > 0 && s[i] == ';' && s[i - 1] != '\\')
-				i++;
-		stab[k] = NULL;
-	}
-	return (stab);
+	if ((*i)[4] == (*i)[2])
+		((*d)->line)[(*i)[4] - 1] = tmp[0];
+	else
+		((*d)->line)[(*i)[4]] = tmp[0];
+	ft_putstr_fd(tgetstr("cr", NULL), 0);
+	ft_putstr_fd(tgetstr("cd", NULL), 0);
+	ft_putstr_fd((*d)->prompt, 0);
+	ft_putstr_fd(((*d)->line + (*i)[6]), 0);
+	ft_putstr_fd(ERR_COL, 2);
+	ft_putstr_fd("\nminishell: ", 2);
+	ft_putstr_fd(DEFAULT_COL, 2);
+	ft_putstr_fd("Buffer at max capacity.\n", 2);
+	display_prompt((*d)->prompt);
+	ft_putnstr_fd((*d)->line, 0, (*i)[6]);
+	if ((*i)[6] == 0)
+		return ;
+	ft_putchar_fd('\n', 0);
+	ft_putstr_fd((*d)->prompt, 0);
+	ft_putstr_fd(((*d)->line + (*i)[6]), 0);
 }
 
-char			**splitsemicolon(char *s)
+char	**lst_to_char(t_env *env)
 {
-	char	**stab;
-	size_t	j;
+	char	**lstenv;
+	t_env	*tmp;
+	char	*buff;
+	int		i;
 
-	j = 0;
-	while (s[j] == ';' || s[j] == ' ' || s[j] == '\t')
-		j++;
-	if (!s)
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	if ((lstenv = (char **)ft_memalloc(sizeof(char *) * (i + 1))) == NULL)
 		return (NULL);
-	if (!(stab = (char **)ft_memalloc(sizeof(char **) * ft_wds((char *)s))))
-		return (NULL);
-	stab = ft_split((s + j), stab);
-	return (stab);
+	tmp = env;
+	i = 0;
+	while (tmp)
+	{
+		buff = ft_strjoin(tmp->elem, "=");
+		lstenv[i] = ft_strjoin(buff, tmp->cont);
+		free(buff);
+		tmp = tmp->next;
+		i++;
+	}
+	return (lstenv);
 }

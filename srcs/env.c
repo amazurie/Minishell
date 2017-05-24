@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:07:35 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/27 13:05:02 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 17:28:40 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,21 @@ static void	built_env(char **lstav, t_env **envcpy, size_t *i)
 	}
 }
 
-static void	envexec(char **lstav, t_env **envcpy, t_hist *hist, size_t *i)
+static int	envexec(char **lstav, t_env **envcpy, t_hist *hist, size_t *i)
 {
 	char	**tmp;
 
-	tmp = (char **)ft_memalloc(sizeof(char *) * 3);
-	tmp[1] = ft_strdup(lstav[i[0]++]);
+	if ((tmp = (char **)ft_memalloc(sizeof(char *) * 3)) == NULL)
+		return (print_error("allocation error"));
+	if ((tmp[1] = ft_strdup(lstav[i[0]++])) == NULL)
+		return (print_error("allocation error"));
 	while (lstav[i[0]])
 	{
-		tmp[0] = ft_strjoin(tmp[1], " ");
+		if ((tmp[0] = ft_strjoin(tmp[1], " ")) == NULL)
+			return (print_error("allocation error"));
 		free(tmp[1]);
-		tmp[1] = ft_strjoin(tmp[0], lstav[i[0]++]);
+		if ((tmp[1] = ft_strjoin(tmp[0], lstav[i[0]++])) == NULL)
+			return (print_error("allocation error"));
 		free(tmp[0]);
 	}
 	exec(envcpy, tmp[1], hist);
@@ -55,13 +59,15 @@ static void	envexec(char **lstav, t_env **envcpy, t_hist *hist, size_t *i)
 	free(tmp);
 	i[2] = 0;
 	i[0]--;
+	return (1);
 }
 
-static void	envcom2(char **lstav, t_env **envcpy, t_hist *hist)
+static int	envcom2(char **lstav, t_env **envcpy, t_hist *hist)
 {
 	size_t	*i;
 
-	i = (size_t *)ft_memalloc(sizeof(size_t) * 5);
+	if ((i = (size_t *)ft_memalloc(sizeof(size_t) * 5)) == NULL)
+		return (0);
 	i[0] = 0;
 	i[2] = 1;
 	while (lstav[++i[0]])
@@ -80,6 +86,7 @@ static void	envcom2(char **lstav, t_env **envcpy, t_hist *hist)
 	if (i[2])
 		display_env(*envcpy, (i[2] == 2) ? 1 : 0);
 	free(i);
+	return (1);
 }
 
 void		envcom(char **lstav, t_env *env, t_hist *hist)
@@ -90,7 +97,11 @@ void		envcom(char **lstav, t_env *env, t_hist *hist)
 		display_env(env, 0);
 	else
 	{
-		envcpy = env_cpy(env);
+		if ((envcpy = env_cpy(env)) == NULL)
+		{
+			print_error("allocation error");
+			return ;
+		}
 		envcom2(lstav, &envcpy, hist);
 		chdir(get_elem(env, "PWD"));
 		del_env(&envcpy);

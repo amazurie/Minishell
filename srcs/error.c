@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/25 12:25:37 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 16:17:03 by amazurie         ###   ########.fr       */
+/*   Created: 2017/05/24 16:30:59 by amazurie          #+#    #+#             */
+/*   Updated: 2017/05/24 17:13:20 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	echo_doing(char **lstav)
+int		print_error(char *s)
 {
-	size_t	i;
-
-	i = 1;
-	if (lstav[1] && lstav[1][0] == '-' && lstav[1][1] == 'n')
-		i++;
-	while (lstav[i])
-	{
-		ft_putstr(lstav[i]);
-		if (lstav[++i])
-			ft_putchar(' ');
-	}
-	if (!lstav[1] || lstav[1][0] != '-' || lstav[1][1] != 'n')
-		ft_putchar('\n');
+	ft_putstr_fd(s, 2);
+	ft_putchar_fd('\n', 2);
+	return (0);
 }

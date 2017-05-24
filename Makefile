@@ -6,7 +6,7 @@
 #    By: jmoucade <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by jmoucade          #+#    #+#              #
-#    Updated: 2017/04/27 13:43:44 by amazurie         ###   ########.fr        #
+#    Updated: 2017/05/24 18:21:24 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = #-Wall -Wextra -Werror
 
 INC_PATH = includes
 SRC_PATH = srcs
@@ -29,20 +29,25 @@ SRC =	$(SRC_PATH)/main.c			\
 		$(SRC_PATH)/history.c		\
 		$(SRC_PATH)/extra.c			\
 		$(SRC_PATH)/extra2.c		\
-		$(SRC_PATH)/extra3.c		\
 		$(SRC_PATH)/cd.c			\
 		$(SRC_PATH)/cd2.c			\
 		$(SRC_PATH)/hand_key.c		\
 		$(SRC_PATH)/hand_key2.c		\
+		$(SRC_PATH)/hand_arrow.c	\
 		$(SRC_PATH)/hand_in.c		\
 		$(SRC_PATH)/env.c			\
 		$(SRC_PATH)/env2.c			\
-		$(SRC_PATH)/setenv.c			\
+		$(SRC_PATH)/setenv.c		\
 		$(SRC_PATH)/exec.c			\
 		$(SRC_PATH)/built_in.c		\
 		$(SRC_PATH)/echo.c			\
 		$(SRC_PATH)/default_env.c	\
-		$(SRC_PATH)/sig_handle.c
+		$(SRC_PATH)/sig_handle.c	\
+		$(SRC_PATH)/data.c			\
+		$(SRC_PATH)/quote.c			\
+		$(SRC_PATH)/split.c			\
+		$(SRC_PATH)/cursor.c		\
+		$(SRC_PATH)/error.c
 
 OSRC = $(SRC:.c=.o)
 
@@ -54,7 +59,7 @@ all: $(NAME)
 
 $(NAME): $(LIB) $(OSRC)
 	@echo "Compiling..."
-	@$(CC) $(CFLAGS) $(OSRC) -o $@ -L $(LIB_PATH) -lft
+	@$(CC) $(CFLAGS) $(OSRC) -o $@ -L $(LIB_PATH) -lft -lcurses
 	@echo "$(OK_COLOR)$@ compiled.$(NO_COLOR)"
 
 $(LIB):
@@ -62,7 +67,6 @@ $(LIB):
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -I $(LIB_INC_PATH) -I $(INC_PATH) -c -o $@ $?
-	@echo "Linking file $@"
 
 clean:
 	@make -C libft clean

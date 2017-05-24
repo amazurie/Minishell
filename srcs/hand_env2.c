@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:08:02 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/27 12:15:27 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 17:27:57 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,16 @@ t_env	*env_cpy(t_env *env)
 	t_env *tmp3;
 
 	tmp = env;
-	envcpy = (t_env *)ft_memalloc(sizeof(t_env));
+	if ((envcpy = (t_env *)ft_memalloc(sizeof(t_env))) == NULL)
+		return (NULL);
 	tmp2 = envcpy;
 	while (tmp)
 	{
 		tmp2->elem = ft_strdup(tmp->elem);
 		if (tmp->cont)
 			tmp2->cont = ft_strdup(tmp->cont);
-		tmp2->next = (t_env *)ft_memalloc(sizeof(t_env));
+		if ((tmp2->next = (t_env *)ft_memalloc(sizeof(t_env))) == NULL)
+			return (NULL);
 		tmp3 = tmp2;
 		tmp2 = tmp2->next;
 		tmp = tmp->next;

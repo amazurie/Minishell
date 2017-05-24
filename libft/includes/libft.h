@@ -105,5 +105,6 @@ char			*ft_itoa_base(size_t nbr, char *base);
 void			ft_strswap(char **s1, char **s2);
 char			*ft_strschr(char *s, char *s2);
 size_t			ft_strschr_len(char *s, char *s2);
+void			ft_putnstr_fd(const char *s, int fd, int n);
 
 #endif

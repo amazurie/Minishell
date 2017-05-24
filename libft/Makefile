@@ -6,7 +6,7 @@
 #    By: amazurie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by amazurie          #+#    #+#              #
-#    Updated: 2017/04/11 12:24:49 by amazurie         ###   ########.fr        #
+#    Updated: 2017/05/24 18:22:59 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_isspace.c \
 ft_isblank.c ft_isupper.c ft_islower.c ft_strndup.c ft_strtrimc.c ft_strnjoin.c \
 ft_strlen_chr.c ft_putnstr.c ft_putnchar.c ft_lennb.c ft_putnbrbase.c ft_putwstr.c \
 ft_lennbase.c ft_putwchar.c ft_wstrlen.c ft_putnwstr.c ft_wstrnlen.c ft_itoa_base.c \
-ft_strswap.c get_next_line.c ft_strschr.c ft_strschr_len.c
+ft_strswap.c get_next_line.c ft_strschr.c ft_strschr_len.c ft_putnstr_fd.c
 
 FLAGS = -Wall -Wextra -Werror
 
@@ -52,7 +52,6 @@ $(NAME): $(OSRC)
 
 %.o: %.c
 	@$(CC) -o $@ $(FLAGS) -I $(INC) -c $<
-	@echo "Linking file $@"
 
 clean:
 	@rm -f $(OSRC)

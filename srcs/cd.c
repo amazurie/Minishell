@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:13:41 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/27 11:59:21 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 16:25:15 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	change_pwd(char *path, t_env *env)
 {
 	char	*tmp;
-	char	*tmp2;
 
 	if (!ft_strncmp(path, "~/", 2))
 	{
@@ -25,21 +24,21 @@ static void	change_pwd(char *path, t_env *env)
 	}
 	if (check_path(path) == -1)
 		return ;
-	tmp2 = ft_strjoin("OLDPWD=", get_elem(env, "PWD"));
-	set_env(&env, tmp2);
-	free(tmp2);
 	if (path[0] != '/')
 	{
-		tmp = (char *)ft_memalloc(5001);
+		if ((tmp = (char *)ft_memalloc(5001)) == NULL)
+		{
+			ft_putstr_fd("allocation error", 2);
+			return ;
+		}
 		getcwd(tmp, 5000);
 	}
 	else
 		tmp = ft_strdup(path);
-	tmp2 = ft_strjoin("PWD=", tmp);
-	set_env(&env, tmp2);
-	free(tmp2);
-	free(tmp);
+	if (change_envpwd(tmp, env) == 0)
+		ft_putstr_fd("allocation error", 2);
 }
+
 
 static void	check_pwd2(char *path, t_env *env, char *rep, char *tmp)
 {

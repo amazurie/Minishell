@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/27 12:20:44 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/27 13:03:07 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 18:20:04 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static void	set_on_new(t_env **env, char *av)
 
 	elem = ft_strndup(av, ft_strlen_chr(av, '='));
 	cont = ft_strdup((av + ft_strlen_chr(av, '=') + 1));
-	*env = (t_env *)ft_memalloc(sizeof(t_env));
+	if ((*env = (t_env *)ft_memalloc(sizeof(t_env))) == NULL)
+		return ;
 	(*env)->elem = ft_strdup(elem);
 	(*env)->cont = (!cont) ? NULL : ft_strdup(cont);
 	(*env)->next = NULL;
@@ -30,7 +31,8 @@ static void	set_on_new(t_env **env, char *av)
 
 static void	add_elem(t_env **tmpenv, char *elem, char *cont)
 {
-	(*tmpenv)->next = (t_env *)ft_memalloc(sizeof(t_env));
+	if (!((*tmpenv)->next = (t_env *)ft_memalloc(sizeof(t_env))))
+		return ;
 	(*tmpenv) = (*tmpenv)->next;
 	(*tmpenv)->elem = ft_strdup(elem);
 	(*tmpenv)->cont = (!cont) ? NULL : ft_strdup(cont);

@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/25 12:25:37 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 16:17:03 by amazurie         ###   ########.fr       */
+/*   Created: 2016/11/04 14:38:04 by amazurie          #+#    #+#             */
+/*   Updated: 2016/11/10 13:22:10 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	echo_doing(char **lstav)
+void	ft_putstr_fd(char const *s, int fd)
 {
-	size_t	i;
+	int i;
 
-	i = 1;
-	if (lstav[1] && lstav[1][0] == '-' && lstav[1][1] == 'n')
-		i++;
-	while (lstav[i])
+	i = -1;
+	if (s)
 	{
-		ft_putstr(lstav[i]);
-		if (lstav[++i])
-			ft_putchar(' ');
+		while (s[++i])
+			ft_putchar_fd(s[i], fd);
 	}
-	if (!lstav[1] || lstav[1][0] != '-' || lstav[1][1] != 'n')
-		ft_putchar('\n');
 }

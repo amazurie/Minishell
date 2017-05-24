@@ -6,13 +6,11 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/04/25 16:23:49 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 17:42:12 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <curses.h>
-#include <term.h>
 
 static void	fork_exec2(char **lstav, t_env **env, char **tmpenv)
 {
@@ -72,7 +70,7 @@ static void	exec2(char **lstav, char **paths, char **fullpaths, t_env **env)
 	else
 		fullpaths = NULL;
 	i = 0;
-	while (paths && paths[i])
+	while (paths && paths[i] && fullpaths)
 	{
 		tmp = ft_strjoin(paths[i], "/");
 		fullpaths[i++] = ft_strjoin(tmp, lstav[0]);
@@ -93,8 +91,8 @@ int			exec(t_env **env, char *line, t_hist *hist)
 	int		i;
 
 	fullpaths = NULL;
-	handbackslash(&line);
-	lstav = ft_strsplit(line, ' ');
+	if ((lstav = ft_strsplit(line, ' ')) == NULL)
+		return (0);
 	line = get_elem(*env, "PATH");
 	paths = ft_strsplit(line, ':');
 	if ((i = built_in(env, lstav, hist)))

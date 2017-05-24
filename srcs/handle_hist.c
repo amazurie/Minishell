@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:43:08 by amazurie          #+#    #+#             */
-/*   Updated: 2017/03/15 15:00:27 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/05/24 17:18:11 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ void		add_hist(t_hist **lst, char *hist)
 	h = *lst;
 	if (h == NULL)
 	{
-		h = (t_hist *)ft_memalloc(sizeof(t_hist));
-		h->num = 1;
-		h->hist = ft_strdup(hist);
-		h->next = NULL;
-		*lst = h;
+		if ((*lst = (t_hist *)ft_memalloc(sizeof(t_hist))) == NULL)
+			return ;
+		(*lst)->num = 1;
+		(*lst)->hist = ft_strdup(hist);
+		(*lst)->next = NULL;
 		return ;
 	}
 	i = 0;
@@ -49,7 +49,8 @@ void		add_hist(t_hist **lst, char *hist)
 		h = h->next;
 	if (i - 1 > MAX_HISTORY)
 		del_lasts(lst);
-	tmp = (t_hist *)ft_memalloc(sizeof(t_hist));
+	if ((tmp = (t_hist *)ft_memalloc(sizeof(t_hist))) == NULL)
+		return ;
 	tmp->num = (*lst)->num + 1;
 	tmp->hist = ft_strdup(hist);
 	tmp->next = *lst;
