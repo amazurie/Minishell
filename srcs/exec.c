@@ -12,14 +12,38 @@
 
 #include "minishell.h"
 
+int		test_perm(char *path)
+{
+	struct stat	atr;
+
+	if (access(path, F_OK) != -1 && (lstat(path, &atr) != 0
+				|| !(atr.st_mode & S_IXUSR)))
+	{
+			ft_putstr_fd("\e[31mminishell:\e[0m permission denied: ", 2);
+			exit(0);
+			return (0);
+	}
+	return (1);
+}
+
 static void	fork_exec2(char **lstav, t_env **env, char **tmpenv)
 {
+	struct stat	atr;
 	char	*tmp;
+	int		i;
 
+	i = 0;
 	tmp = test_absolute(lstav[0]);
 	if (execve(tmp, lstav, tmpenv) == -1)
+	{
 		if (!*env)
 			ft_putstr_fd("\e[31mNo environnement defined.\e[0m\n", 2);
+		else if (test_perm(tmp) == 0)
+		{
+			free(tmp);
+			return ;
+		}
+	}
 	free(tmp);
 	if (*env)
 	{
@@ -32,10 +56,10 @@ static void	fork_exec2(char **lstav, t_env **env, char **tmpenv)
 
 static void	fork_exec(char **lstav, char **fullpaths, t_env **env)
 {
-	pid_t	pid;
-	char	**tmpenv;
-	size_t	i;
-	size_t	j;
+	pid_t		pid;
+	char		**tmpenv;
+	int			i;
+	int			j;
 
 	while ((pid = fork()) == -1)
 		sleep(2);
@@ -46,9 +70,16 @@ static void	fork_exec(char **lstav, char **fullpaths, t_env **env)
 		wait(0);
 	else if (fullpaths != NULL)
 	{
-		while (fullpaths[i])
-			if (execve(fullpaths[i++], lstav, tmpenv) != -1)
+		while (fullpaths[i++])
+		{
+			if (execve(fullpaths[i - 1], lstav, tmpenv) != -1)
 				j++;
+			else if (test_perm(fullpaths[i]) == 0)
+			{
+				free_tab(tmpenv);
+				return ;
+			}
+		}
 	}
 	else
 		i = j + 1;
@@ -60,7 +91,7 @@ static void	fork_exec(char **lstav, char **fullpaths, t_env **env)
 static void	exec2(char **lstav, char **paths, char **fullpaths, t_env **env)
 {
 	char	*tmp;
-	size_t	i;
+	int		i;
 
 	i = 0;
 	while (paths && paths[i])

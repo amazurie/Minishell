@@ -17,9 +17,9 @@ char	*get_prompt(void)
 	int		i;
 	char	*pwd;
 
-	if ((pwd = (char *)ft_memalloc(5000)) == NULL)
+	if ((pwd = (char *)ft_memalloc(3000)) == NULL)
 		return (NULL);
-	getcwd(pwd, 4999);
+	getcwd(pwd, 2994);
 	if (pwd)
 	{
 		i = ft_strlen(pwd);
@@ -34,6 +34,8 @@ char	*get_prompt(void)
 		while (i--)
 			ssupprchr(&pwd, 0);
 	saddchr(&pwd, '$', 0);
+	if (access("./.git", F_OK) != -1)
+		ft_strcat(pwd, ": \e[0;94mgit");
 	saddchr(&pwd, '>', ft_strlen(pwd));
 	saddchr(&pwd, ' ', ft_strlen(pwd));
 	return (pwd);

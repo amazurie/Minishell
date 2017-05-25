@@ -45,7 +45,7 @@ static int	hand_arg(char *line, t_hist **hist, t_env **env)
 		return (print_error("parsing error") + 1);
 	i = 0;
 	while (lstline[i++])
-		if (lstline[i - 1] != NULL &&
+		if (lstline[i - 1] != NULL && lstline[i - 1][0] &&
 				exec(env, lstline[i - 1], *hist) == -1)
 			j = 0;
 	i = 0;
