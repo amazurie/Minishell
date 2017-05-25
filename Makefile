@@ -12,6 +12,8 @@
 
 NAME = minishell
 
+AUTOSTART = starting/autostart.sh
+
 CC = gcc
 
 CFLAGS = #-Wall -Wextra -Werror
@@ -61,12 +63,17 @@ $(NAME): $(LIB) $(OSRC)
 	@echo "Compiling..."
 	@$(CC) $(CFLAGS) $(OSRC) -o $@ -L $(LIB_PATH) -lft -lcurses
 	@echo "$(OK_COLOR)$@ compiled.$(NO_COLOR)"
+	@echo "running auto-starting"
+	@make run
 
 $(LIB):
 	@make -C $(LIB_PATH)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -I $(LIB_INC_PATH) -I $(INC_PATH) -c -o $@ $?
+
+run: $(AUTOSTART)
+	@sh $(AUTOSTART)
 
 clean:
 	@make -C libft clean
