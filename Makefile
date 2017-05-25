@@ -57,14 +57,13 @@ NO_COLOR=\x1b[0m
 OK_COLOR=\x1b[32;01m
 DEL_COLOR=\x1b[33m
 
-all: $(NAME)
+all: $(NAME) run
 
 $(NAME): $(LIB) $(OSRC)
 	@echo "Compiling..."
 	@$(CC) $(CFLAGS) $(OSRC) -o $@ -L $(LIB_PATH) -lft -lcurses
 	@echo "$(OK_COLOR)$@ compiled.$(NO_COLOR)"
 	@echo "running auto-starting"
-	@make run
 
 $(LIB):
 	@make -C $(LIB_PATH)
