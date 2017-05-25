@@ -27,6 +27,7 @@
 # define LIGHTRED_COL	"\e[1;31m"
 # define DEFAULT_COL	"\e[0m"
 # define PROMPT_COL		"\e[1;36m"
+# define PROMPTGIT_COL	"\e[0;94m"
 # define MAX_HISTORY	5000
 # define LIMIT_LINE		2048
 
@@ -74,7 +75,7 @@ void				saddchr(char **s, char c, int pos);
 char				**parse_dollar(char *s);
 void				get_ch(char **tmp);
 int					gest_spekey(char *tmp, t_data **d, int **i);
-void				display_prompt(char *prompt);
+void				display_prompt();
 int					del_line(char **line, char *tmp, int **i);
 void				del_hist(t_hist *hist);
 void				del_env(t_env **e);
