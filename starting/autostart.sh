@@ -28,7 +28,3 @@ if inquire "would you like to clean temporary file ?"; then
 	make clean
 fi
 echo "minishell is ready to launch"
-if inquire "would you like to launch minishell ?"; then
-	./minishell
-fi
-
