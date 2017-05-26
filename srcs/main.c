@@ -70,7 +70,7 @@ static int	shell(t_data **d)
 			return (print_error("allocation error"));
 		if (!is_siginted(0))
 			display_prompt((*d)->prompt);
-		if ((tmp = (char *)ft_memalloc(6)) == NULL)
+		if ((tmp = (char *)ft_memalloc(LIMIT_LINE)) == NULL)
 			return (print_error("allocation error"));
 		if ((i[1] = in(d, tmp)) == -1)
 			i[0] = 0;

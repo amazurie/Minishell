@@ -29,7 +29,7 @@
 # define PROMPT_COL		"\e[1;36m"
 # define PROMPTGIT_COL	"\e[0;94m"
 # define MAX_HISTORY	5000
-# define LIMIT_LINE		2048
+# define LIMIT_LINE		4096
 
 typedef struct		s_hist
 {

@@ -86,7 +86,7 @@ void		inni(t_data **d, char *tmp, int **i)
 {
 	(*d)->i = *i;
 	get_data(*d);
-	read(0, tmp, 4000);
+	read(0, tmp, LIMIT_LINE);
 	if (is_siginted(0) == 1)
 	{
 		ft_memset((*d)->line, 0, (*i)[2]);
