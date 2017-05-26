@@ -14,20 +14,26 @@
 
 static void	chr_in(t_data **d, char *tmp, int **i)
 {
-	ft_putstr_fd(tgetstr("sc", NULL), 0);
-	erase_printline(d, i);
-	if ((*i)[2] > 2040)
+	int	j;
+
+	j = -1;
+	while (tmp[++j])
 	{
-		maxline(d, tmp, i);
-		return ;
+		ft_putstr_fd(tgetstr("sc", NULL), 0);
+		erase_printline(d, i);
+		if ((*i)[2] > 2040)
+		{
+			maxline(d, tmp, i);
+			return ;
+		}
+		saddchr(&((*d)->line), tmp[j], (*i)[4]);
+		ft_putstr_fd(((*d)->line + (*i)[6]), 0);
+		ft_putstr_fd(tgetstr("rc", NULL), 0);
+		curs_right(d, i);
+		(*i)[2]++;
+		(*i)[4]++;
+		(*i)[5] = 1;
 	}
-	saddchr(&((*d)->line), tmp[0], (*i)[4]);
-	ft_putstr_fd(((*d)->line + (*i)[6]), 0);
-	ft_putstr_fd(tgetstr("rc", NULL), 0);
-	curs_right(d, i);
-	(*i)[2]++;
-	(*i)[4]++;
-	(*i)[5] = 1;
 }
 
 void		del_in(t_data **d, int **i)
@@ -47,9 +53,9 @@ void		del_in(t_data **d, int **i)
 
 static int	gest_in(t_data **d, char *tmp, int **i)
 {
-	if (tmp[0] == 4 && !*(*d)->line)
+	if (tmp[0] == 4 && !tmp[1] && !*(*d)->line)
 		return (-1);
-	else if (tmp[0] == 12)
+	else if (tmp[0] == 12 && !tmp[1])
 	{
 		ft_putstr_fd(tgetstr("cl", NULL), 0);
 		if ((*i)[6] == 0)
@@ -58,15 +64,15 @@ static int	gest_in(t_data **d, char *tmp, int **i)
 			ft_putstr_fd((*d)->prompt , 0);
 		ft_putstr_fd(((*d)->line + (*i)[6]), 0);
 	}
-	else if (tmp[0] == 10)
+	else if (tmp[0] == 10 && !tmp[1])
 		quote(d, i);
-	else if (tmp[0] == 127 || tmp[0] == 8)
+	else if ((tmp[0] == 127 || tmp[0] == 8) && !tmp[1])
 	{
 		del_in(d, i);
 		if (!(*d)->line[0])
 			(*i)[5] = 0;
 	}
-	else if (ft_isprint(tmp[0]))
+	else if (ft_strisprint(tmp))
 	{
 		chr_in(d, &tmp[0], i);
 		(*i)[5] = 1;
@@ -80,7 +86,7 @@ void		inni(t_data **d, char *tmp, int **i)
 {
 	(*d)->i = *i;
 	get_data(*d);
-	read(0, tmp, 6);
+	read(0, tmp, 4000);
 	if (is_siginted(0) == 1)
 	{
 		ft_memset((*d)->line, 0, (*i)[2]);
@@ -92,7 +98,7 @@ void		inni(t_data **d, char *tmp, int **i)
 		free((*d)->prompt);
 		(*d)->prompt = get_prompt();
 	}
-	if (gest_in(d, tmp, i) == -1)
+	if (completion(d, tmp, i) == 0 && gest_in(d, tmp, i) == -1)
 		(*i)[0] = -1;
 	ft_bzero(tmp, 6);
 }

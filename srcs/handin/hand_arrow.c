@@ -14,8 +14,9 @@
 
 int		leftright_key(t_data **d, char *tmp, int **i)
 {
-	if (tmp[2] == 67 || tmp[2] == 68 || tmp[2] == 126
-			|| tmp[0] == 6 || tmp[0] == 2)
+	if ((tmp[0] == 27 && tmp[1] == 91 && (tmp[2] == 67 || tmp[2] == 68)
+			&& !tmp[3]) || (tmp[0] == 6 && !tmp[1])
+			|| (tmp[0] == 2 && !tmp[1]))
 	{
 		if ((*i)[4] > (*i)[6] && (tmp[2] == 68 || tmp[0] == 2))
 		{

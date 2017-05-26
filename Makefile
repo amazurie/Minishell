@@ -20,38 +20,43 @@ CFLAGS = #-Wall -Wextra -Werror
 
 INC_PATH = includes
 SRC_PATH = srcs
+SRC_HANDIN_PATH = $(SRC_PATH)/handin
+SRC_COMPL_PATH = $(SRC_PATH)/completion
 LIB_PATH = libft
 LIB_INC_PATH = $(LIB_PATH)/includes
 LIB = libft/libft.a
 
 SRC =	$(SRC_PATH)/main.c			\
+		$(SRC_PATH)/built_in.c		\
 		$(SRC_PATH)/hand_env.c		\
 		$(SRC_PATH)/hand_env2.c		\
-		$(SRC_PATH)/handle_hist.c	\
-		$(SRC_PATH)/history.c		\
 		$(SRC_PATH)/extra.c			\
 		$(SRC_PATH)/extra2.c		\
 		$(SRC_PATH)/cd.c			\
 		$(SRC_PATH)/cd2.c			\
-		$(SRC_PATH)/hand_key.c		\
-		$(SRC_PATH)/hand_key2.c		\
-		$(SRC_PATH)/hand_arrow.c	\
-		$(SRC_PATH)/hand_in.c		\
 		$(SRC_PATH)/env.c			\
 		$(SRC_PATH)/env2.c			\
 		$(SRC_PATH)/setenv.c		\
 		$(SRC_PATH)/exec.c			\
-		$(SRC_PATH)/built_in.c		\
 		$(SRC_PATH)/echo.c			\
 		$(SRC_PATH)/default_env.c	\
 		$(SRC_PATH)/sig_handle.c	\
 		$(SRC_PATH)/data.c			\
-		$(SRC_PATH)/quote.c			\
 		$(SRC_PATH)/split.c			\
-		$(SRC_PATH)/cursor.c		\
 		$(SRC_PATH)/error.c
 
-OSRC = $(SRC:.c=.o)
+SRC_HANDIN =	$(SRC_HANDIN_PATH)/hand_in.c		\
+				$(SRC_HANDIN_PATH)/hand_key.c		\
+				$(SRC_HANDIN_PATH)/hand_key2.c		\
+				$(SRC_HANDIN_PATH)/handle_hist.c	\
+				$(SRC_HANDIN_PATH)/history.c		\
+				$(SRC_HANDIN_PATH)/hand_arrow.c		\
+				$(SRC_HANDIN_PATH)/quote.c			\
+				$(SRC_HANDIN_PATH)/cursor.c
+
+SRC_COMPLETE =	$(SRC_COMPL_PATH)/completion.c
+
+OSRC = $(SRC:.c=.o) $(SRC_HANDIN:.c=.o) $(SRC_COMPLETE:.c=.o)
 
 NO_COLOR=\x1b[0m
 OK_COLOR=\x1b[32;01m

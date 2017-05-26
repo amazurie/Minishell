@@ -18,7 +18,7 @@ static int	line_updown(t_data **d, char *tmp, int **i)
 	int				j;
 
 	if (tmp[0] != 27 || tmp[1] != 27 || tmp[2] != 91
-			|| (tmp[3] != 65 && tmp[3] != 66))
+			|| (tmp[3] != 65 && tmp[3] != 66) || tmp[4])
 		return (0);
 	ioctl(0, TIOCGWINSZ, &w);
 	j = 0;
@@ -66,7 +66,7 @@ static void	word_moveleft(t_data **d, int **i)
 static int		word_move(t_data **d, char *tmp, int **i)
 {
 	if (tmp[0] != 27 || tmp[1] != 27 || tmp[2] != 91
-			|| (tmp[3] != 67 && tmp[3] != 68))
+			|| (tmp[3] != 67 && tmp[3] != 68) || tmp[4])
 		return (0);
 	if (tmp[3] == 67)
 	{
@@ -91,10 +91,13 @@ int		gest_spekey(char *tmp, t_data **d, int **i)
 	if (del_key(tmp, i, d) || leftright_key(d, tmp, i)
 			|| del_line(&((*d)->line), tmp, i) || word_move(d, tmp, i)
 			|| line_updown(d, tmp, i))
-		return (0);
-	if (tmp[2] != 65 && tmp[2] != 53 && tmp[2] != 66
-			&& tmp[2] != 54 && tmp[0] != 16 && tmp[0] != 14)
-		return (0);
-	updown_gest(tmp, d, i);
+		return (1);
+	if ((tmp[0] == 27 && tmp[1] == 91 && (tmp[2] == 65 || tmp[2] == 66))
+			|| ((tmp[2] == 53 || tmp[2] == 54) && tmp[3] == 126)
+			|| ((tmp[0] == 16 || tmp[0] == 14) && !tmp[1]))
+	{
+		updown_gest(tmp, d, i);
+		return (1);
+	}
 	return (0);
 }

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	check_open(t_data **d)
+int		check_openquote(t_data **d)
 {
 	int	j;
 	int	k;
@@ -44,7 +44,7 @@ void		quote(t_data **d, int **i)
 {
 	int	j;
 
-	j = check_open(d);
+	j = check_openquote(d);
 	if (j == 1 || j == 2)
 	{
 		free((*d)->prompt);

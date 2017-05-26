@@ -105,5 +105,8 @@ void				curs_left(t_data **d, int **i);
 int					change_envpwd(char *tmp, t_env *env);
 int					print_error(char *s);
 t_data				*data_alloc(char **env);
+int					check_openquote(t_data **d);
+
+int					completion(t_data **d, char *tmp, int **i);
 
 #endif

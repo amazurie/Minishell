@@ -106,5 +106,7 @@ void			ft_strswap(char **s1, char **s2);
 char			*ft_strschr(char *s, char *s2);
 size_t			ft_strschr_len(char *s, char *s2);
 void			ft_putnstr_fd(const char *s, int fd, int n);
+int				ft_strcountc(char *s, char c);
+int				ft_strisprint(char *s);
 
 #endif
