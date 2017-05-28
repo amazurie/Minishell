@@ -124,8 +124,7 @@ int			exec(t_env **env, char *line, t_hist *hist)
 	fullpaths = NULL;
 	if ((lstav = ft_strsplit(line, ' ')) == NULL)
 		return (0);
-	line = get_elem(*env, "PATH");
-	paths = ft_strsplit(line, ':');
+	paths = ft_strsplit(get_elem(*env, "PATH"), ':');
 	if ((i = built_in(env, lstav, hist)))
 	{
 		free_tab(paths);

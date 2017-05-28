@@ -32,7 +32,7 @@ ft_strtrimc.c ft_strnjoin.c ft_strlen_chr.c ft_putnstr.c ft_putnchar.c		\
 ft_lennb.c ft_putnbrbase.c ft_putwstr.c ft_lennbase.c ft_putwchar.c			\
 ft_wstrlen.c ft_putnwstr.c ft_wstrnlen.c ft_itoa_base.c ft_strswap.c		\
 ft_strschr.c ft_strschr_len.c ft_putnstr_fd.c ft_strcountc.c				\
-ft_strisprint.c get_next_line.c
+ft_strisprint.c ft_lstcontdel.c get_next_line.c
 
 FLAGS = -Wall -Wextra -Werror
 

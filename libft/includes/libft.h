@@ -108,5 +108,6 @@ size_t			ft_strschr_len(char *s, char *s2);
 void			ft_putnstr_fd(const char *s, int fd, int n);
 int				ft_strcountc(char *s, char c);
 int				ft_strisprint(char *s);
+void			ft_lstcontdel(void *cont, size_t size);
 
 #endif

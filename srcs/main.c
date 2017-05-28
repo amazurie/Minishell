@@ -21,14 +21,9 @@ void		sighandler(int sig)
 		d = get_data(NULL);
 		ft_putstr_fd((d->line + d->i[4]), 0);
 		ft_putchar_fd('\n', 0);
-		d->prompt = get_prompt();
-		display_prompt(d->prompt);
+		ft_putstr_fd(tgetstr("cd", NULL), 0);
+		display_prompt();
 		is_siginted(1);
-	}
-	else if (sig == SIGSTOP)
-	{
-		while (0)
-			;
 	}
 }
 

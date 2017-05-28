@@ -54,7 +54,11 @@ SRC_HANDIN =	$(SRC_HANDIN_PATH)/hand_in.c		\
 				$(SRC_HANDIN_PATH)/quote.c			\
 				$(SRC_HANDIN_PATH)/cursor.c
 
-SRC_COMPLETE =	$(SRC_COMPL_PATH)/completion.c
+SRC_COMPLETE =	$(SRC_COMPL_PATH)/completion.c		\
+				$(SRC_COMPL_PATH)/list_arg.c		\
+				$(SRC_COMPL_PATH)/complet_arg.c		\
+				$(SRC_COMPL_PATH)/display_compl.c	\
+				$(SRC_COMPL_PATH)/check_size.c
 
 OSRC = $(SRC:.c=.o) $(SRC_HANDIN:.c=.o) $(SRC_COMPLETE:.c=.o)
 

@@ -25,7 +25,7 @@ echo "\033[0m"
 echo "Thanks for testing my minishell !"
 echo "\033[31mThis is a simple shell like\033[0m"
 echo "\033[31mPlease, I try to learn.
-I'm not just an inconvenience you need to pass through even this is boring you\033[0m"
+I'm not just an inconvenience you need to pass through even this is bothering you\033[0m"
 if inquire "would you like to clean temporary file ?"; then
 	make clean
 fi

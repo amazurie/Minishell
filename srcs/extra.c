@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void			ssupprchr(char **s, int pos)
+void	ssupprchr(char **s, int pos)
 {
 	int i;
 
@@ -22,7 +22,7 @@ void			ssupprchr(char **s, int pos)
 		(*s)[pos] = (*s)[pos + 1];
 }
 
-void			saddchr(char **s, char c, int pos)
+void	saddchr(char **s, char c, int pos)
 {
 	int i;
 

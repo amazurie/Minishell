@@ -15,13 +15,15 @@
 
 # include "../libft/includes/libft.h"
 # include <sys/wait.h>
+# include <sys/stat.h>
+# include <sys/ioctl.h>
+# include <sys/types.h>
 # include <termios.h>
 # include <stdio.h>
 # include <signal.h>
-# include <sys/stat.h>
 # include <curses.h>
 # include <term.h>
-# include <sys/ioctl.h>
+# include <dirent.h>
 
 # define ERR_COL		"\e[31m"
 # define LIGHTRED_COL	"\e[1;31m"
@@ -107,6 +109,35 @@ int					print_error(char *s);
 t_data				*data_alloc(char **env);
 int					check_openquote(t_data **d);
 
-int					completion(t_data **d, char *tmp, int **i);
+typedef struct		s_arg
+{
+	int				num;
+	char			*elem;
+	char			*color;
+	int				pos_x;
+	int				pos_y;
+	struct s_arg	*next;
+}					t_arg;
+
+typedef struct		s_compl
+{
+	char			*line;
+	int				ac;
+	int				min_line;
+	int				nbr_line;
+	int				nbr_col;
+	int				num_curr;
+	struct s_arg	*args;
+}					t_compl;
+
+int					completion(t_data **d, char **tmp, int **i);
+t_arg				*list_arg(t_data **d, int **i);
+char				*recover_wtocompl(t_data **d, int **i);
+int					check_command(t_data **d, int **i);
+int					complet_arg(t_compl *c, char **tmp, int **i);
+int					nbrline(t_arg *arg, int w, int *len);
+int					nbr_col(t_arg *arg, int *nline);
+int					check_winsize(t_compl *c, int *whcl);
+void				display_all(t_compl *c, int *whcl, int **i);
 
 #endif

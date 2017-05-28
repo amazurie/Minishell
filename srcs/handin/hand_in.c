@@ -21,7 +21,7 @@ static void	chr_in(t_data **d, char *tmp, int **i)
 	{
 		ft_putstr_fd(tgetstr("sc", NULL), 0);
 		erase_printline(d, i);
-		if ((*i)[2] > 2040)
+		if ((*i)[2] > LIMIT_LINE - 1)
 		{
 			maxline(d, tmp, i);
 			return ;
@@ -98,9 +98,9 @@ void		inni(t_data **d, char *tmp, int **i)
 		free((*d)->prompt);
 		(*d)->prompt = get_prompt();
 	}
-	if (completion(d, tmp, i) == 0 && gest_in(d, tmp, i) == -1)
+	if (completion(d, &tmp, i) == 0 && gest_in(d, tmp, i) == -1)
 		(*i)[0] = -1;
-	ft_bzero(tmp, 6);
+	ft_bzero(tmp, ft_strlen(tmp));
 }
 
 int			in(t_data **d, char *tmp)
