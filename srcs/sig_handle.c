@@ -25,3 +25,15 @@ int	is_siginted(int sig)
 	}
 	return (sig_save);
 }
+
+void	sig_reset(t_data **d, int **i)
+{
+	ft_memset((*d)->line, 0, (*i)[2]);
+	(*i)[2] = 0;
+	(*i)[3] = -1;
+	(*i)[4] = 0;
+	(*i)[5] = 0;
+	(*i)[6] = 0;
+	free((*d)->prompt);
+	(*d)->prompt = get_prompt();
+}

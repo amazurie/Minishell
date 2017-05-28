@@ -108,6 +108,8 @@ int					change_envpwd(char *tmp, t_env *env);
 int					print_error(char *s);
 t_data				*data_alloc(char **env);
 int					check_openquote(t_data **d);
+void				sighandler(int sig);
+void				sig_reset(t_data **d, int **i);
 
 typedef struct		s_arg
 {
@@ -139,5 +141,7 @@ int					nbrline(t_arg *arg, int w, int *len);
 int					nbr_col(t_arg *arg, int *nline);
 int					check_winsize(t_compl *c, int *whcl);
 void				display_all(t_compl *c, int *whcl, int **i);
+int				do_select(t_compl *c, char **tmp, int **i);
+int				is_complsiged(int sig);
 
 #endif

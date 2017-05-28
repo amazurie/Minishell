@@ -14,7 +14,7 @@
 
 void		sighandler(int sig)
 {
-	t_data			*d;
+	t_data	*d;
 
 	if (sig == SIGINT)
 	{

@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+int		is_complsiged(int sig)
+{
+	static int	sig_save;
+
+	if (sig > 0)
+		sig_save = sig;
+	else if (sig == 0 && sig_save == 1)
+	{
+		sig_save = 0;
+		return (1);
+	}
+	return (sig_save);
+}
+
 int		check_quotecompl(t_data **d, int **i)
 {
 	int	j;
@@ -40,14 +54,18 @@ char	*recover_wtocompl(t_data **d, int **i)
 	if (!(word = (char *)ft_memalloc(301)))
 		return (NULL);
 	j = (*i)[4] - 1;
-	while (j > (*i)[6] && ((k == 1 && (*d)->line[j] != '"')
-				|| (k == 0 && (*d)->line[j] != ' ')))
+	while (j > (*i)[6] && ((k == 1 && ((*d)->line[j] != '"'
+						|| (*d)->line[j] != '\'')) || (k == 0 && (*d)->line[j] != ' ')))
 		j--;
+	k = (*i)[4];
+	while (k < (*i)[2] && (*d)->line[k] != ' ' && (*d)->line[k] != '"'
+			&& (*d)->line[j] != '\'')
+		k++;
 	while ((*d)->line[j] == ' ')
 		j++;
 	if ((*i)[4] - j > 300)
 		return (NULL);
-	ft_strncat(word, ((*d)->line + j), (*i)[4] - j);
+	ft_strncat(word, ((*d)->line + j), (*i)[4] - j + ((*i)[4] - k));
 	return (word);
 }
 
@@ -88,10 +106,9 @@ int		completion(t_data **d, char **tmp, int **i)
 	c.ac = j;
 	c.min_line = 0;
 	c.args = listarg;
-	c.num_curr = 0;
+	c.num_curr = -1;
 	c.nbr_line = 0;
 	c.nbr_col = 0;
 	c.line = (*d)->line;
-	complet_arg(&c, tmp, i);
-	return (0);
+	return (complet_arg(&c, tmp, i));
 }

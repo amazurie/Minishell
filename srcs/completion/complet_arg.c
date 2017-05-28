@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+void		sig_compl(int sig)
+{
+	t_data	*d;
+
+	if (sig == SIGINT)
+	{
+		ft_putstr_fd(tgetstr("cd", NULL), 0);
+		is_complsiged(1);
+		signal(SIGINT, sighandler);
+	}
+	else
+		sighandler(sig);
+}
+
 static int	*get_size(t_compl *c)
 {
 	struct winsize	w;
@@ -39,5 +53,10 @@ int		complet_arg(t_compl *c, char **tmp, int **i)
 		ft_putstr_fd(tgetstr("nd", NULL), 0);
 	display_all(c, whcl, i);
 	free(whcl);
+	j = 2;
+	signal(SIGINT, sig_compl);
+	while (j == 2)
+		j = do_select(c, tmp, i);
+	signal(SIGINT, sighandler);
 	return (0);
 }

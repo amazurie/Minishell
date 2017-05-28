@@ -88,17 +88,12 @@ void		inni(t_data **d, char *tmp, int **i)
 	get_data(*d);
 	read(0, tmp, LIMIT_LINE);
 	if (is_siginted(0) == 1)
-	{
-		ft_memset((*d)->line, 0, (*i)[2]);
-		(*i)[2] = 0;
-		(*i)[3] = -1;
-		(*i)[4] = 0;
-		(*i)[5] = 0;
-		(*i)[6] = 0;
-		free((*d)->prompt);
-		(*d)->prompt = get_prompt();
-	}
-	if (completion(d, &tmp, i) == 0 && gest_in(d, tmp, i) == -1)
+		sig_reset(d, i);
+	if (completion(d, &tmp, i) == -1)
+		return ;
+	if (is_siginted(0) == 1)
+		sig_reset(d, i);
+	if (gest_in(d, tmp, i) == -1)
 		(*i)[0] = -1;
 	ft_bzero(tmp, ft_strlen(tmp));
 }
