@@ -66,15 +66,20 @@ t_arg	*list_arg(t_data **d, int **i)
 		list = list_content(".", word);
 	if (check_command(d, i) == 1)
 		return (list);
-		tmplist = list;
+	tmplist = list;
 	while (paths && paths[j])
 	{
 		listtmp = list_content(paths[j++], word);
-		if (listtmp)
+		if (listtmp && tmplist)
 		{
 			while (tmplist->next)
 				tmplist = tmplist->next;
 			tmplist->next = listtmp;
+		}
+		else if (listtmp && !tmplist)
+		{
+			list = listtmp;
+			tmplist = list;
 		}
 	}
 	free(word);
