@@ -22,7 +22,6 @@ static int	*get_size(t_compl *c)
 	if (!(whcl = (int *)ft_memalloc(sizeof(int) * 9)))
 		return (0);
 	ioctl(0, TIOCGWINSZ, &w);
-	c->num_curr = c->ac;
 	whcl[0] = w.ws_col;
 	whcl[1] = w.ws_row - 1;
 	if (!(c->nbr_line) || !(c->nbr_line))
@@ -51,12 +50,21 @@ int		complet_arg(t_compl *c, char **tmp, int **i)
 	j = 0;
 	while (j++ < whcl[5])
 		ft_putstr_fd(tgetstr("nd", NULL), 0);
-	display_all(c, whcl, i);
-	free(whcl);
+	display_args(c, whcl, i);
 	j = 2;
+	read(0, *tmp, LIMIT_LINE);
+	if (is_siginted(0))
+	{
+		is_siginted(1);
+		free(whcl);
+		return (0);
+	}
 	signal(SIGINT, sig_compl);
+	if ((*tmp)[0] == 9 && !(*tmp)[1])
+		display_args(c, whcl, i);
 	while (j == 2)
 		j = do_select(c, tmp, i);
 	signal(SIGINT, sighandler);
+	free(whcl);
 	return (0);
 }

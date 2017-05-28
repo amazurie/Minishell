@@ -100,6 +100,7 @@ int		completion(t_data **d, char **tmp, int **i)
 	j = 0;
 	while (args)
 	{
+		args->num = j;
 		args = args->next;
 		j++;
 	}

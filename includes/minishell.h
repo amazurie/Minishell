@@ -140,8 +140,9 @@ int					complet_arg(t_compl *c, char **tmp, int **i);
 int					nbrline(t_arg *arg, int w, int *len);
 int					nbr_col(t_arg *arg, int *nline);
 int					check_winsize(t_compl *c, int *whcl);
+int					do_select(t_compl *c, char **tmp, int **i);
 void				display_all(t_compl *c, int *whcl, int **i);
-int				do_select(t_compl *c, char **tmp, int **i);
-int				is_complsiged(int sig);
+void				display_args(t_compl *c, int *whcl, int **i);
+int					is_complsiged(int sig);
 
 #endif
