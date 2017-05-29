@@ -14,12 +14,12 @@ void		sig_compl(int sig)
 		sighandler(sig);
 }
 
-int		complet_arg(t_compl *c, char **tmp, int **i)
+int		complet_arg(t_compl *c, char **tmp)
 {
 	int	j;
 
 	j = 0;
-	display_compl(c, i);
+	display_compl(c);
 	j = 2;
 	read(0, *tmp, LIMIT_LINE);
 	if (is_siginted(0))
@@ -29,11 +29,11 @@ int		complet_arg(t_compl *c, char **tmp, int **i)
 	}
 	if ((*tmp)[0] == 9 && !(*tmp)[1])
 	{
-		signal(SIGINT, sig_compl);
 		c->num_curr = 0;
-		display_compl(c, i);
+		display_compl(c);
+		signal(SIGINT, sig_compl);
+		j = do_select(c, tmp);
 		signal(SIGINT, sighandler);
-		j = do_select(c, tmp, i);
 	}
 	return (j);
 }

@@ -19,7 +19,7 @@ int		hand_arrow(t_compl *c, char *tmp)
 	return (2);
 }
 
-int		handle_compl(t_compl *c, char *tmp, int **i)
+int		handle_compl(t_compl *c, char *tmp)
 {
 	if (tmp[0] == 10 && !tmp[1])
 	{
@@ -33,7 +33,7 @@ int		handle_compl(t_compl *c, char *tmp, int **i)
 	return (2);
 }
 
-int		do_select(t_compl *c, char **tmp, int **i)
+int		do_select(t_compl *c, char **tmp)
 {
 	int	j;
 
@@ -47,8 +47,8 @@ int		do_select(t_compl *c, char **tmp, int **i)
 //		int p = 0;
 //		while (p < 6)
 //			printf("%i\n", (*tmp)[p++]);
-		if ((j = handle_compl(c, *tmp, i)) == 2)
-			display_compl(c, i);
+		if ((j = handle_compl(c, *tmp)) == 2)
+			display_compl(c);
 	}
 	return (j);
 }

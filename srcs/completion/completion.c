@@ -100,10 +100,10 @@ int		completion(t_data **d, char **tmp, int **i)
 		return (0);
 	c.line = ft_strdup((*d)->line);
 	j = ft_strlen(word);
-	(*i)[4] -= j;
+	c.i4 = (*i)[4] - j;
 	while (j-- > 0)
 	{
-		ssupprchr(&(c.line), (*i)[4]);
+		ssupprchr(&(c.line), c.i4);
 		curs_left(d, i);
 	}
 	args = listarg;
@@ -121,15 +121,13 @@ int		completion(t_data **d, char **tmp, int **i)
 	c.num_curr = -1;
 	c.nbr_line = 0;
 	c.nbr_col = 0;
-	j = complet_arg(&c, tmp, i);
-	c.ac = ft_strlen(word);
-	(*i)[4] += c.ac;
+	j = complet_arg(&c, tmp);
 	while (c.args && c.num_curr != c.args->num)
 		c.args = c.args->next;
 	if (c.args)
 	{
-		c.ac = ft_strlen(c.args->elem);
-		while (--c.ac > 0)
+		c.ac = ft_strlen(c.args->elem) - ft_strlen(word);
+		while (c.ac-- > 0)
 			curs_left(d, i);
 		c.ac = ft_strlen(word);
 		word = ft_strjoin(c.args->elem, *tmp);

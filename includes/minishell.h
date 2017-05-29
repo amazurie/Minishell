@@ -126,6 +126,7 @@ typedef struct		s_compl
 	char			*line;
 	char			*word;
 	int				ac;
+	int				i4;
 	int				min_line;
 	int				nbr_line;
 	int				nbr_col;
@@ -137,12 +138,12 @@ int					completion(t_data **d, char **tmp, int **i);
 t_arg				*list_arg(t_data **d, int **i, char *word);
 char				*recover_wtocompl(t_data **d, int **i);
 int					check_command(t_data **d, int **i);
-int					complet_arg(t_compl *c, char **tmp, int **i);
+int					complet_arg(t_compl *c, char **tmp);
 int					nbrline(t_arg *arg, int w, int *len);
 int					nbr_col(t_arg *arg, int *nline);
 int					check_winsize(t_compl *c, int *whcl);
-int					do_select(t_compl *c, char **tmp, int **i);
-void				display_compl(t_compl *c, int **i);
+int					do_select(t_compl *c, char **tmp);
+void				display_compl(t_compl *c);
 int					is_complsiged(int sig);
 
 #endif

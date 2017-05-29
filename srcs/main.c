@@ -20,6 +20,7 @@ void		sighandler(int sig)
 	{
 		d = get_data(NULL);
 		ft_putstr_fd((d->line + d->i[4]), 0);
+		ft_bzero(d->line, ft_strlen(d->line));
 		ft_putchar_fd('\n', 0);
 		ft_putstr_fd(tgetstr("cd", NULL), 0);
 		display_prompt();
