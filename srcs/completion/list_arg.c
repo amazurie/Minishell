@@ -50,16 +50,14 @@ t_arg	*list_content(char *path, char *word)
 	return (list);
 }
 
-t_arg	*list_arg(t_data **d, int **i)
+t_arg	*list_arg(t_data **d, int **i, char *word)
 {
 	t_arg	*list;
 	t_arg	*tmplist;
 	t_arg	*listtmp;
 	char	**paths;
-	char	*word;
 	int		j;
 
-	word = recover_wtocompl(d, i);
 	paths = ft_strsplit(get_elem((*d)->env, "PATH"), ':');
 	j = 0;
 	if (!(list = list_content(word, word)))
@@ -82,7 +80,6 @@ t_arg	*list_arg(t_data **d, int **i)
 			tmplist = list;
 		}
 	}
-	free(word);
 	free_tab(paths);
 	return (list);
 }

@@ -47,6 +47,7 @@ static int	hand_arg(char *line, t_hist **hist, t_env **env)
 	while (lstline[i])
 		free(lstline[i++]);
 	free(lstline);
+	ft_putstr_fd(tgetstr("cd", NULL), 0);
 	return (j);
 }
 

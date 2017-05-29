@@ -93,8 +93,10 @@ void		inni(t_data **d, char *tmp, int **i)
 		return ;
 	if (is_siginted(0) == 1)
 		sig_reset(d, i);
+	ft_putstr_fd(tgetstr("vi", NULL), 0);
 	if (gest_in(d, tmp, i) == -1)
 		(*i)[0] = -1;
+	ft_putstr_fd(tgetstr("ve", NULL), 0);
 	ft_bzero(tmp, ft_strlen(tmp));
 }
 

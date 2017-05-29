@@ -124,6 +124,7 @@ typedef struct		s_arg
 typedef struct		s_compl
 {
 	char			*line;
+	char			*word;
 	int				ac;
 	int				min_line;
 	int				nbr_line;
@@ -133,7 +134,7 @@ typedef struct		s_compl
 }					t_compl;
 
 int					completion(t_data **d, char **tmp, int **i);
-t_arg				*list_arg(t_data **d, int **i);
+t_arg				*list_arg(t_data **d, int **i, char *word);
 char				*recover_wtocompl(t_data **d, int **i);
 int					check_command(t_data **d, int **i);
 int					complet_arg(t_compl *c, char **tmp, int **i);

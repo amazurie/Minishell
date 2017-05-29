@@ -1,18 +1,28 @@
 #include "minishell.h"
 
-void	print_line(t_compl *c, char *arg, int *whcl, int **i)
+void	print_line(t_compl *c, char *word, int col, int **i)
 {
 	int	j;
 	int	k;
 
 	display_prompt();
-	ft_putstr_fd(c->line, 0);
-	j = ft_strlen(c->line) + ft_strlen(get_prompt());
-	if (j > whcl[0])
+	j = 0;
+	if (word)
 	{
-		while (j > whcl[0])
+		ft_putnstr_fd(c->line, 0, (*i)[4]);
+		ft_putstr_fd(word, 0);
+		ft_putstr_fd((c->line + (*i)[4]), 0);
+		j = ft_strlen(word);
+	}
+	else
+		ft_putstr_fd(c->line, 0);
+	ft_putstr_fd(tgetstr("ce", NULL), 0);
+	j += ft_strlen(c->line) + ft_strlen(get_prompt());
+	if (col && j > col)
+	{
+		while (j > col)
 		{
-			j -=whcl[0];
+			j -= col;
 			ft_putstr_fd(tgetstr("up", NULL), 0);
 		}
 		ft_putnstr_fd(c->line, 0, (*i)[4]);
@@ -34,10 +44,10 @@ static void	reline(t_compl *c, char *word, int *whcl, int **i)
 			ft_putstr_fd(tgetstr("up", NULL), 0);
 		}
 	}
-	print_line(c, word, whcl, i);
+	print_line(c, word, whcl[0], i);
 }
 
-int	*get_size2(t_compl *c)
+int	*get_size(t_compl *c)
 {
 	struct winsize	w;
 	int				*whcl;
@@ -61,10 +71,12 @@ void	display_compl(t_compl *c, int **i)
 	t_arg	*ar;
 	int		j;
 
-	whcl = get_size2(c);
+	word = c->word;
+	whcl = get_size(c);
 	whcl[6] = 0;
 	whcl[7] = 0;
 	ar = c->args;
+	ft_putstr_fd(tgetstr("vi", NULL), 0);
 	j = whcl[5];
 	while (ar && j-- > 0)
 		ar = ar->next;
@@ -109,4 +121,5 @@ void	display_compl(t_compl *c, int **i)
 	ft_putstr_fd(tgetstr("do", NULL), 0);
 	reline(c, word, whcl, i);
 	free(whcl);
+	ft_putstr_fd(tgetstr("ve", NULL), 0);
 }

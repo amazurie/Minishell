@@ -90,12 +90,22 @@ int		completion(t_data **d, char **tmp, int **i)
 	t_compl	c;
 	t_arg	*listarg;
 	t_arg	*args;
+	char	*word;
 	int		j;
 
 	if ((*tmp)[0] != 9 || (*tmp)[1] || (*i)[6] > 0)
 		return (0);
-	if (!(listarg = list_arg(d, i)))
+	word = recover_wtocompl(d, i);
+	if (!(listarg = list_arg(d, i, word)))
 		return (0);
+	c.line = ft_strdup((*d)->line);
+	j = ft_strlen(word);
+	(*i)[4] -= j;
+	while (j-- > 0)
+	{
+		ssupprchr(&(c.line), (*i)[4]);
+		curs_left(d, i);
+	}
 	args = listarg;
 	j = 0;
 	while (args)
@@ -104,12 +114,28 @@ int		completion(t_data **d, char **tmp, int **i)
 		args = args->next;
 		j++;
 	}
-	c.ac = j;
+	c.word = word;
+	c.ac = j - 1;
 	c.min_line = 0;
 	c.args = listarg;
 	c.num_curr = -1;
 	c.nbr_line = 0;
 	c.nbr_col = 0;
-	c.line = (*d)->line;
-	return (complet_arg(&c, tmp, i));
+	j = complet_arg(&c, tmp, i);
+	c.ac = ft_strlen(word);
+	(*i)[4] += c.ac;
+	while (c.args && c.num_curr != c.args->num)
+		c.args = c.args->next;
+	if (c.args)
+	{
+		c.ac = ft_strlen(c.args->elem);
+		while (--c.ac > 0)
+			curs_left(d, i);
+		c.ac = ft_strlen(word);
+		word = ft_strjoin(c.args->elem, *tmp);
+		ft_bzero(*tmp, ft_strlen(*tmp));
+		ft_strcat(*tmp, (word + c.ac));
+	}
+	free(word);
+	return (j);
 }
