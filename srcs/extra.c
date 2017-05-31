@@ -62,13 +62,18 @@ void	maxline(t_data **d, char *tmp, int **i)
 		((*d)->line)[(*i)[4]] = tmp[0];
 	ft_putstr_fd(tgetstr("cr", NULL), 0);
 	ft_putstr_fd(tgetstr("cd", NULL), 0);
-	ft_putstr_fd((*d)->prompt, 0);
+	if ((*i)[6] == 0)
+		display_prompt();
+	else
+		ft_putstr_fd((*d)->prompt, 0);
 	ft_putstr_fd(((*d)->line + (*i)[6]), 0);
 	ft_putstr_fd(ERR_COL, 2);
 	ft_putstr_fd("\nminishell: ", 2);
 	ft_putstr_fd(DEFAULT_COL, 2);
 	ft_putstr_fd("Buffer at max capacity.\n", 2);
-	display_prompt((*d)->prompt);
+	display_prompt();
+	if ((*i)[6] == 0)
+		ft_putstr_fd((*d)->line, 0);
 	ft_putnstr_fd((*d)->line, 0, (*i)[6]);
 	if ((*i)[6] == 0)
 		return ;
