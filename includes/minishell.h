@@ -117,8 +117,6 @@ typedef struct		s_arg
 	int				num;
 	char			*elem;
 	char			*color;
-	int				pos_x;
-	int				pos_y;
 	struct s_arg	*next;
 }					t_arg;
 
@@ -129,8 +127,6 @@ typedef struct		s_compl
 	int				ac;
 	int				i4;
 	int				min_line;
-	int				nbr_line;
-	int				nbr_col;
 	int				num_curr;
 	struct s_arg	*args;
 }					t_compl;
@@ -143,7 +139,9 @@ int					complet_arg(t_compl *c, char **tmp);
 int					nbrline(t_arg *arg, int w, int *len);
 int					nbr_col(t_arg *arg, int *nline);
 int					check_winsize(t_compl *c, int *whcl);
-int					do_select(t_compl *c, char **tmp);
 void				display_compl(t_compl *c);
+int					*get_size(t_compl *c);
+int					check_quotecompl(t_data **d, int **i);
+char				*recover_wtocompl(t_data **d, int **i);
 
 #endif
