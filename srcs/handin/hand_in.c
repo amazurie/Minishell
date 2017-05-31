@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	chr_in(t_data **d, char *tmp, int **i)
+void		chr_in(t_data **d, char *tmp, int **i)
 {
 	int	j;
 
@@ -91,7 +91,7 @@ void		inni(t_data **d, char *tmp, int **i)
 		sig_reset(d, i);
 	if (completion(d, &tmp, i) == -1)
 		return ;
-	if (is_siginted(0) == 1)
+	if (is_siginted(0) == 1 && (tmp[0] != 4 || tmp[1]))
 		sig_reset(d, i);
 	ft_putstr_fd(tgetstr("vi", NULL), 0);
 	if (gest_in(d, tmp, i) == -1)
@@ -114,7 +114,7 @@ int			in(t_data **d, char *tmp)
 	while (i[0] == 0)
 		inni(d, tmp, &i);
 	j = i[0];
+	ft_putchar_fd('\n', 0);
 	free(i);
-	ft_putchar_fd('\n', 2);
 	return (j);
 }

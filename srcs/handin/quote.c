@@ -56,7 +56,11 @@ void		quote(t_data **d, int **i)
 		ft_putstr_fd((*d)->prompt, 0);
 	}
 	else
+	{
 		(*i)[0] = 1;
+		erase_printline(d, i);
+		ft_putstr_fd(((*d)->line + (*i)[6]), 0);
+	}
 	(*i)[6] = (*i)[2];
 	(*i)[4] = (*i)[2];
 	(*i)[3] = -1;

@@ -110,6 +110,7 @@ t_data				*data_alloc(char **env);
 int					check_openquote(t_data **d);
 void				sighandler(int sig);
 void				sig_reset(t_data **d, int **i);
+void				chr_in(t_data **d, char *tmp, int **i);
 
 typedef struct		s_arg
 {
@@ -144,6 +145,5 @@ int					nbr_col(t_arg *arg, int *nline);
 int					check_winsize(t_compl *c, int *whcl);
 int					do_select(t_compl *c, char **tmp);
 void				display_compl(t_compl *c);
-int					is_complsiged(int sig);
 
 #endif

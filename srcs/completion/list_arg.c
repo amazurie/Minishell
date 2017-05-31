@@ -9,7 +9,7 @@ t_arg	*list_content(char *path, char *word)
 	t_arg			*listtmp;
 	int				i;
 
-	if (!(dirp = opendir(path)))
+	if (!path || !(dirp = opendir(path)))
 		return (NULL);
 	if (!(list = (t_arg *)ft_memalloc(sizeof(t_arg))))
 	{
@@ -21,7 +21,7 @@ t_arg	*list_content(char *path, char *word)
 	i = 0;
 	while ((dirc = readdir(dirp)))
 	{
-		if (ft_strncmp(word, dirc->d_name, ft_strlen(word)) == 0 || !word[0])
+		if (!word || ft_strncmp(word, dirc->d_name, ft_strlen(word)) == 0 || !word[0])
 		{
 			tmplist->num = i++;
 			tmplist->elem = ft_strdup(dirc->d_name);

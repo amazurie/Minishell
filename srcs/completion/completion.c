@@ -1,19 +1,5 @@
 #include "minishell.h"
 
-int		is_complsiged(int sig)
-{
-	static int	sig_save;
-
-	if (sig > 0)
-		sig_save = sig;
-	else if (sig == 0 && sig_save == 1)
-	{
-		sig_save = 0;
-		return (1);
-	}
-	return (sig_save);
-}
-
 int		check_quotecompl(t_data **d, int **i)
 {
 	int	j;
@@ -57,15 +43,11 @@ char	*recover_wtocompl(t_data **d, int **i)
 	while (j > (*i)[6] && ((k == 1 && ((*d)->line[j] != '"'
 						|| (*d)->line[j] != '\'')) || (k == 0 && (*d)->line[j] != ' ')))
 		j--;
-	k = (*i)[4];
-	while (k < (*i)[2] && (*d)->line[k] != ' ' && (*d)->line[k] != '"'
-			&& (*d)->line[j] != '\'')
-		k++;
 	while ((*d)->line[j] == ' ')
 		j++;
-	if ((*i)[4] - j > 300)
+	if (j > (*i)[4] || (*i)[4] - j > 300)
 		return (NULL);
-	ft_strncat(word, ((*d)->line + j), (*i)[4] - j + ((*i)[4] - k));
+	ft_strncat(word, ((*d)->line + j), (*i)[4] - j);
 	return (word);
 }
 
@@ -73,14 +55,18 @@ int		check_command(t_data **d, int **i)
 {
 	int		j;
 
-	j = (*i)[4];
+	if ((*i)[4] == 0)
+		return (0);
+	j = (*i)[4] - 1;
 	while (j > (*i)[6] && (*d)->line[j] != 32 && (*d)->line[j] != 34
 			&& (*d)->line[j] != 96)
 		j--;
+	if (j == (*i)[6])
+		return (0);
 	while (j > (*i)[6] && ((*d)->line[j] == 32 || (*d)->line[j] == 34
 				|| (*d)->line[j] == 96))
 		j--;
-	if (((*d)->line[j] == 32) || j == (*i)[6])
+	if ((*d)->line[j] == 32)
 		return (0);
 	return (1);
 }
@@ -95,11 +81,19 @@ int		completion(t_data **d, char **tmp, int **i)
 
 	if ((*tmp)[0] != 9 || (*tmp)[1] || (*i)[6] > 0)
 		return (0);
+	while ((*i)[4] < (*i)[2] && (*d)->line[(*i)[4]] != '"'
+			&& (*d)->line[(*i)[4]] != '\'' && (*d)->line[(*i)[4]] != ' ')
+	{
+		curs_right(d, i);
+		(*i)[4]++;
+	}
 	word = recover_wtocompl(d, i);
 	if (!(listarg = list_arg(d, i, word)))
 		return (0);
 	c.line = ft_strdup((*d)->line);
-	j = ft_strlen(word);
+	j = 0;
+	if (word)
+		j = ft_strlen(word);
 	c.i4 = (*i)[4] - j;
 	while (j-- > 0)
 	{
@@ -122,18 +116,19 @@ int		completion(t_data **d, char **tmp, int **i)
 	c.nbr_line = 0;
 	c.nbr_col = 0;
 	j = complet_arg(&c, tmp);
-	while (c.args && c.num_curr != c.args->num)
-		c.args = c.args->next;
-	if (c.args)
-	{
-		c.ac = ft_strlen(c.args->elem) - ft_strlen(word);
-		while (c.ac-- > 0)
-			curs_left(d, i);
+	if (j == -1)
+		return (0);
+	c.ac = 0;
+	if (c.word)
+		c.ac = ft_strlen(c.word);
+	if (word)
+		c.ac -= ft_strlen(word);
+	while (c.ac-- > 0)
+		curs_left(d, i);
+	c.ac = 0;
+	if (word)
 		c.ac = ft_strlen(word);
-		word = ft_strjoin(c.args->elem, *tmp);
-		ft_bzero(*tmp, ft_strlen(*tmp));
-		ft_strcat(*tmp, (word + c.ac));
-	}
-	free(word);
+	if (c.word)
+		chr_in(d, (c.word + c.ac), i);
 	return (j);
 }

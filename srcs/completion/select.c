@@ -42,8 +42,11 @@ int		do_select(t_compl *c, char **tmp)
 	{
 		ft_bzero(*tmp, ft_strlen(*tmp));
 		read(0, *tmp, LIMIT_LINE);
-		if (is_complsiged(0))
+		if (is_siginted(0))
+		{
+			is_siginted(1);
 			return (-1);
+		}
 //		int p = 0;
 //		while (p < 6)
 //			printf("%i\n", (*tmp)[p++]);
