@@ -100,8 +100,7 @@ int			main(int ac, char **av, char **env)
 	tcsetattr(0, TCSANOW, &new);
 	shell(&d);
 	tcsetattr(0, TCSANOW, &old);
-	if (d->hist != NULL)
-		del_hist(d->hist);
+	del_hist(d->hist);
 	free(d->buffline);
 	free(d->line);
 	free(d);

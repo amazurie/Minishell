@@ -58,12 +58,12 @@ t_arg	*list_arg(t_data **d, int **i, char *word)
 	char	**paths;
 	int		j;
 
-	paths = ft_strsplit(get_elem((*d)->env, "PATH"), ':');
 	j = 0;
 	if (!(list = list_content(word, word)))
 		list = list_content(".", word);
 	if (check_command(d, i) == 1)
 		return (list);
+	paths = ft_strsplit(get_elem((*d)->env, "PATH"), ':');
 	tmplist = list;
 	while (paths && paths[j])
 	{

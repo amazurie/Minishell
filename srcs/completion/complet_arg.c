@@ -70,3 +70,20 @@ char	*recover_wtocompl(t_data **d, int **i)
 	ft_strncat(word, ((*d)->line + j), (*i)[4] - j);
 	return (word);
 }
+
+void	free_complargs(t_arg *arg)
+{
+	t_arg	*ar;
+
+	if (arg == NULL)
+		return;
+	while (arg->next)
+	{
+		ar = arg;
+		arg = arg->next;
+		free(ar->elem);
+		free(ar);
+	}
+	free(arg->elem);
+	free(arg);
+}

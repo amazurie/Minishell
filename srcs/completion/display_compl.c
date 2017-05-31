@@ -2,11 +2,14 @@
 
 static int	get_sline(t_compl *c, int col)
 {
-	int	i;
-	int	j;
+	char	*prompt;
+	int		i;
+	int		j;
 
 	j = 0;
-	i = ft_strlen(c->line) + ft_strlen(get_prompt());
+	prompt = get_prompt();
+	i = ft_strlen(c->line) + ft_strlen(prompt);
+	free(prompt);
 	if (c->word)
 		i += ft_strlen(c->word);
 	while (i > col)
@@ -112,4 +115,5 @@ void		display_compl(t_compl *c)
 	if (c->word)
 		ft_putstr_fd(c->word, 0);
 	ft_putstr_fd(tgetstr("ve", NULL), 0);
+	free(whcl);
 }

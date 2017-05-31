@@ -1,10 +1,12 @@
 #include "minishell.h"
 
-void	do_setup(t_data **d, t_compl *c, char *word, int **i)
+int		do_setup(t_data **d, t_compl *c, char *word, int **i)
 {
 	t_arg	*args;
 	int	j;
 
+	if (!(c->args = list_arg(d, i, word)))
+		return (0);
 	c->line = ft_strdup((*d)->line);
 	j = 0;
 	if (word)
@@ -24,22 +26,31 @@ void	do_setup(t_data **d, t_compl *c, char *word, int **i)
 		j++;
 	}
 	c->ac = j - 1;
+	return (1);
 }
 
 void	insert_word(t_data **d, t_compl *c, char *word, int **i)
 {
-	c->ac = 0;
-	if (c->word)
-		c->ac = ft_strlen(c->word);
+	if (c->ac != -1)
+	{
+		c->ac = 0;
+		if (c->word)
+			c->ac = ft_strlen(c->word);
+		if (word)
+			c->ac -= ft_strlen(word);
+		while (c->ac-- > 0)
+			curs_left(d, i);
+		c->ac = 0;
+		if (word)
+			c->ac = ft_strlen(word);
+		if (c->word)
+			chr_in(d, (c->word + c->ac), i);
+	}
+	free_complargs(c->args);
 	if (word)
-		c->ac -= ft_strlen(word);
-	while (c->ac-- > 0)
-		curs_left(d, i);
-	c->ac = 0;
-	if (word)
-		c->ac = ft_strlen(word);
-	if (c->word)
-		chr_in(d, (c->word + c->ac), i);
+		free(word);
+	if (c->line)
+		free(c->line);
 }
 
 int		completion(t_data **d, char **tmp, int **i)
@@ -58,15 +69,15 @@ int		completion(t_data **d, char **tmp, int **i)
 		(*i)[4]++;
 	}
 	word = recover_wtocompl(d, i);
-	if (!(c.args = list_arg(d, i, word)))
+	if (do_setup(d, &c, word, i) == 0)
 		return (0);
-	do_setup(d, &c, word, i);
 	c.word = word;
 	c.min_line = 0;
-	c.num_curr = -1;
 	j = complet_arg(&c, tmp);
 	if (j == -1)
-		return (0);
+		c.ac = -1;
 	insert_word(d, &c, word, i);
+	if (j == -1)
+		return (0);
 	return (j);
 }

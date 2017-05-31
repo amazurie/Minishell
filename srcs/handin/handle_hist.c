@@ -82,6 +82,8 @@ void		del_hist(t_hist *hist)
 {
 	t_hist	*h;
 
+	if (hist == NULL)
+		return ;
 	while (hist->next)
 	{
 		h = hist;

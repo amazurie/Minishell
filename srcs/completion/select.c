@@ -70,9 +70,6 @@ int		do_select(t_compl *c, char **tmp)
 			is_siginted(1);
 			return (-1);
 		}
-		//		int p = 0;
-		//		while (p < 6)
-		//			printf("%i\n", (*tmp)[p++]);
 		if ((j = handle_compl(c, *tmp)) == 2)
 			display_compl(c);
 	}
@@ -82,9 +79,8 @@ int		complet_arg(t_compl *c, char **tmp)
 {
 	int	j;
 
-	j = 0;
+	c->num_curr = -1;
 	display_compl(c);
-	j = 2;
 	read(0, *tmp, LIMIT_LINE);
 	if (is_siginted(0))
 	{
