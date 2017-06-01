@@ -1,13 +1,51 @@
 #include "minishell.h"
 
-t_arg	*list_content(t_compl *c, char *path, char *word)
+static int	check_compllist(t_arg **list, t_arg *listtmp)
+{
+	if (!listtmp)
+	{
+		free(*list);
+		return (0);
+	}
+	else if (listtmp)
+	{
+		if (listtmp->next)
+			free (listtmp->next);
+		listtmp->next = NULL;
+	}
+	return (1);
+}
+
+static int	read_complcont(t_arg **list, DIR *dirp, char *word)
 {
 	struct dirent	*dirc;
-	DIR				*dirp;
-	t_arg			*list;
 	t_arg			*tmplist;
 	t_arg			*listtmp;
 	int				i;
+
+	tmplist = *list;
+	listtmp = NULL;
+	i = 0;
+	while ((dirc = readdir(dirp)))
+	{
+		if ((!word || ft_strncmp(word, dirc->d_name, ft_strlen(word)) == 0
+				|| !word[0]) && dirc->d_name[0] != '.')
+		{
+			tmplist->num = i++;
+			tmplist->elem = ft_strdup(dirc->d_name);
+			if (!(tmplist->next = (t_arg *)ft_memalloc(sizeof(t_arg))))
+				return (0);
+			listtmp = tmplist;
+			tmplist = tmplist->next;
+		}
+	}
+	return (check_compllist(list, listtmp));
+}
+
+t_arg	*list_content(t_compl *c, char *path, char *word)
+{
+	DIR		*dirp;
+	t_arg	*list;
 
 	if (!path || !(dirp = opendir(path)))
 		return (NULL);
@@ -22,63 +60,22 @@ t_arg	*list_content(t_compl *c, char *path, char *word)
 		closedir(dirp);
 		return (NULL);
 	}
-	tmplist = list;
-	listtmp = NULL;
-	i = 0;
-	while ((dirc = readdir(dirp)))
-	{
-		if ((!word || ft_strncmp(word, dirc->d_name, ft_strlen(word)) == 0
-				|| !word[0]) && dirc->d_name[0] != '.')
-		{
-			tmplist->num = i++;
-			tmplist->elem = ft_strdup(dirc->d_name);
-			if (!(tmplist->next = (t_arg *)ft_memalloc(sizeof(t_arg))))
-			{
-				closedir(dirp);
-				return (NULL);
-			}
-			listtmp = tmplist;
-			tmplist = tmplist->next;
-		}
-	}
-	if (!listtmp)
-	{
-		free(list);
-		closedir(dirp);
-		return (NULL);
-	}
-	else if (listtmp)
-	{
-		if (listtmp->next)
-			free (listtmp->next);
-		listtmp->next = NULL;
-	}
+	if (read_complcont(&list, dirp, word) == 0)
+		list = NULL;
 	closedir(dirp);
 	return (list);
 }
 
-t_arg	*list_arg(t_data **d, t_compl *c, int **i, char *word)
+static void	browse_complpath(t_data **d, t_compl *c, t_arg **list, char *word)
 {
-	t_arg	*list;
 	t_arg	*tmplist;
 	t_arg	*listtmp;
 	char	**paths;
 	int		j;
 
 	j = 0;
-	c->is_slash = 0;
-	if (!(list = list_content(c, word, word)))
-		list = list_content(c, ".", word);
-	else
-	{
-		if (c->is_slash == 0)
-			chr_in(d, "/", i);
-		return (list);
-	}
-	if (check_command(d, i) == 1)
-		return (list);
 	paths = ft_strsplit(get_elem((*d)->env, "PATH"), ':');
-	tmplist = list;
+	tmplist = *list;
 	while (paths && paths[j])
 	{
 		listtmp = list_content(c, paths[j++], word);
@@ -90,10 +87,28 @@ t_arg	*list_arg(t_data **d, t_compl *c, int **i, char *word)
 		}
 		else if (listtmp && !tmplist)
 		{
-			list = listtmp;
-			tmplist = list;
+			*list = listtmp;
+			tmplist = *list;
 		}
 	}
 	free_tab(paths);
+}
+
+t_arg	*list_arg(t_data **d, t_compl *c, int **i, char *word)
+{
+	t_arg	*list;
+
+	c->is_slash = 0;
+	if (!(list = list_content(c, word, word)))
+		list = list_content(c, ".", word);
+	else
+	{
+		if (c->is_slash == 0)
+			chr_in(d, "/", i);
+		return (list);
+	}
+	if (check_command(d, i) == 1)
+		return (list);
+	browse_complpath(d, c, &list, word);
 	return (list);
 }

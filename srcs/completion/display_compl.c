@@ -82,6 +82,9 @@ void		display_compl(t_compl *c)
 	whcl[6] = 0;
 	whcl[7] = 0;
 	ar = c->args;
+	i = whcl[5];
+	while (ar && i-- > 0)
+		ar = ar->next;
 	while (ar)
 	{
 		ft_putstr_fd(tgetstr("do", NULL), 0);

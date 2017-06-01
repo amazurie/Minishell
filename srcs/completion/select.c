@@ -1,16 +1,44 @@
 #include "minishell.h"
 
+int	compl_endhome(t_compl *c, char *tmp)
+{
+	int	*whcl;
+
+	whcl = get_size(c);
+	if ((tmp[0] == 27 && tmp[1] == 91 && (tmp[2] == 72 || tmp[2] == 70))
+			|| ((tmp[0] == 1 || tmp[0] == 5) && !tmp[1]))
+	{
+		whcl[6] = 0;
+		if (tmp[2] == 72 || tmp[0] == 1)
+		{
+			while (c->num_curr < whcl[4] * whcl[6]
+					|| c->num_curr > whcl[4] * whcl[6] + whcl[4])
+				whcl[6]++;
+			c->num_curr = whcl[4] * whcl[6];
+			free(whcl);
+			return (2);
+		}
+		free(whcl);
+		while (c->num_curr < whcl[4] * whcl[6]
+				|| c->num_curr > whcl[4] * whcl[6] + whcl[4])
+			whcl[6]++;
+		c->num_curr = whcl[4] * whcl[6] + --whcl[4];
+		return (2);
+	}
+	return (0);
+	free(whcl);
+}
+
 void	hand_rigthcompl(t_compl *c, char *tmp)
 {
 	int	*whcl;
 
 	whcl = get_size(c);
-	whcl[6] = (whcl[4] > whcl[1]) ? whcl[1] : whcl[4];
-	if (c->num_curr + whcl[6] > c->ac)
-		while (c->num_curr - whcl[6] >= 0)
-			c->num_curr -= whcl[6];
+	if (c->num_curr + whcl[4] > c->ac)
+		while (c->num_curr - whcl[4] >= 0)
+			c->num_curr -= whcl[4];
 	else
-		c->num_curr += (whcl[4] > whcl[1]) ? whcl[1] : whcl[4];
+		c->num_curr += whcl[4];
 	free(whcl);
 }
 
@@ -19,12 +47,11 @@ void	hand_leftcompl(t_compl *c, char *tmp)
 	int	*whcl;
 
 	whcl = get_size(c);
-	whcl[6] = (whcl[4] > whcl[1]) ? whcl[1] : whcl[4];
-	if (c->num_curr - whcl[6] < 0)
-		while (c->num_curr + whcl[6] <= c->ac)
-			c->num_curr += whcl[6];
+	if (c->num_curr - whcl[4] < 0)
+		while (c->num_curr + whcl[4] <= c->ac)
+			c->num_curr += whcl[4];
 	else
-		c->num_curr -= whcl[6];
+		c->num_curr -= whcl[4];
 	free(whcl);
 }
 
@@ -52,7 +79,7 @@ int		handle_compl(t_compl *c, char *tmp)
 			|| (tmp[0] == 6 && !tmp[1]))
 		hand_leftcompl(c, tmp);
 	else
-		return (0);
+		return (compl_endhome(c, tmp));
 	return (2);
 }
 
