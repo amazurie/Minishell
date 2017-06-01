@@ -36,8 +36,6 @@ void	insert_word(t_data **d, t_compl *c, char *word, int **i)
 		c->ac = 0;
 		if (c->word)
 			c->ac = ft_strlen(c->word);
-		if (c->is_folder == 1)
-			c->ac += 1;
 		if (word)
 			c->ac -= ft_strlen(word);
 		while (c->ac-- > 0)
@@ -45,8 +43,6 @@ void	insert_word(t_data **d, t_compl *c, char *word, int **i)
 		c->ac = 0;
 		if (word)
 			c->ac = ft_strlen(word);
-		if (c->is_folder == 1)
-			chr_in(d, "/", i);
 		if (c->word)
 			chr_in(d, (c->word + c->ac), i);
 	}

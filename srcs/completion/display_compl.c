@@ -12,8 +12,6 @@ static int	get_sline(t_compl *c, int col)
 	free(prompt);
 	if (c->word)
 		i += ft_strlen(c->word);
-	if (c->is_folder == 1)
-		i += 1;
 	while (i > col)
 	{
 		i -= col;
@@ -58,11 +56,7 @@ static void	prep_compldisplay(t_compl *c, int *whcl)
 	if (ar)
 		c->word = ar->elem;
 	if (c->word)
-	{
-		if (c->is_folder == 1)
-			ft_putstr_fd("/", 0);
 		ft_putstr_fd(c->word, 0);
-	}
 	ft_putstr_fd((c->line + c->i4), 0);
 	ft_putstr_fd(tgetstr("cd", NULL), 0);
 	i = (whcl[4] > whcl[1]) ? whcl[1] : whcl[4];
@@ -119,11 +113,7 @@ void		display_compl(t_compl *c)
 	display_prompt();
 	ft_putnstr_fd(c->line, 0, c->i4);
 	if (c->word)
-	{
-		if (c->is_folder == 1)
-			ft_putstr_fd("/", 0);
 		ft_putstr_fd(c->word, 0);
-	}
 	ft_putstr_fd(tgetstr("ve", NULL), 0);
 	free(whcl);
 }

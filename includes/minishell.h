@@ -128,7 +128,7 @@ typedef struct		s_compl
 	int				i4;
 	int				min_line;
 	int				num_curr;
-	int				is_folder;
+	int				is_slash;
 	struct s_arg	*args;
 }					t_compl;
 
