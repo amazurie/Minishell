@@ -16,7 +16,7 @@ static int	check_compllist(t_arg **list, t_arg *listtmp)
 	return (1);
 }
 
-static int	read_complcont(t_arg **list, DIR *dirp, char *word)
+static int	read_complcont(t_arg **list, DIR *dirp, char *word, char *pathcolor)
 {
 	struct dirent	*dirc;
 	t_arg			*tmplist;
@@ -33,6 +33,7 @@ static int	read_complcont(t_arg **list, DIR *dirp, char *word)
 		{
 			tmplist->num = i++;
 			tmplist->elem = ft_strdup(dirc->d_name);
+			compl_addcolor(&tmplist, pathcolor, dirc->d_name);
 			if (!(tmplist->next = (t_arg *)ft_memalloc(sizeof(t_arg))))
 				return (0);
 			listtmp = tmplist;
@@ -42,27 +43,34 @@ static int	read_complcont(t_arg **list, DIR *dirp, char *word)
 	return (check_compllist(list, listtmp));
 }
 
-t_arg	*list_content(t_compl *c, char *path, char *word)
+static t_arg	*list_content(t_compl *c, char *path, char *word)
 {
 	DIR		*dirp;
 	t_arg	*list;
+	char	*pathcolor;
 
 	if (!path || !(dirp = opendir(path)))
 		return (NULL);
+	pathcolor = NULL;
 	if (ft_strcmp(path, word) == 0)
 	{
+		pathcolor = ft_strdup(path);
 		if (word[ft_strlen(word) - 1] == '/')
 			c->is_slash = 1;
 		ft_bzero(word, ft_strlen(word));
 	}
+	else if (ft_strcmp(path, ".") == 0)
+		pathcolor = ft_strdup(path);
 	if (!(list = (t_arg *)ft_memalloc(sizeof(t_arg))))
 	{
 		closedir(dirp);
 		return (NULL);
 	}
-	if (read_complcont(&list, dirp, word) == 0)
+	if (read_complcont(&list, dirp, word, pathcolor) == 0)
 		list = NULL;
 	closedir(dirp);
+	if (pathcolor)
+		free(pathcolor);
 	return (list);
 }
 

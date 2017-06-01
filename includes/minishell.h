@@ -146,5 +146,6 @@ int					*get_size(t_compl *c);
 int					check_quotecompl(t_data **d, int **i);
 char				*recover_wtocompl(t_data **d, int **i);
 void				free_complargs(t_arg *arg);
+void				compl_addcolor(t_arg **tmplist, char *path, char *arg);
 
 #endif

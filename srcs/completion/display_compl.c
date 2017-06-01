@@ -93,7 +93,10 @@ void		display_compl(t_compl *c)
 			ft_putstr_fd(tgetstr("nd", NULL), 0);
 		if (ar->num == c->num_curr)
 			ft_putstr_fd(tgetstr("mr", NULL), 0);
+		if (ar->color)
+			ft_putstr_fd(ar->color, 0);
 		ft_putstr_fd(ar->elem, 0);
+		ft_putstr_fd(DEFAULT_COL, 0);
 		ft_putstr_fd(tgetstr("me", NULL), 0);
 		whcl[6]++;
 		ar = ar->next;
