@@ -12,15 +12,18 @@
 
 #include "minishell.h"
 
-static int	endhome_key(char *tmp, int **i, char **line)
+static int	endhome_key(t_data **d, char *tmp, int **i, char **line)
 {
 	if ((tmp[0] == 27 && tmp[1] == 91 && (tmp[2] == 72 || tmp[2] == 70))
 			|| ((tmp[0] == 1 || tmp[0] == 5) && !tmp[1]))
 	{
 		if (tmp[2] == 72 || tmp[0] == 1)
 		{
-			while ((*i)[4]-- > (*i)[6])
-				ft_putstr_fd(tgetstr("le", NULL), 0);
+			while ((*i)[4] > (*i)[6])
+			{
+				curs_left(d, i);
+				(*i)[4]--;
+			}
 			(*i)[4] = 0;
 			return (1);
 		}
@@ -44,7 +47,7 @@ int			del_key(char *tmp, int **i, t_data **d)
 		}
 		return (1);
 	}
-	return (endhome_key(tmp, i, &((*d)->line)));
+	return (endhome_key(d, tmp, i, &((*d)->line)));
 }
 
 int			del_line(char **line, char *tmp, int **i)

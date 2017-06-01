@@ -128,11 +128,12 @@ typedef struct		s_compl
 	int				i4;
 	int				min_line;
 	int				num_curr;
+	int				is_folder;
 	struct s_arg	*args;
 }					t_compl;
 
 int					completion(t_data **d, char **tmp, int **i);
-t_arg				*list_arg(t_data **d, int **i, char *word);
+t_arg				*list_arg(t_data **d, t_compl *c, int **i, char *word);
 char				*recover_wtocompl(t_data **d, int **i);
 int					check_command(t_data **d, int **i);
 int					complet_arg(t_compl *c, char **tmp);

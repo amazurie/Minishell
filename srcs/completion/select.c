@@ -79,6 +79,13 @@ int		complet_arg(t_compl *c, char **tmp)
 {
 	int	j;
 
+	if (c->ac == 0)
+	{
+		c->word = c->args->elem;
+		c->num_curr = 0;
+		display_compl(c);
+		return (0);
+	}
 	c->num_curr = -1;
 	display_compl(c);
 	read(0, *tmp, LIMIT_LINE);

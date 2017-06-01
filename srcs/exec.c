@@ -20,6 +20,8 @@ int		test_perm(char *path)
 				|| !(atr.st_mode & S_IXUSR)))
 	{
 			ft_putstr_fd("\e[31mminishell:\e[0m permission denied: ", 2);
+			ft_putstr_fd(path, 2);
+			ft_putchar_fd('\n', 2);
 			exit(0);
 			return (0);
 	}

@@ -11,6 +11,8 @@ t_arg	*list_content(char *path, char *word)
 
 	if (!path || !(dirp = opendir(path)))
 		return (NULL);
+	if (ft_strcmp(path, word) == 0)
+		ft_bzero(word, ft_strlen(word));
 	if (!(list = (t_arg *)ft_memalloc(sizeof(t_arg))))
 	{
 		closedir(dirp);
@@ -50,7 +52,7 @@ t_arg	*list_content(char *path, char *word)
 	return (list);
 }
 
-t_arg	*list_arg(t_data **d, int **i, char *word)
+t_arg	*list_arg(t_data **d, t_compl *c, int **i, char *word)
 {
 	t_arg	*list;
 	t_arg	*tmplist;
@@ -59,8 +61,14 @@ t_arg	*list_arg(t_data **d, int **i, char *word)
 	int		j;
 
 	j = 0;
+	c->is_folder = 0;
 	if (!(list = list_content(word, word)))
 		list = list_content(".", word);
+	else
+	{
+		c->is_folder = 1;
+		return (list);
+	}
 	if (check_command(d, i) == 1)
 		return (list);
 	paths = ft_strsplit(get_elem((*d)->env, "PATH"), ':');
