@@ -129,6 +129,7 @@ typedef struct		s_compl
 	int				min_line;
 	int				num_curr;
 	int				is_slash;
+	int				is_star;
 	struct s_arg	*args;
 }					t_compl;
 

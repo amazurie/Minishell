@@ -98,6 +98,11 @@ t_arg	*list_arg(t_data **d, t_compl *c, int **i, char *word)
 {
 	t_arg	*list;
 
+	c->is_star = 0;
+	if (ft_strcmp(word,  "*") == 0)
+		c->is_star = 1;
+	if (ft_strcmp(word,  "*") == 0)
+		ft_bzero(word, ft_strlen(word));
 	c->is_slash = 0;
 	if (!(list = list_content(c, word, word)))
 		list = list_content(c, ".", word);
@@ -107,7 +112,7 @@ t_arg	*list_arg(t_data **d, t_compl *c, int **i, char *word)
 			chr_in(d, "/", i);
 		return (list);
 	}
-	if (check_command(d, i) == 1)
+	if (check_command(d, i) == 1 || c->is_star == 1)
 		return (list);
 	browse_complpath(d, c, &list, word);
 	return (list);
