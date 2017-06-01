@@ -16,7 +16,7 @@ static int	check_compllist(t_arg **list, t_arg *listtmp)
 	return (1);
 }
 
-static int	read_complcont(t_arg **list, DIR *dirp, char *word, char *pathcolor)
+static int	read_complcont(t_arg **list, DIR *dirp, t_compl *c, char *pathcolor)
 {
 	struct dirent	*dirc;
 	t_arg			*tmplist;
@@ -28,8 +28,9 @@ static int	read_complcont(t_arg **list, DIR *dirp, char *word, char *pathcolor)
 	i = 0;
 	while ((dirc = readdir(dirp)))
 	{
-		if ((!word || ft_strncmp(word, dirc->d_name, ft_strlen(word)) == 0
-				|| !word[0]) && dirc->d_name[0] != '.')
+		if ((!c->word || !ft_strncmp(c->word, dirc->d_name, ft_strlen(c->word))
+				|| !c->word[0]) && (dirc->d_name[0] != '.' || (c->is_dot == 1
+				&& dirc->d_name[1] && dirc->d_name[1] != '.')))
 		{
 			tmplist->num = i++;
 			tmplist->elem = ft_strdup(dirc->d_name);
@@ -54,19 +55,24 @@ static t_arg	*list_content(t_compl *c, char *path, char *word)
 	pathcolor = NULL;
 	if (ft_strcmp(path, word) == 0)
 	{
+		if (word[0] == '.')
+			c->is_dot = 1;
 		pathcolor = ft_strdup(path);
-		if (word[ft_strlen(word) - 1] == '/')
+		if (c->is_dot || word[ft_strlen(word) - 1] == '/')
 			c->is_slash = 1;
-		ft_bzero(word, ft_strlen(word));
+		if (!c->is_dot)
+			ft_bzero(word, ft_strlen(word));
 	}
 	else if (ft_strcmp(path, ".") == 0)
 		pathcolor = ft_strdup(path);
+	if (word[0] == '.')
+		c->is_dot = 1;
 	if (!(list = (t_arg *)ft_memalloc(sizeof(t_arg))))
 	{
 		closedir(dirp);
 		return (NULL);
 	}
-	if (read_complcont(&list, dirp, word, pathcolor) == 0)
+	if (read_complcont(&list, dirp, c, pathcolor) == 0)
 		list = NULL;
 	closedir(dirp);
 	if (pathcolor)
@@ -107,6 +113,7 @@ t_arg	*list_arg(t_data **d, t_compl *c, int **i, char *word)
 	t_arg	*list;
 
 	c->is_star = 0;
+	c->is_dot = 0;
 	if (ft_strcmp(word,  "*") == 0)
 		c->is_star = 1;
 	if (ft_strcmp(word,  "*") == 0)

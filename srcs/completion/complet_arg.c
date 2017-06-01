@@ -61,7 +61,7 @@ char	*recover_wtocompl(t_data **d, int **i)
 		return (NULL);
 	j = (*i)[4] - 1;
 	while (j > (*i)[6] && ((k == 1 && ((*d)->line[j] != '"'
-						|| (*d)->line[j] != '\'')) || (k == 0 && (*d)->line[j] != ' ')))
+			|| (*d)->line[j] != '\'')) || (k == 0 && (*d)->line[j] != ' ')))
 		j--;
 	while ((*d)->line[j] == ' ')
 		j++;

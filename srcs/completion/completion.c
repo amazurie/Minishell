@@ -97,9 +97,9 @@ int		completion(t_data **d, char **tmp, int **i)
 		(*i)[4]++;
 	}
 	word = recover_wtocompl(d, i);
+	c.word = word;
 	if (do_setup(d, &c, word, i) == 0)
 		return (0);
-	c.word = word;
 	c.min_line = 0;
 	if ((j = compl_star(d, &c, word, i)) == 0)
 		j = complet_arg(&c, tmp);
