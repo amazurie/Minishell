@@ -39,24 +39,12 @@ static int	updown_key(t_data **d, char *tmp, int **i)
 {
 	if (tmp[2] == 65 || tmp[2] == 53 || tmp[0] == 16)
 	{
-		if (((*i)[1] = disp_hist_next(d, i)) != -1)
-		{
-			(*i)[2] = (*i)[1];
-			(*i)[4] = (*i)[1];
-		}
-		else
+		if (((*i)[1] = disp_hist_next(d, i)) == -1)
 			return (0);
 	}
 	else
-	{
-		if (((*i)[1] = disp_hist_prec(d, i)) != -1)
-		{
-			(*i)[2] = (*i)[1];
-			(*i)[4] = (*i)[1];
-		}
-		else
+		if (((*i)[1] = disp_hist_prec(d, i)) == -1)
 			return (-1);
-	}
 	return (1);
 }
 
@@ -72,10 +60,10 @@ int		updown_gest(char *tmp, t_data **d, int **i)
 		if (j == -1)
 		{
 			erase_printline(d, i);
-			ft_strcpy(((*d)->line + (*i)[6]), (*d)->buffline);
-			ft_putstr_fd(((*d)->line + (*i)[6]), 0);
-			(*i)[2] = ft_strlen((*d)->line);
+			ft_bzero(((*d)->line + (*i)[6]), (*i)[2] - (*i)[6]);
+			(*i)[2] = (*i)[6];
 			(*i)[4] = (*i)[2];
+			chr_in(d, (*d)->buffline, i);
 			ft_bzero((*d)->buffline, ft_strlen((*d)->buffline));
 			(*i)[5] = 1;
 		}

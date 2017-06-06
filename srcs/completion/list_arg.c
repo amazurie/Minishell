@@ -127,7 +127,7 @@ t_arg	*list_arg(t_data **d, t_compl *c, int **i, char *word)
 			chr_in(d, "/", i);
 		return (list);
 	}
-	if (check_command(d, i) == 1 || c->is_star == 1)
+	if (check_command(d, i) == 1 || c->is_star != 0)
 		return (list);
 	browse_complpath(d, c, &list, word);
 	return (list);

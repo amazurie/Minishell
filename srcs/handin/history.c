@@ -30,9 +30,11 @@ int		disp_hist_next(t_data **d, int **i)
 	{
 		erase_printline(d, i);
 		ft_bzero(((*d)->line + (*i)[6]), (*i)[2] - (*i)[6]);
-		ft_putstr_fd(h->hist, 0);
-		ft_strcpy(((*d)->line + (*i)[6]), h->hist);
+		(*i)[2] = (*i)[6];
+		(*i)[4] = (*i)[2];
+		chr_in(d, h->hist, i);
 		(*i)[3] = h->num;
+		(*i)[5] = 0;
 		return (ft_strlen((*d)->line));
 	}
 	return (-1);
@@ -58,9 +60,11 @@ int		disp_hist_prec(t_data **d, int **i)
 	{
 		erase_printline(d, i);
 		ft_bzero(((*d)->line + (*i)[6]), (*i)[2] - (*i)[6]);
-		ft_putstr_fd(tmp->hist, 0);
-		ft_strcpy(((*d)->line + (*i)[6]), tmp->hist);
+		(*i)[2] = (*i)[6];
+		(*i)[4] = (*i)[2];
+		chr_in(d, tmp->hist, i);
 		(*i)[3] = tmp->num;
+		(*i)[5] = 0;
 		return (ft_strlen((*d)->line));
 	}
 	(*i)[3] = -1;
