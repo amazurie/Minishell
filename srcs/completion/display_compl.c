@@ -1,42 +1,5 @@
 #include "minishell.h"
 
-static int	get_sline(t_compl *c, int col)
-{
-	char	*prompt;
-	int		i;
-	int		j;
-
-	j = 0;
-	prompt = get_prompt();
-	i = ft_strlen(c->line) + ft_strlen(prompt);
-	free(prompt);
-	if (c->word)
-		i += ft_strlen(c->word);
-	while (i > col)
-	{
-		i -= col;
-		j++;
-	}
-	return (j);
-}
-
-int		*get_size(t_compl *c)
-{
-	struct winsize	w;
-	int				*whcl;
-
-	if (!(whcl = (int *)ft_memalloc(sizeof(int) * 9)))
-		return (0);
-	ioctl(0, TIOCGWINSZ, &w);
-	whcl[0] = w.ws_col;
-	whcl[1] = w.ws_row - get_sline(c, whcl[0]) - 1;
-	whcl[3] = nbrline(c->args, whcl[0], &whcl[2]);
-	whcl[4] = nbr_col(c->args, &whcl[3]);
-	whcl[5] = check_winsize(c, whcl);
-	c->min_line = whcl[5];
-	return (whcl);
-}
-
 static void	prep_compldisplay(t_compl *c, int *whcl)
 {
 	t_arg	*ar;
@@ -70,26 +33,13 @@ static void	prep_compldisplay(t_compl *c, int *whcl)
 		ft_putstr_fd(tgetstr("up", NULL), 0);
 }
 
-void		display_compl(t_compl *c)
+static void	disp_complarg(t_compl *c, t_arg *ar, int *whcl)
 {
-	t_arg	*ar;
-	int		*whcl;
-	int		i;
-
-	ft_putstr_fd(tgetstr("vi", NULL), 0);
-	whcl = get_size(c);
-	prep_compldisplay(c, whcl);
-	whcl[6] = 0;
-	whcl[7] = 0;
-	ar = c->args;
-	i = whcl[5];
-	while (ar && i-- > 0)
-		ar = ar->next;
 	while (ar)
 	{
 		ft_putstr_fd(tgetstr("do", NULL), 0);
-		i = whcl[7] * whcl[2];
-		while (i-- > 0)
+		whcl[8] = whcl[7] * whcl[2];
+		while (whcl[8]-- > 0)
 			ft_putstr_fd(tgetstr("nd", NULL), 0);
 		if (ar->num == c->num_curr)
 			ft_putstr_fd(tgetstr("mr", NULL), 0);
@@ -98,19 +48,35 @@ void		display_compl(t_compl *c)
 		ft_putstr_fd(ar->elem, 0);
 		ft_putstr_fd(DEFAULT_COL, 0);
 		ft_putstr_fd(tgetstr("me", NULL), 0);
-		whcl[6]++;
 		ar = ar->next;
-		if (whcl[6] == whcl[4] || whcl[6] == whcl[1])
+		if (++whcl[6] == whcl[4] || whcl[6] == whcl[1])
 		{
 			whcl[7]++;
 			while (whcl[6]-- > 0)
 				ft_putstr_fd(tgetstr("up", NULL), 0);
-			i = whcl[5] + (whcl[4] - (whcl[5] + whcl[1]));
-			while (ar && i-- > 0)
+			whcl[8] = whcl[5] + (whcl[4] - (whcl[5] + whcl[1]));
+			while (ar && whcl[8]-- > 0)
 				ar = ar->next;
 			whcl[6] = 0;
 		}
 	}
+}
+
+void		display_compl(t_compl *c)
+{
+	t_arg	*ar;
+	int		*whcl;
+
+	ft_putstr_fd(tgetstr("vi", NULL), 0);
+	whcl = get_size(c);
+	prep_compldisplay(c, whcl);
+	whcl[6] = 0;
+	whcl[7] = 0;
+	ar = c->args;
+	whcl[8] = whcl[5];
+	while (ar && whcl[8]-- > 0)
+		ar = ar->next;
+	disp_complarg(c, ar, whcl);
 	whcl[6] += get_sline(c, whcl[0]);
 	while (whcl[6]-- > 0)
 		ft_putstr_fd(tgetstr("up", NULL), 0);

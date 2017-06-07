@@ -148,5 +148,8 @@ int					check_quotecompl(t_data **d, int **i);
 char				*recover_wtocompl(t_data **d, int **i);
 void				free_complargs(t_arg *arg);
 void				compl_addcolor(t_arg **tmplist, char *path, char *arg);
+int					compl_star(t_data **d, t_compl *c, char *word, int **i);
+int					get_sline(t_compl *c, int col);
+int					*get_size(t_compl *c);
 
 #endif

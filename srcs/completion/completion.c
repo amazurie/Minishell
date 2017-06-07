@@ -53,35 +53,6 @@ void	insert_word(t_data **d, t_compl *c, char *word, int **i)
 		free(c->line);
 }
 
-int		compl_star(t_data **d, t_compl *c, char *word, int **i)
-{
-	t_arg	*ar;
-	char	*tmp;
-	char	*tmp2;
-
-	if (c->is_star == 0)
-		return (0);
-	ssupprchr(&((*d)->line), (*i)[4] - 1);
-	curs_left(d, i);
-	(*i)[4]--;
-	(*i)[2]--;
-	ar = c->args;
-	tmp = ft_strjoin(ar->elem, " ");
-	if (ar)
-		ar = ar->next;
-	while (ar)
-	{
-		tmp2 = ft_strjoin(tmp, ar->elem);
-		free(tmp);
-		tmp = ft_strjoin(tmp2, " ");
-		free(tmp2);
-		ar = ar->next;
-	}
-	chr_in(d, tmp, i);
-	free(tmp);
-	return (1);
-}
-
 int		completion(t_data **d, char **tmp, int **i)
 {
 	t_compl	c;
@@ -98,11 +69,10 @@ int		completion(t_data **d, char **tmp, int **i)
 	}
 	word = recover_wtocompl(d, i);
 	c.word = word;
-	if (do_setup(d, &c, word, i) == 0)
-	{
+	if ((j = do_setup(d, &c, word, i)) == 0)
 		free(word);
+	if (j == 0)
 		return (0);
-	}
 	c.min_line = 0;
 	if ((j = compl_star(d, &c, word, i)) == 0)
 		j = complet_arg(&c, tmp);
