@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 11:30:06 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:18:38 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 14:14:23 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int			complet_arg(t_compl *c, char **tmp)
 		is_siginted(1);
 		return (-1);
 	}
-	if ((*tmp)[0] != 9 && (*tmp)[1])
+	if ((*tmp)[0] != 9 || (*tmp)[1])
 		return (0);
 	c->num_curr = 0;
 	display_compl(c);
