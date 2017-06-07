@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 12:10:47 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:14:34 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 14:32:18 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,22 @@ static int	r_complcont(t_arg **list, DIR *dirp, t_compl *c, char *pathcol)
 	return (check_compllist(list, listtmp));
 }
 
-static void	compl_cmp(t_compl *c, char *path, char *word, char **pathcol)
+static void	compl_cmp(t_compl *c, char *path, char **word, char **pathcol)
 {
-	if (ft_strcmp(path, word) == 0)
+	if (ft_strcmp(path, *word) == 0)
 	{
-		if (word[0] == '.')
+		if ((*word)[0] == '.' && (!(*word)[1]
+				|| ((*word)[1] != '.' && !(*word)[2])))
 			c->is_dot = 1;
 		*pathcol = ft_strdup(path);
-		if (c->is_dot || word[ft_strlen(word) - 1] == '/')
+		if (c->is_dot || (*word)[ft_strlen(*word) - 1] == '/')
 			c->is_slash = 1;
 		if (!c->is_dot)
-			ft_bzero(word, ft_strlen(word));
+			ft_bzero(*word, ft_strlen(*word));
 	}
 	else if (ft_strcmp(path, ".") == 0)
 		*pathcol = ft_strdup(path);
-	if (word[0] == '.')
+	if ((*word)[0] == '.')
 		c->is_dot = 1;
 }
 
@@ -81,7 +82,7 @@ t_arg		*list_content(t_compl *c, char *path, char *word)
 	if (!path || !(dirp = opendir(path)))
 		return (NULL);
 	pathcol = NULL;
-	compl_cmp(c, path, word, &pathcol);
+	compl_cmp(c, path, &word, &pathcol);
 	if (!(list = (t_arg *)ft_memalloc(sizeof(t_arg))))
 	{
 		closedir(dirp);
