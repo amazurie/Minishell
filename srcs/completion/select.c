@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 11:30:06 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 14:14:23 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 15:06:27 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,17 @@ static int	compl_endhome(t_compl *c, char *tmp)
 			free(whcl);
 			return (2);
 		}
-		free(whcl);
 		while (c->num_curr < whcl[4] * whcl[6]
 				|| c->num_curr > whcl[4] * whcl[6] + whcl[4])
 			whcl[6]++;
 		c->num_curr = whcl[4] * whcl[6] + --whcl[4];
+		free(whcl);
 		return (2);
 	}
-	return (0);
 	free(whcl);
+	if ((!tmp[1] && ft_isascii(tmp[0])) || ft_strisprint(tmp))
+		return (0);
+	return (2);
 }
 
 static void	hand_rlcompl(t_compl *c, char *tmp)
