@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   compl_star.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/06/07 11:29:29 by amazurie          #+#    #+#             */
+/*   Updated: 2017/06/07 12:18:59 by amazurie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int		compl_star(t_data **d, t_compl *c, char *word, int **i)
+int		compl_star(t_data **d, t_compl *c, int **i)
 {
 	t_arg	*ar;
 	char	*tmp;

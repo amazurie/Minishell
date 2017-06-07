@@ -5,10 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/28 11:57:35 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 17:49:32 by amazurie         ###   ########.fr       */
+/*   Created: 2017/06/07 12:42:53 by amazurie          #+#    #+#             */
+/*   Updated: 2017/06/07 12:44:40 by amazurie         ###   ########.fr       */
 /*                                                                            */
-/* ****************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -49,7 +49,7 @@ void	erase_printline(t_data **d, int **i)
 	(*i)[1] = 0;
 	ft_putstr_fd(tgetstr("cd", NULL), 0);
 	if ((*i)[6] == 0)
-		display_prompt((*d)->prompt);
+		display_prompt();
 	else
 		ft_putstr_fd((*d)->prompt, 0);
 }

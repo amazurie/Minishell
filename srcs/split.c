@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/27 13:37:22 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 19:04:29 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 12:16:12 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,22 +103,9 @@ static char		**splitsemicolon(char *s)
 char			**parse_dollar(char *s)
 {
 	char	**stab;
-	size_t	i;
-	size_t	j;
 
 	handbackslash(&s);
 	if ((stab = splitsemicolon(s)) == NULL)
 		return (NULL);
-/*	i = 0;
-	while (stab[i])
-	{
-		while ((j = ft_strlen_chr(stab[i], '$')) < ft_strlen(stab[i]) - 1)
-		{
-			if (stab[i][j + 1] != '$')
-				while (stab[i][j] && stab[i][j] != '$')
-					ssupprchr(&stab[i], j);
-		}
-		i++;
-	}
-*/	return (stab);
+	return (stab);
 }

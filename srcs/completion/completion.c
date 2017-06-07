@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   completion.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/06/07 11:29:48 by amazurie          #+#    #+#             */
+/*   Updated: 2017/06/07 12:19:42 by amazurie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int		do_setup(t_data **d, t_compl *c, char *word, int **i)
+static int	do_setup(t_data **d, t_compl *c, char *word, int **i)
 {
 	t_arg	*args;
-	int	j;
+	int		j;
 
 	if (!(c->args = list_arg(d, c, i, word)))
 		return (0);
@@ -29,7 +41,7 @@ int		do_setup(t_data **d, t_compl *c, char *word, int **i)
 	return (1);
 }
 
-void	insert_word(t_data **d, t_compl *c, char *word, int **i)
+void		insert_word(t_data **d, t_compl *c, char *word, int **i)
 {
 	if (c->ac != -1)
 	{
@@ -53,7 +65,7 @@ void	insert_word(t_data **d, t_compl *c, char *word, int **i)
 		free(c->line);
 }
 
-int		completion(t_data **d, char **tmp, int **i)
+int			completion(t_data **d, char **tmp, int **i)
 {
 	t_compl	c;
 	char	*word;
@@ -74,14 +86,10 @@ int		completion(t_data **d, char **tmp, int **i)
 	if (j == 0)
 		return (0);
 	c.min_line = 0;
-	if ((j = compl_star(d, &c, word, i)) == 0)
+	if ((j = compl_star(d, &c, i)) == 0)
 		j = complet_arg(&c, tmp);
-	else
-		c.ac = -1;
-	if (j == -1)
-		c.ac = -1;
+	c.ac = j;
 	insert_word(d, &c, word, i);
-	if (j == -1)
-		return (0);
+	j = (j == -1) ? 0 : j;
 	return (j);
 }

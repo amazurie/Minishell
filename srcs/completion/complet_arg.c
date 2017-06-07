@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   complet_arg.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/06/07 11:29:42 by amazurie          #+#    #+#             */
+/*   Updated: 2017/06/07 11:31:28 by amazurie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int		check_command(t_data **d, int **i)
@@ -76,7 +88,7 @@ void	free_complargs(t_arg *arg)
 	t_arg	*ar;
 
 	if (arg == NULL)
-		return;
+		return ;
 	while (arg->next)
 	{
 		ar = arg;

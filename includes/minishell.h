@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 16:43:17 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 12:49:42 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void				saddchr(char **s, char c, int pos);
 char				**parse_dollar(char *s);
 void				get_ch(char **tmp);
 int					gest_spekey(char *tmp, t_data **d, int **i);
-void				display_prompt();
+void				display_prompt(void);
 int					del_line(char **line, char *tmp, int **i);
 void				del_hist(t_hist *hist);
 void				del_env(t_env **e);
@@ -111,6 +111,7 @@ int					check_openquote(t_data **d);
 void				sighandler(int sig);
 void				sig_reset(t_data **d, int **i);
 void				chr_in(t_data **d, char *tmp, int **i);
+int					gest_in(t_data **d, char *tmp, int **i);
 
 typedef struct		s_arg
 {
@@ -148,8 +149,9 @@ int					check_quotecompl(t_data **d, int **i);
 char				*recover_wtocompl(t_data **d, int **i);
 void				free_complargs(t_arg *arg);
 void				compl_addcolor(t_arg **tmplist, char *path, char *arg);
-int					compl_star(t_data **d, t_compl *c, char *word, int **i);
+int					compl_star(t_data **d, t_compl *c, int **i);
 int					get_sline(t_compl *c, int col);
 int					*get_size(t_compl *c);
+t_arg				*list_content(t_compl *c, char *path, char *word);
 
 #endif

@@ -1,4 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   display_compl.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/06/07 11:29:53 by amazurie          #+#    #+#             */
+/*   Updated: 2017/06/07 12:17:39 by amazurie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
+static void	prep_compldisplay2(t_compl *c, int *whcl)
+{
+	int		i;
+
+	if (c->word)
+		ft_putstr_fd(c->word, 0);
+	ft_putstr_fd((c->line + c->i4), 0);
+	ft_putstr_fd(tgetstr("cd", NULL), 0);
+	i = (whcl[4] > whcl[1]) ? whcl[1] : whcl[4];
+	while (i-- > 0)
+	{
+		ft_putstr_fd(tgetstr("do", NULL), 0);
+		ft_putstr_fd(tgetstr("dl", NULL), 0);
+	}
+	i = (whcl[4] > whcl[1]) ? whcl[1] : whcl[4];
+	while (i-- > 0)
+		ft_putstr_fd(tgetstr("up", NULL), 0);
+}
 
 static void	prep_compldisplay(t_compl *c, int *whcl)
 {
@@ -18,19 +49,7 @@ static void	prep_compldisplay(t_compl *c, int *whcl)
 		ar = ar->next;
 	if (ar)
 		c->word = ar->elem;
-	if (c->word)
-		ft_putstr_fd(c->word, 0);
-	ft_putstr_fd((c->line + c->i4), 0);
-	ft_putstr_fd(tgetstr("cd", NULL), 0);
-	i = (whcl[4] > whcl[1]) ? whcl[1] : whcl[4];
-	while (i-- > 0)
-	{
-		ft_putstr_fd(tgetstr("do", NULL), 0);
-		ft_putstr_fd(tgetstr("dl", NULL), 0);
-	}
-	i = (whcl[4] > whcl[1]) ? whcl[1] : whcl[4];
-	while (i-- > 0)
-		ft_putstr_fd(tgetstr("up", NULL), 0);
+	prep_compldisplay2(c, whcl);
 }
 
 static void	disp_complarg(t_compl *c, t_arg *ar, int *whcl)
@@ -86,6 +105,7 @@ void		display_compl(t_compl *c)
 	ft_putnstr_fd(c->line, 0, c->i4);
 	if (c->word)
 		ft_putstr_fd(c->word, 0);
+	ft_putstr_fd(tgetstr("ce", NULL), 0);
 	ft_putstr_fd(tgetstr("ve", NULL), 0);
 	free(whcl);
 }

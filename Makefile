@@ -6,7 +6,7 @@
 #    By: jmoucade <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by jmoucade          #+#    #+#              #
-#    Updated: 2017/05/24 18:21:24 by amazurie         ###   ########.fr        #
+#    Updated: 2017/06/07 12:35:30 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ AUTOSTART = starting/autostart.sh
 
 CC = gcc
 
-CFLAGS = #-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 INC_PATH = includes
 SRC_PATH = srcs
@@ -46,6 +46,7 @@ SRC =	$(SRC_PATH)/main.c			\
 		$(SRC_PATH)/error.c
 
 SRC_HANDIN =	$(SRC_HANDIN_PATH)/hand_in.c		\
+				$(SRC_HANDIN_PATH)/gest_in.c		\
 				$(SRC_HANDIN_PATH)/hand_key.c		\
 				$(SRC_HANDIN_PATH)/hand_key2.c		\
 				$(SRC_HANDIN_PATH)/handle_hist.c	\
@@ -56,6 +57,7 @@ SRC_HANDIN =	$(SRC_HANDIN_PATH)/hand_in.c		\
 
 SRC_COMPLETE =	$(SRC_COMPL_PATH)/completion.c			\
 				$(SRC_COMPL_PATH)/list_arg.c			\
+				$(SRC_COMPL_PATH)/list_complcont.c		\
 				$(SRC_COMPL_PATH)/complet_arg.c			\
 				$(SRC_COMPL_PATH)/display_compl.c		\
 				$(SRC_COMPL_PATH)/compldisplay_prep.c	\

@@ -6,13 +6,13 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 16:18:49 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 16:18:55 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 12:21:50 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_openquote(t_data **d)
+int			check_openquote(t_data **d)
 {
 	int	j;
 	int	k;
@@ -52,7 +52,7 @@ void		quote(t_data **d, int **i)
 		if (j == 1)
 			(*d)->prompt = ft_strdup("dquote> ");
 		else
-		(*d)->prompt = ft_strdup("quote> ");
+			(*d)->prompt = ft_strdup("quote> ");
 		ft_putstr_fd((*d)->prompt, 0);
 	}
 	else

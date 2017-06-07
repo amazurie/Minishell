@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_size.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/06/07 11:29:11 by amazurie          #+#    #+#             */
+/*   Updated: 2017/06/07 11:30:58 by amazurie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	check_up(int num_curr, int min_line, int *whcl)
@@ -40,7 +52,6 @@ static int	check_down(int num_curr, int min_line, int *whcl)
 	return (0);
 }
 
-
 int			check_winsize(t_compl *c, int *whcl)
 {
 	int		i;
@@ -60,7 +71,7 @@ int			check_winsize(t_compl *c, int *whcl)
 	return (check_up(c->num_curr, c->min_line, whcl));
 }
 
-int		nbrline(t_arg *arg, int w, int *len)
+int			nbrline(t_arg *arg, int w, int *len)
 {
 	t_arg	*tmp;
 	int		i;
@@ -80,7 +91,7 @@ int		nbrline(t_arg *arg, int w, int *len)
 	return (1);
 }
 
-int		nbr_col(t_arg *arg, int *nline)
+int			nbr_col(t_arg *arg, int *nline)
 {
 	t_arg	*tmp;
 	int		nbr;

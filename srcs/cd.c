@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:13:41 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 16:25:15 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 12:42:23 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	change_pwd(char *path, t_env *env)
 	if (change_envpwd(tmp, env) == 0)
 		ft_putstr_fd("allocation error", 2);
 }
-
 
 static void	check_pwd2(char *path, t_env *env, char *rep, char *tmp)
 {

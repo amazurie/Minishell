@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:16:27 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 16:26:46 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 12:41:52 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		change_envpwd(char *tmp, t_env *env)
 
 	if ((tmp2 = ft_strjoin("OLDPWD=", get_elem(env, "PWD"))) == NULL)
 		return (0);
-	if ((tmp3= ft_strjoin("PWD=", tmp)) == NULL)
+	if ((tmp3 = ft_strjoin("PWD=", tmp)) == NULL)
 		return (0);
 	free(tmp);
 	set_env(&env, tmp2);

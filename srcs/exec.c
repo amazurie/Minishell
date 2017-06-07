@@ -6,31 +6,30 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 17:42:12 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 13:22:21 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		test_perm(char *path)
+int			test_perm(char *path)
 {
 	struct stat	atr;
 
 	if (access(path, F_OK) != -1 && (lstat(path, &atr) != 0
 				|| !(atr.st_mode & S_IXUSR)))
 	{
-			ft_putstr_fd("\e[31mminishell:\e[0m permission denied: ", 2);
-			ft_putstr_fd(path, 2);
-			ft_putchar_fd('\n', 2);
-			exit(0);
-			return (0);
+		ft_putstr_fd("\e[31mminishell:\e[0m permission denied: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putchar_fd('\n', 2);
+		exit(0);
+		return (0);
 	}
 	return (1);
 }
 
 static void	fork_exec2(char **lstav, t_env **env, char **tmpenv)
 {
-	struct stat	atr;
 	char	*tmp;
 	int		i;
 
@@ -56,16 +55,14 @@ static void	fork_exec2(char **lstav, t_env **env, char **tmpenv)
 	exit(0);
 }
 
-static void	fork_exec(char **lstav, char **fullpaths, t_env **env)
+static void	forkexec(char **lstav, char **fullpaths, char **tmpenv, t_env **env)
 {
 	pid_t		pid;
-	char		**tmpenv;
 	int			i;
 	int			j;
 
 	while ((pid = fork()) == -1)
 		sleep(2);
-	tmpenv = lst_to_char(*env);
 	i = 0;
 	j = 0;
 	if (pid > 0)
@@ -77,21 +74,18 @@ static void	fork_exec(char **lstav, char **fullpaths, t_env **env)
 			if (execve(fullpaths[i - 1], lstav, tmpenv) != -1)
 				j++;
 			else if (test_perm(fullpaths[i]) == 0)
-			{
-				free_tab(tmpenv);
 				return ;
-			}
 		}
 	}
 	else
 		i = j + 1;
 	if (j < i)
 		fork_exec2(lstav, env, tmpenv);
-	free_tab(tmpenv);
 }
 
 static void	exec2(char **lstav, char **paths, char **fullpaths, t_env **env)
 {
+	char	**tmpenv;
 	char	*tmp;
 	int		i;
 
@@ -109,7 +103,9 @@ static void	exec2(char **lstav, char **paths, char **fullpaths, t_env **env)
 		fullpaths[i++] = ft_strjoin(tmp, lstav[0]);
 		free(tmp);
 	}
-	fork_exec(lstav, fullpaths, env);
+	tmpenv = lst_to_char(*env);
+	forkexec(lstav, fullpaths, tmpenv, env);
+	free_tab(tmpenv);
 	i = 0;
 	while (paths && paths[i])
 		free(fullpaths[i++]);

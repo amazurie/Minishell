@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 13:44:01 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 17:48:08 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 12:45:29 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ char	*get_prompt(void)
 	return (pwd);
 }
 
-void	display_prompt()
+void	display_prompt(void)
 {
 	char	*pwd;
 	int		i;
 
 	if ((pwd = get_prompt()) == NULL)
-			return ;
+		return ;
 	ft_putstr_fd(PROMPT_COL, 0);
 	if ((i = ft_strschr_len(pwd, "git")) > 0)
 	{

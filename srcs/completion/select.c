@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   select.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/06/07 11:30:06 by amazurie          #+#    #+#             */
+/*   Updated: 2017/06/07 12:18:38 by amazurie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	compl_endhome(t_compl *c, char *tmp)
+static int	compl_endhome(t_compl *c, char *tmp)
 {
 	int	*whcl;
 
@@ -29,33 +41,34 @@ int	compl_endhome(t_compl *c, char *tmp)
 	free(whcl);
 }
 
-void	hand_rigthcompl(t_compl *c, char *tmp)
+static void	hand_rlcompl(t_compl *c, char *tmp)
 {
 	int	*whcl;
 
-	whcl = get_size(c);
-	if (c->num_curr + whcl[4] > c->ac)
-		while (c->num_curr - whcl[4] >= 0)
-			c->num_curr -= whcl[4];
-	else
-		c->num_curr += whcl[4];
-	free(whcl);
-}
-
-void	hand_leftcompl(t_compl *c, char *tmp)
-{
-	int	*whcl;
-
-	whcl = get_size(c);
-	if (c->num_curr - whcl[4] < 0)
-		while (c->num_curr + whcl[4] <= c->ac)
+	if ((tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 67 && !tmp[3])
+			|| (tmp[0] == 2 && !tmp[1]))
+	{
+		whcl = get_size(c);
+		if (c->num_curr + whcl[4] > c->ac && ++c->num_curr >= -1)
+			while (c->num_curr - whcl[4] >= 0)
+				c->num_curr -= whcl[4];
+		else
 			c->num_curr += whcl[4];
+		free(whcl);
+	}
 	else
-		c->num_curr -= whcl[4];
-	free(whcl);
+	{
+		whcl = get_size(c);
+		if (c->num_curr - whcl[4] < 0 && --c->num_curr >= -1)
+			while (c->num_curr + whcl[4] <= c->ac)
+				c->num_curr += whcl[4];
+		else
+			c->num_curr -= whcl[4];
+		free(whcl);
+	}
 }
 
-int		handle_compl(t_compl *c, char *tmp)
+static int	handle_compl(t_compl *c, char *tmp)
 {
 	if (tmp[0] == 10 && !tmp[1])
 	{
@@ -72,18 +85,17 @@ int		handle_compl(t_compl *c, char *tmp)
 					|| (tmp[2] == 54 && tmp[3] == 126)))
 			|| (tmp[0] == 14 && !tmp[1]))
 		c->num_curr = (c->num_curr + 1 > c->ac) ? 0 : c->num_curr + 1;
-	else if ((tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 67 && !tmp[3])
-			|| (tmp[0] == 2 && !tmp[1]))
-		hand_rigthcompl(c, tmp);
-	else if ((tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 68 && !tmp[3])
-			|| (tmp[0] == 6 && !tmp[1]))
-		hand_leftcompl(c, tmp);
+	else if (((tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 67 && !tmp[3])
+			|| (tmp[0] == 2 && !tmp[1])) ||
+			((tmp[0] == 27 && tmp[1] == 91 && tmp[2] == 68 && !tmp[3])
+			|| (tmp[0] == 6 && !tmp[1])))
+		hand_rlcompl(c, tmp);
 	else
 		return (compl_endhome(c, tmp));
 	return (2);
 }
 
-int		do_select(t_compl *c, char **tmp)
+static int	do_select(t_compl *c, char **tmp)
 {
 	int	j;
 
@@ -102,7 +114,8 @@ int		do_select(t_compl *c, char **tmp)
 	}
 	return (j);
 }
-int		complet_arg(t_compl *c, char **tmp)
+
+int			complet_arg(t_compl *c, char **tmp)
 {
 	int	j;
 
@@ -121,11 +134,10 @@ int		complet_arg(t_compl *c, char **tmp)
 		is_siginted(1);
 		return (-1);
 	}
-	if ((*tmp)[0] == 9 && !(*tmp)[1])
-	{
-		c->num_curr = 0;
-		display_compl(c);
-		j = do_select(c, tmp);
-	}
+	if ((*tmp)[0] != 9 && (*tmp)[1])
+		return (0);
+	c->num_curr = 0;
+	display_compl(c);
+	j = do_select(c, tmp);
 	return (j);
 }

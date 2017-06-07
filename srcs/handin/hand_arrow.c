@@ -6,13 +6,13 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 16:17:54 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 16:17:55 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 12:21:29 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		leftright_key(t_data **d, char *tmp, int **i)
+int			leftright_key(t_data **d, char *tmp, int **i)
 {
 	if ((tmp[0] == 27 && tmp[1] == 91 && (tmp[2] == 67 || tmp[2] == 68)
 			&& !tmp[3]) || (tmp[0] == 6 && !tmp[1])
@@ -42,13 +42,12 @@ static int	updown_key(t_data **d, char *tmp, int **i)
 		if (((*i)[1] = disp_hist_next(d, i)) == -1)
 			return (0);
 	}
-	else
-		if (((*i)[1] = disp_hist_prec(d, i)) == -1)
-			return (-1);
+	else if (((*i)[1] = disp_hist_prec(d, i)) == -1)
+		return (-1);
 	return (1);
 }
 
-int		updown_gest(char *tmp, t_data **d, int **i)
+int			updown_gest(char *tmp, t_data **d, int **i)
 {
 	int j;
 

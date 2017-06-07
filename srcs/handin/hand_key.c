@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 16:18:20 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 12:22:19 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	word_moveleft(t_data **d, int **i)
 	(*i)[4]++;
 }
 
-static int		word_move(t_data **d, char *tmp, int **i)
+static int	word_move(t_data **d, char *tmp, int **i)
 {
 	if (tmp[0] != 27 || tmp[1] != 27 || tmp[2] != 91
 			|| (tmp[3] != 67 && tmp[3] != 68) || tmp[4])
@@ -86,7 +86,7 @@ static int		word_move(t_data **d, char *tmp, int **i)
 	return (1);
 }
 
-int		gest_spekey(char *tmp, t_data **d, int **i)
+int			gest_spekey(char *tmp, t_data **d, int **i)
 {
 	if (del_key(tmp, i, d) || leftright_key(d, tmp, i)
 			|| del_line(&((*d)->line), tmp, i) || word_move(d, tmp, i)

@@ -6,13 +6,13 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 11:04:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 16:19:13 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 12:45:45 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_siginted(int sig)
+int		is_siginted(int sig)
 {
 	static int	sig_save;
 
