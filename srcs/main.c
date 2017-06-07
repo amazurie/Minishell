@@ -6,11 +6,21 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 13:19:09 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/07 14:04:54 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void		sigexec(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_putchar_fd('\n', 0);
+		ft_putstr_fd(tgetstr("cd", NULL), 0);
+		is_siginted(1);
+	}
+}
 
 void		sighandler(int sig)
 {
@@ -18,7 +28,6 @@ void		sighandler(int sig)
 
 	if (sig == SIGINT)
 	{
-		wait(0);
 		d = get_data(NULL);
 		ft_putstr_fd((d->line + d->i[4]), 0);
 		ft_bzero(d->line, ft_strlen(d->line));
@@ -58,7 +67,6 @@ static int	shell(t_data **d)
 	char	*tmp;
 	int		i[2];
 
-	signal(SIGINT, &sighandler);
 	signal(SIGTSTP, &sighandler);
 	(*d)->hist = NULL;
 	i[0] = 1;
@@ -66,13 +74,14 @@ static int	shell(t_data **d)
 	{
 		if (((*d)->prompt = get_prompt()) == NULL)
 			return (print_error("allocation error"));
-		if (!is_siginted(0))
-			display_prompt();
+		display_prompt();
 		if ((tmp = (char *)ft_memalloc(LIMIT_LINE)) == NULL)
 			return (print_error("allocation error"));
+		signal(SIGINT, &sighandler);
 		if ((i[1] = in(d, tmp)) == -1)
 			i[0] = 0;
 		free(tmp);
+		signal(SIGINT, &sigexec);
 		if (i[1] == 1 && i[0] == 1)
 			i[0] = hand_arg((*d)->line, &((*d)->hist), &((*d)->env));
 		ft_bzero((*d)->line, ft_strlen((*d)->line));
