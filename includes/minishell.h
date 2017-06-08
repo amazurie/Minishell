@@ -74,7 +74,7 @@ int					disp_hist_next(t_data **d, int **i);
 int					disp_hist_prec(t_data **d, int **i);
 void				ssupprchr(char **s, int pos);
 void				saddchr(char **s, char c, int pos);
-char				**parse_dollar(char *s);
+char				**splitsemicolon(char *s);
 void				get_ch(char **tmp);
 int					gest_spekey(char *tmp, t_data **d, int **i);
 void				display_prompt(void);

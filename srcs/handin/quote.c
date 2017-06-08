@@ -21,14 +21,16 @@ int			check_openquote(t_data **d)
 	k = 0;
 	while ((*d)->line[k])
 	{
-		if ((*d)->line[k] == 34 && j != 2)
+		if ((*d)->line[k] == 34 && j != 2 && ((*d)->line[k - 1] != '\\' ||
+					(*d)->line[k - 2] == '\\'))
 		{
 			if (j == 0)
 				j = 1;
 			else
 				j = 0;
 		}
-		else if ((*d)->line[k] == 39 && j != 1)
+		else if ((*d)->line[k] == 39 && j != 1 && ((*d)->line[k - 1] != '\\' ||
+					(*d)->line[k - 2] == '\\'))
 		{
 			if (j == 0)
 				j = 2;

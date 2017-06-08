@@ -14,7 +14,7 @@
 
 static void		handbackslash(char **s)
 {
-	size_t i;
+	int	i;
 
 	i = 0;
 	while ((*s)[i] && (*s)[i + 1])
@@ -37,8 +37,8 @@ static void		handbackslash(char **s)
 
 static size_t	ft_wds(char *str)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -58,9 +58,9 @@ static size_t	ft_wds(char *str)
 
 static char		**ft_split(char *s, char **stab)
 {
-	unsigned int	i;
-	unsigned int	j;
-	unsigned int	k;
+	int	i;
+	int	j;
+	int	k;
 
 	i = 0;
 	k = 0;
@@ -104,11 +104,12 @@ static char		**ft_split(char *s, char **stab)
 	return (stab);
 }
 
-static char		**splitsemicolon(char *s)
+char			**splitsemicolon(char *s)
 {
 	char	**stab;
-	size_t	j;
+	int		j;
 
+	handbackslash(&s);
 	j = 0;
 	while (s[j] == ';' || s[j] == ' ' || s[j] == '\t')
 		j++;
@@ -117,15 +118,5 @@ static char		**splitsemicolon(char *s)
 	if (!(stab = (char **)ft_memalloc(sizeof(char *) * ft_wds(s) + 1)))
 		return (NULL);
 	stab = ft_split((s + j), stab);
-	return (stab);
-}
-
-char			**parse_dollar(char *s)
-{
-	char	**stab;
-
-	handbackslash(&s);
-	if ((stab = splitsemicolon(s)) == NULL)
-		return (NULL);
 	return (stab);
 }

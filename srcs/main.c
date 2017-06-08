@@ -47,7 +47,7 @@ static int	hand_arg(char *line, t_hist **hist, t_env **env)
 	j = 1;
 	if (*line && (*hist == NULL || ft_strcmp((*hist)->hist, line) != 0))
 		add_hist(hist, line);
-	if ((lstline = parse_dollar(line)) == NULL)
+	if ((lstline = splitsemicolon(line)) == NULL)
 		return (print_error("parsing error") + 1);
 	i = 0;
 	while (lstline[i++])
