@@ -15,25 +15,27 @@
 void		chr_in(t_data **d, char *tmp, int **i)
 {
 	int	j;
+	int	i4;
 
+	(*i)[5] = 1;
+	erase_printline(d, i);
+	i4 = (*i)[4];
 	j = -1;
 	while (tmp[++j])
 	{
-		ft_putstr_fd(tgetstr("sc", NULL), 0);
-		erase_printline(d, i);
-		if ((*i)[2] > LIMIT_LINE - 1)
+		if ((*i)[2] > 6 - 1)
 		{
 			maxline(d, tmp, i);
 			return ;
 		}
 		saddchr(&((*d)->line), tmp[j], (*i)[4]);
-		ft_putstr_fd(((*d)->line + (*i)[6]), 0);
-		ft_putstr_fd(tgetstr("rc", NULL), 0);
-		curs_right(d, i);
 		(*i)[2]++;
 		(*i)[4]++;
-		(*i)[5] = 1;
 	}
+	ft_putstr_fd(((*d)->line + (*i)[6]), 0);
+	i4 += j;
+	while (i4++ < (*i)[2])
+		curs_left(d, i);
 }
 
 void		del_in(t_data **d, int **i)

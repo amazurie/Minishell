@@ -56,6 +56,36 @@ static size_t	ft_wds(char *str)
 	return (j + 1);
 }
 
+static int		split(char **s, int *i)
+{
+	int	j;
+
+	j = 0;
+	while ((*s)[*i + j] && (*s)[*i + j] != ';')
+	{
+		j++;
+		if ((*s)[*i + j] && (*s)[*i + j] == '"')
+		{
+			ssupprchr(s, *i + j);
+			while ((*s)[*i + j] && (*s)[*i + j] != '"')
+				j++;
+			if ((*s)[*i + j])
+				ssupprchr(s, *i + j);
+			j--;
+		}
+		else if ((*s)[*i + j] && (*s)[*i + j] == '\'')
+		{
+			ssupprchr(s, *i + j);
+			while ((*s)[*i + j] && (*s)[*i + j] != '\'')
+				j++;
+			if ((*s)[*i + j])
+				ssupprchr(s, *i + j);
+			j--;
+		}
+	}
+	return (j);
+}
+
 static char		**ft_split(char *s, char **stab)
 {
 	int	i;
@@ -66,33 +96,11 @@ static char		**ft_split(char *s, char **stab)
 	k = 0;
 	while (s[i])
 	{
-		j = 0;
 		if (s[i] != ';')
 		{
 			while (s[i] && s[i] == ' ')
 				i++;
-			while (s[i + j] && s[i + j] != ';')
-			{
-				j++;
-				if (s[i + j] && s[i + j] == '"')
-				{
-					ssupprchr(&s, i + j);
-					while (s[i + j] && s[i + j] != '"')
-						j++;
-					if (s[i + j])
-						ssupprchr(&s, i + j);
-					j--;
-				}
-				else if (s[i + j] && s[i + j] == '\'')
-				{
-					ssupprchr(&s, i + j);
-					while (s[i + j] && s[i + j] != '\'')
-						j++;
-					if (s[i + j])
-						ssupprchr(&s, i + j);
-					j--;
-				}
-			}
+			j = split(&s, &i);
 			stab[k++] = ft_strsub(s, i, j);
 			i += j;
 		}

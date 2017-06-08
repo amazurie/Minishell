@@ -75,6 +75,7 @@ void	maxline(t_data **d, char *tmp, int **i)
 	if ((*i)[6] == 0)
 		ft_putstr_fd((*d)->line, 0);
 	ft_putnstr_fd((*d)->line, 0, (*i)[6]);
+	(*i)[4] = (*i)[2];
 	if ((*i)[6] == 0)
 		return ;
 	ft_putchar_fd('\n', 0);
