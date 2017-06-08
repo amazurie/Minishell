@@ -40,7 +40,7 @@ static void	browse_compl(t_data **d, t_compl *c, t_arg **list, char *word)
 	free_tab(paths);
 }
 
-t_arg		*list_arg(t_data **d, t_compl *c, int **i, char *word)
+t_arg		*list_arg(t_data **d, t_compl *c, char *word, int **i)
 {
 	t_arg	*list;
 
@@ -49,7 +49,12 @@ t_arg		*list_arg(t_data **d, t_compl *c, int **i, char *word)
 	if (ft_strcmp(word, "*") == 0)
 		c->is_star = 1;
 	if (ft_strcmp(word, "*") == 0)
-		ft_bzero(word, ft_strlen(word));
+		ft_bzero(word, ft_strlen(c->word));
+	else if (word[ft_strlen(word) - 1] == '*')
+	{
+		c->is_star = 3;
+		word[ft_strlen(word) - 1] = 0;
+	}
 	c->is_slash = 0;
 	if (!(list = list_content(c, word, word)))
 		list = list_content(c, ".", word);

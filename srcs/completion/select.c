@@ -121,6 +121,7 @@ int			complet_arg(t_compl *c, char **tmp)
 {
 	int	j;
 
+	c->min_line = 0;
 	if (c->ac == 0)
 	{
 		c->word = c->args->elem;

@@ -125,6 +125,7 @@ typedef struct		s_compl
 {
 	char			*line;
 	char			*word;
+	char			*path_save;
 	int				ac;
 	int				i4;
 	int				min_line;
@@ -136,7 +137,7 @@ typedef struct		s_compl
 }					t_compl;
 
 int					completion(t_data **d, char **tmp, int **i);
-t_arg				*list_arg(t_data **d, t_compl *c, int **i, char *word);
+t_arg				*list_arg(t_data **d, t_compl *c, char *word, int **i);
 char				*recover_wtocompl(t_data **d, int **i);
 int					check_command(t_data **d, int **i);
 int					complet_arg(t_compl *c, char **tmp);

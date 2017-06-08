@@ -67,6 +67,8 @@ static int	compl_cmp(t_compl *c, char *path, char **word, char *path2)
 			c->is_dot = 1;
 		if (c->is_dot || (*word)[ft_strlen(*word) - 1] == '/')
 			c->is_slash = 1;
+		c->is_star = (c->is_star == 3) ? 2 : 0;
+		c->path_save = ft_strdup(path2);
 		i = ft_strlen(*word) - 1;
 		while (i > 0 && (*word)[i] != '/' && (size_t)i > ft_strlen(path2) - 1)
 			i--;

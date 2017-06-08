@@ -17,7 +17,7 @@ static int	do_setup(t_data **d, t_compl *c, char *word, int **i)
 	t_arg	*args;
 	int		j;
 
-	if (!(c->args = list_arg(d, c, i, word)))
+	if (!(c->args = list_arg(d, c, word, i)))
 		return (0);
 	c->line = ft_strdup((*d)->line);
 	j = 0;
@@ -81,11 +81,11 @@ int			completion(t_data **d, char **tmp, int **i)
 	}
 	word = recover_wtocompl(d, i);
 	c.word = word;
+	c.path_save = NULL;
 	if ((j = do_setup(d, &c, word, i)) == 0)
 		free(word);
 	if (j == 0)
 		return (0);
-	c.min_line = 0;
 	if ((j = compl_star(d, &c, i)) == 0)
 		j = complet_arg(&c, tmp);
 	c.ac = j;
