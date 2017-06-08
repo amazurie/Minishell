@@ -56,7 +56,7 @@ static size_t	ft_wds(char *str)
 	return (j + 1);
 }
 
-static char		**ft_split(char const *s, char **stab)
+static char		**ft_split(char *s, char **stab)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -72,7 +72,27 @@ static char		**ft_split(char const *s, char **stab)
 			while (s[i] && s[i] == ' ')
 				i++;
 			while (s[i + j] && s[i + j] != ';')
+			{
 				j++;
+				if (s[i + j] && s[i + j] == '"')
+				{
+					ssupprchr(&s, i + j);
+					while (s[i + j] && s[i + j] != '"')
+						j++;
+					if (s[i + j])
+						ssupprchr(&s, i + j);
+					j--;
+				}
+				else if (s[i + j] && s[i + j] == '\'')
+				{
+					ssupprchr(&s, i + j);
+					while (s[i + j] && s[i + j] != '\'')
+						j++;
+					if (s[i + j])
+						ssupprchr(&s, i + j);
+					j--;
+				}
+			}
 			stab[k++] = ft_strsub(s, i, j);
 			i += j;
 		}
