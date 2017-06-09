@@ -60,7 +60,7 @@ static int	compl_cmp(t_compl *c, char *path, char **word, char *path2)
 	int	j;
 
 	j = 0;
-	if (ft_strcmp(path, *word) == 0 && (j = 1) > 0)
+	if (word && word[0] && ft_strcmp(path, *word) == 0 && (j = 1) > 0)
 	{
 		if ((*word)[0] == '.' && (!(*word)[1] || ((*word)[1] != '.'
 					&& (*word)[1] != '/' && !(*word)[2])))
@@ -122,7 +122,7 @@ t_arg		*list_content(t_compl *c, char *firstpath, char *word)
 		return (NULL);
 	if (compl_cmp(c, firstpath, &word, path))
 		pathcol = ft_strdup(path);
-	if (word[0] == '.')
+	if (word && word[0] == '.')
 		c->is_dot = 1;
 	if (!(list = (t_arg *)ft_memalloc(sizeof(t_arg))))
 	{

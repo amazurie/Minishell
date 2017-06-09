@@ -46,11 +46,11 @@ t_arg		*list_arg(t_data **d, t_compl *c, char *word, int **i)
 
 	c->is_star = 0;
 	c->is_dot = 0;
-	if (ft_strcmp(word, "*") == 0)
+	if (word && word[0] && ft_strcmp(word, "*") == 0)
 		c->is_star = 1;
-	if (ft_strcmp(word, "*") == 0)
+	if (word && word[0] && ft_strcmp(word, "*") == 0)
 		ft_bzero(word, ft_strlen(c->word));
-	else if (word[ft_strlen(word) - 1] == '*')
+	else if (word && word[0] && word[ft_strlen(word) - 1] == '*')
 	{
 		c->is_star = 3;
 		word[ft_strlen(word) - 1] = 0;
