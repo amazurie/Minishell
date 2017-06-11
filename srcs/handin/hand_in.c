@@ -36,7 +36,7 @@ int			in(t_data **d, char *tmp)
 	int		j;
 
 	is_siginted(1);
-	if ((i = (int *)ft_memalloc(sizeof(int) * 7)) == NULL)
+	if ((i = (int *)ft_memalloc(sizeof(int) * 8)) == NULL)
 		return (print_error("allocation error") - 1);
 	if (read(0, tmp, 0) == -1)
 		return (-1);

@@ -12,27 +12,46 @@
 
 #include "minishell.h"
 
+static void	check_curspos(t_data **d, int **i)
+{
+	struct winsize	w;
+	int				j;
+
+	ioctl(0, TIOCGWINSZ, &w);
+	j = ft_strlen((*d)->prompt) + (*i)[4] - (*i)[6];
+	while (j > w.ws_col)
+		j -= w.ws_col;
+	if (j == w.ws_col - 1)
+		ft_putstr_fd(tgetstr("do", NULL), 0);
+}
+
 void		chr_in(t_data **d, char *tmp, int **i)
 {
 	int	j;
+	int	i4;
 
+	(*i)[5] = 1;
+	erase_printline(d, i);
+	i4 = (*i)[4];
 	j = -1;
 	while (tmp[++j])
 	{
-		ft_putstr_fd(tgetstr("sc", NULL), 0);
-		erase_printline(d, i);
 		if ((*i)[2] > LIMIT_LINE - 1)
 		{
 			maxline(d, tmp, i);
 			return ;
 		}
-		saddchr(&((*d)->line), tmp[j], (*i)[4]);
-		ft_putstr_fd(((*d)->line + (*i)[6]), 0);
-		ft_putstr_fd(tgetstr("rc", NULL), 0);
-		curs_right(d, i);
+		saddchr(&((*d)->line), tmp[j], (*i)[4] + j);
 		(*i)[2]++;
-		(*i)[4]++;
-		(*i)[5] = 1;
+	}
+	ft_putstr_fd(((*d)->line + (*i)[6]), 0);
+	check_curspos(d, i);
+	(*i)[4] = (*i)[2];
+	i4 += j;
+	while (i4++ < (*i)[2])
+	{
+		curs_left(d, i);
+		(*i)[4]--;
 	}
 }
 

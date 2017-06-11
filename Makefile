@@ -16,7 +16,7 @@ AUTOSTART = starting/autostart.sh
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = #-Wall -Wextra -Werror
 
 INC_PATH = includes
 SRC_PATH = srcs
