@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 11:04:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:45:45 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/12 09:58:56 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ int		is_siginted(int sig)
 void	sig_reset(t_data **d, int **i)
 {
 	ft_memset((*d)->line, 0, (*i)[2]);
+	ft_memset((*d)->buffline, 0, ft_strlen((*d)->buffline));
 	(*i)[2] = 0;
 	(*i)[3] = -1;
 	(*i)[4] = 0;
-	(*i)[5] = 0;
+	(*i)[5] = 1;
 	(*i)[6] = 0;
 	free((*d)->prompt);
 	(*d)->prompt = get_prompt();

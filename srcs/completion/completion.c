@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 11:29:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:19:42 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/12 09:54:26 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void		insert_word(t_data **d, t_compl *c, char *word, int **i)
 		free(word);
 	if (c->line)
 		free(c->line);
+	if (c->path_save)
+		free(c->path_save);
 }
 
 int			completion(t_data **d, char **tmp, int **i)

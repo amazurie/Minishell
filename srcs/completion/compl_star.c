@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 11:29:29 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:18:59 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/12 09:53:04 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,33 @@ static void	prep_complstar2(t_data **d, t_compl *c, int **i)
 		curs_left(d, i);
 		(*i)[4]--;
 		(*i)[2]--;
+	}
+}
+
+static void	prep_complstar(t_data **d, t_compl *c, int **i)
+{
+	ssupprchr(&((*d)->line), (*i)[4] - 1);
+	if (c->is_star == 1)
+		curs_left(d, i);
+	(*i)[4]--;
+	(*i)[2]--;
+	if (c->word && c->is_star > 1)
+	{
+		while (c->word && c->word[0]
+				&& c->word[ft_strlen(c->word) - 1] == (*d)->line[(*i)[4] - 1])
+		{
+			ssupprchr(&((*d)->line), (*i)[4] - 1);
+			ssupprchr(&c->word, ft_strlen(c->word) - 1);
+			curs_left(d, i);
+			(*i)[4]--;
+			(*i)[2]--;
+		}
+		if ((*d)->line[(*i)[4] - 1] == '/')
+		{
+			ssupprchr(&((*d)->line), (*i)[4] - 1);
+			(*i)[4]--;
+			(*i)[2]--;
+		}
 	}
 }
 
@@ -52,33 +79,6 @@ static int	compl_star2(t_data **d, t_compl *c, int **i)
 	chr_in(d, tmp, i);
 	free(tmp);
 	return (1);
-}
-
-static void	prep_complstar(t_data **d, t_compl *c, int **i)
-{
-	ssupprchr(&((*d)->line), (*i)[4] - 1);
-	if (c->is_star == 1)
-		curs_left(d, i);
-	(*i)[4]--;
-	(*i)[2]--;
-	if (c->word && c->is_star > 1)
-	{
-		while (c->word && c->word[0]
-				&& c->word[ft_strlen(c->word) - 1] == (*d)->line[(*i)[4] - 1])
-		{
-			ssupprchr(&((*d)->line), (*i)[4] - 1);
-			ssupprchr(&c->word, ft_strlen(c->word) - 1);
-			curs_left(d, i);
-			(*i)[4]--;
-			(*i)[2]--;
-		}
-		if ((*d)->line[(*i)[4] - 1] == '/')
-		{
-			ssupprchr(&((*d)->line), (*i)[4] - 1);
-			(*i)[4]--;
-			(*i)[2]--;
-		}
-	}
 }
 
 int			compl_star(t_data **d, t_compl *c, int **i)
