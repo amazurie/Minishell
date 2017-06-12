@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 12:16:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 13:47:17 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/12 12:20:28 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,8 @@ void		inni(t_data **d, char *tmp, int **i)
 		sig_reset(d, i);
 	if (completion(d, &tmp, i) == -1)
 		return ;
-	if (is_siginted(0) == 1 && (tmp[0] != 4 || tmp[1]))
-		sig_reset(d, i);
-	ft_putstr_fd(tgetstr("vi", NULL), 0);
 	if (gest_in(d, tmp, i) == -1)
 		(*i)[0] = -1;
-	ft_putstr_fd(tgetstr("ve", NULL), 0);
 	ft_bzero(tmp, ft_strlen(tmp));
 }
 

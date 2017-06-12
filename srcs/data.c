@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 12:42:31 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:42:32 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/12 12:24:27 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ t_data	*data_alloc(char **env)
 		return (NULL);
 	if ((d->env = char_to_lst(env)) == NULL)
 		return (NULL);
-	if ((d->line = (char *)ft_memalloc(2048)) == NULL)
+	if ((d->line = (char *)ft_memalloc(LIMIT_LINE)) == NULL)
 		return (NULL);
-	if ((d->buffline = (char *)ft_memalloc(2048)) == NULL)
+	if ((d->buffline = (char *)ft_memalloc(LIMIT_LINE)) == NULL)
 		return (NULL);
 	return (d);
 }

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 12:42:53 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:44:40 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/12 12:34:14 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,18 @@ void	saddchr(char **s, char c, int pos)
 
 void	erase_printline(t_data **d, int **i)
 {
-	int		j;
-	int		k;
+	struct winsize	w;
+	int				j;
+	int				k;
 
 	(*i)[1] = 0;
 	j = ft_strlen((*d)->prompt) + (*i)[4] - (*i)[6];
+	ioctl(0, TIOCGWINSZ, &w);
+	if (w.ws_col * w.ws_row <= ft_strlen((*d)->prompt) + (*i)[2])
+	{
+		ft_putstr_fd(tgoto(tgetstr("cm", NULL), 0, 0), 0);
+		j = 0;
+	}
 	k = (*i)[4];
 	while ((*i)[1]++ < j)
 	{
@@ -74,10 +81,10 @@ void	maxline(t_data **d, char *tmp, int **i)
 	display_prompt();
 	if ((*i)[6] == 0)
 		ft_putstr_fd((*d)->line, 0);
-	ft_putnstr_fd((*d)->line, 0, (*i)[6]);
 	(*i)[4] = (*i)[2];
 	if ((*i)[6] == 0)
 		return ;
+	ft_putnstr_fd((*d)->line, 0, (*i)[6]);
 	ft_putchar_fd('\n', 0);
 	ft_putstr_fd((*d)->prompt, 0);
 	ft_putstr_fd(((*d)->line + (*i)[6]), 0);

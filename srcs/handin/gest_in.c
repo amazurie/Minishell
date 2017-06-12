@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 12:30:47 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:45:01 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/12 12:34:38 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static void	check_curspos(t_data **d, int **i)
 	int				j;
 
 	ioctl(0, TIOCGWINSZ, &w);
-	j = ft_strlen((*d)->prompt) + (*i)[4] - (*i)[6];
+	j = ft_strlen((*d)->prompt) + (*i)[2] - (*i)[6];
 	while (j > w.ws_col)
 		j -= w.ws_col;
-	if (j == w.ws_col - 1)
+	if (j == w.ws_col)
 		ft_putstr_fd(tgetstr("do", NULL), 0);
 }
 

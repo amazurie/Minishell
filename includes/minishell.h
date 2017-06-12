@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:49:42 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/12 12:07:13 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define PROMPT_COL		"\e[1;36m"
 # define PROMPTGIT_COL	"\e[0;94m"
 # define MAX_HISTORY	5000
-# define LIMIT_LINE		4096
+# define LIMIT_LINE		16384
 
 typedef struct		s_hist
 {
