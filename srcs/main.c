@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 13:37:53 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 13:44:36 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int			main(int ac, char **av, char **env)
 
 	if ((d = data_alloc(env)) == NULL)
 		return (print_error("allocation error"));
-	if (!(name_term = get_elem(d->env, "TERM")) || !tgetent(NULL, name_term))
+	if (!(name_term = get_elem(d->env, "TERM")) || tgetent(NULL, name_term) < 1)
 	{
 		data_free(&d);
 		if (!name_term)
