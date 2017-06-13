@@ -6,11 +6,24 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 11:29:53 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:17:39 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 10:54:59 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	check_curspos(t_data **d, int **i)
+{
+	struct winsize	w;
+	int				j;
+
+	ioctl(0, TIOCGWINSZ, &w);
+	j = ft_strlen((*d)->prompt) + (*i)[2] - (*i)[6];
+	while (j > w.ws_col)
+		j -= w.ws_col;
+	if (j == w.ws_col)
+		ft_putstr_fd(tgetstr("do", NULL), 0);
+}
 
 static void	prep_compldisplay2(t_compl *c, int *whcl)
 {
@@ -36,7 +49,12 @@ static void	prep_compldisplay(t_compl *c, int *whcl)
 	t_arg	*ar;
 	int		i;
 
-	ft_putstr_fd((c->line + c->i4), 0);
+	ar = c->args;
+	while (ar && ar->num != c->num_curr)
+		ar = ar->next;
+	if (ar)
+		c->word = ar->elem;
+	ft_putstr_fd(c->word, 0);
 	i = get_sline(c, whcl[0]);
 	ft_putstr_fd(tgetstr("do", NULL), 0);
 	ft_putstr_fd(tgetstr("up", NULL), 0);
@@ -44,11 +62,6 @@ static void	prep_compldisplay(t_compl *c, int *whcl)
 		ft_putstr_fd(tgetstr("up", NULL), 0);
 	display_prompt();
 	ft_putnstr_fd(c->line, 0, c->i4);
-	ar = c->args;
-	while (ar && ar->num != c->num_curr)
-		ar = ar->next;
-	if (ar)
-		c->word = ar->elem;
 	prep_compldisplay2(c, whcl);
 }
 
