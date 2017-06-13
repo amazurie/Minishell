@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 12:30:47 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 09:11:55 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 16:03:34 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void		chr_in(t_data **d, char *tmp, int **i)
 	int	i4;
 
 	(*i)[5] = 1;
-	erase_printline(d, i);
+	if ((*d)->is_term == 1)
+		erase_printline(d, i);
 	j = -1;
 	while (tmp[++j])
 	{
@@ -42,8 +43,11 @@ void		chr_in(t_data **d, char *tmp, int **i)
 		}
 		saddchr(&((*d)->line), tmp[j], (*i)[4] + j);
 		(*i)[2]++;
+		if ((*d)->is_term == 0)
+			ft_putchar_fd(tmp[j], 0);
 	}
-	ft_putstr_fd(((*d)->line + (*i)[6]), 0);
+	if ((*d)->is_term == 1)
+		ft_putstr_fd(((*d)->line + (*i)[6]), 0);
 	check_curspos(d, i);
 	i4 = (*i)[4] + j;
 	(*i)[4] = (*i)[2];
@@ -94,9 +98,9 @@ int			gest_in(t_data **d, char *tmp, int **i)
 	else if (tmp[0] == 12 && !tmp[1])
 	{
 		ft_putstr_fd(tgetstr("cl", NULL), 0);
-		if ((*i)[6] == 0)
+		if ((*i)[6] == 0 && (*d)->is_term == 1)
 			display_prompt();
-		else
+		else if ((*d)->is_term == 1)
 			ft_putstr_fd((*d)->prompt, 0);
 		ft_putstr_fd(((*d)->line + (*i)[6]), 0);
 	}

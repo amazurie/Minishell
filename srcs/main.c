@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 13:44:36 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 15:56:38 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,9 @@ int			main(int ac, char **av, char **env)
 
 	if ((d = data_alloc(env)) == NULL)
 		return (print_error("allocation error"));
+	d->is_term = 1;
 	if (!(name_term = get_elem(d->env, "TERM")) || tgetent(NULL, name_term) < 1)
-	{
-		data_free(&d);
-		if (!name_term)
-			return (print_error("No term specified, specify by setting TERM"));
-		return (print_error("Can't load TERM entry, make sure to specify it"));
-	}
+		d->is_term = 0;
 	tcgetattr(0, &old);
 	tcgetattr(0, &new);
 	new.c_lflag &= ~(ECHO | ICANON);

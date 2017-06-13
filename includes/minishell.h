@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 12:53:20 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 16:11:54 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct		s_data
 	char			*buffline;
 	char			*prompt;
 	int				*i;
+	int				is_term;
 }					t_data;
 
 char				*get_elem(t_env *env, char *elem);

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 16:07:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 16:18:28 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 16:15:10 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ static int	endhome_key(t_data **d, char *tmp, int **i, char **line)
 			(*i)[4] = 0;
 			return (1);
 		}
-		ft_putstr_fd(((*line) + (*i)[4] + (*i)[6]), 0);
-		(*i)[4] = (*i)[2];
+		while ((*i)[4] < (*i)[2])
+		{
+			curs_right(d, i);
+			(*i)[4]++;
+		}
 		return (1);
 	}
 	return (0);

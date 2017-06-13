@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 16:17:54 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:21:29 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 16:00:56 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int			updown_gest(char *tmp, t_data **d, int **i)
 	{
 		if (j == -1)
 		{
-			erase_printline(d, i);
+			if ((*d)->is_term == 1)
+				erase_printline(d, i);
 			ft_bzero(((*d)->line + (*i)[6]), (*i)[2] - (*i)[6]);
 			(*i)[2] = (*i)[6];
 			(*i)[4] = (*i)[2];

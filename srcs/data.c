@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 12:42:31 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 12:54:08 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 15:52:02 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ t_data	*data_alloc(char **env)
 
 void	data_free(t_data **d)
 {
-	del_env(&(*d)->env);
-	del_hist((*d)->hist);
+	if ((*d)->env)
+		del_env(&(*d)->env);
+	if ((*d)->hist)
+		del_hist((*d)->hist);
 	free((*d)->buffline);
 	free((*d)->line);
 	free((*d));

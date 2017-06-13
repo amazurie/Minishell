@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 16:28:50 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:40:25 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 15:59:48 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	disp_hist(t_data **d, t_hist *h, int **i)
 {
-	erase_printline(d, i);
+	if ((*d)->is_term == 1)
+		erase_printline(d, i);
 	ft_bzero(((*d)->line + (*i)[6]), (*i)[2] - (*i)[6]);
 	(*i)[2] = (*i)[6];
 	(*i)[4] = (*i)[2];

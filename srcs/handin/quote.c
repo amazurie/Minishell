@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 16:18:49 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 10:07:20 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 15:58:28 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ void		quote(t_data **d, int **i)
 	else
 	{
 		(*i)[0] = 1;
-		erase_printline(d, i);
+		if ((*d)->is_term)
+			erase_printline(d, i);
+		if ((*d)->is_term)
 		ft_putstr_fd(((*d)->line + (*i)[6]), 0);
 	}
 	(*i)[6] = (*i)[2];
