@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 11:30:00 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 14:19:24 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 09:44:16 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ t_arg		*list_arg(t_data **d, t_compl *c, char *word, int **i)
 	if (word && word[0] && ft_strcmp(word, "*") == 0)
 		ft_bzero(word, ft_strlen(c->word));
 	else if (word && word[0] && word[ft_strlen(word) - 1] == '*')
-	{
 		c->is_star = 3;
+	if (c->is_star == 3)
 		word[ft_strlen(word) - 1] = 0;
-	}
 	c->is_slash = 0;
 	if (!(list = list_content(c, word, word)))
 		list = list_content(c, ".", word);

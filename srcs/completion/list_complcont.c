@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 12:10:47 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 14:32:18 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 09:51:57 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ static int	compl_cmp(t_compl *c, char *path, char **word, char *path2)
 			ft_bzero((*word + ft_strlen((*word + i))), ft_strlen((*word + i)));
 		}
 	}
-	else if (ft_strcmp(path, ".") == 0)
-		j = 1;
 	return (j);
 }
 
@@ -120,7 +118,7 @@ t_arg		*list_content(t_compl *c, char *firstpath, char *word)
 	pathcol = NULL;
 	if (!(dirp = check_open(firstpath, &path)))
 		return (NULL);
-	if (compl_cmp(c, firstpath, &word, path))
+	if (compl_cmp(c, firstpath, &word, path) || ft_strcmp(firstpath, ".") == 0)
 		pathcol = ft_strdup(path);
 	if (word && word[0] == '.')
 		c->is_dot = 1;

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 16:18:49 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:21:50 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 10:07:20 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int			check_openquote(t_data **d)
 	int	k;
 
 	j = 0;
-	k = 0;
-	while ((*d)->line[k])
+	k = -1;
+	while ((*d)->line[++k])
 	{
 		if ((*d)->line[k] == 34 && j != 2 && ((*d)->line[k - 1] != '\\' ||
 					(*d)->line[k - 2] == '\\'))
@@ -37,7 +37,6 @@ int			check_openquote(t_data **d)
 			else
 				j = 0;
 		}
-		k++;
 	}
 	return (j);
 }

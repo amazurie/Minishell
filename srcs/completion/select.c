@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 11:30:06 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 15:06:27 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 10:04:52 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ static int	compl_endhome(t_compl *c, char *tmp)
 		return (2);
 	}
 	free(whcl);
-	if ((!tmp[1] && ft_isascii(tmp[0])) || ft_strisprint(tmp))
-		return (0);
-	return (2);
+	return (0);
 }
 
 static void	hand_rlcompl(t_compl *c, char *tmp)
@@ -107,10 +105,7 @@ static int	do_select(t_compl *c, char **tmp)
 		ft_bzero(*tmp, ft_strlen(*tmp));
 		read(0, *tmp, LIMIT_LINE);
 		if (is_siginted(0))
-		{
-			is_siginted(1);
 			return (-1);
-		}
 		if ((j = handle_compl(c, *tmp)) == 2)
 			display_compl(c);
 	}
@@ -133,10 +128,7 @@ int			complet_arg(t_compl *c, char **tmp)
 	display_compl(c);
 	read(0, *tmp, LIMIT_LINE);
 	if (is_siginted(0))
-	{
-		is_siginted(1);
 		return (-1);
-	}
 	if ((*tmp)[0] != 9 || (*tmp)[1])
 		return (0);
 	c->num_curr = 0;

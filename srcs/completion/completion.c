@@ -6,11 +6,23 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 11:29:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/12 09:54:26 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 10:03:36 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	compl_free(t_compl *c, char *word, int j)
+{
+	free_complargs(c->args);
+	if (word)
+		free(word);
+	if (c->line)
+		free(c->line);
+	if (c->path_save)
+		free(c->path_save);
+	return (j);
+}
 
 static int	do_setup(t_data **d, t_compl *c, char *word, int **i)
 {
@@ -58,13 +70,7 @@ void		insert_word(t_data **d, t_compl *c, char *word, int **i)
 		if (c->word)
 			chr_in(d, (c->word + c->ac), i);
 	}
-	free_complargs(c->args);
-	if (word)
-		free(word);
-	if (c->line)
-		free(c->line);
-	if (c->path_save)
-		free(c->path_save);
+	compl_free(c, word, 0);
 }
 
 int			completion(t_data **d, char **tmp, int **i)
@@ -86,12 +92,11 @@ int			completion(t_data **d, char **tmp, int **i)
 	c.path_save = NULL;
 	if ((j = do_setup(d, &c, word, i)) == 0)
 		free(word);
-	if (j == 0)
-		return (0);
+	if (j == 0 || j == -1)
+		return (compl_free(&c, word, j));
 	if ((j = compl_star(d, &c, i)) == 0)
 		j = complet_arg(&c, tmp);
 	c.ac = j;
 	insert_word(d, &c, word, i);
-	j = (j == -1) ? 0 : j;
 	return (j);
 }

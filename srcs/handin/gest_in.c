@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 12:30:47 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/12 12:34:38 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 09:11:55 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void		chr_in(t_data **d, char *tmp, int **i)
 
 	(*i)[5] = 1;
 	erase_printline(d, i);
-	i4 = (*i)[4];
 	j = -1;
 	while (tmp[++j])
 	{
@@ -46,8 +45,8 @@ void		chr_in(t_data **d, char *tmp, int **i)
 	}
 	ft_putstr_fd(((*d)->line + (*i)[6]), 0);
 	check_curspos(d, i);
+	i4 = (*i)[4] + j;
 	(*i)[4] = (*i)[2];
-	i4 += j;
 	while (i4++ < (*i)[2])
 	{
 		curs_left(d, i);
