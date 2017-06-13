@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 12:56:56 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 13:19:56 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,7 @@
 void		sigexec(int sig)
 {
 	if (sig == SIGINT)
-	{
-		ft_putchar_fd('\n', 0);
-		ft_putstr_fd(tgetstr("cd", NULL), 0);
 		is_siginted(1);
-	}
 }
 
 void		sighandler(int sig)
