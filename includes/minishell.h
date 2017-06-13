@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/12 12:07:13 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 12:53:20 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void				sighandler(int sig);
 void				sig_reset(t_data **d, int **i);
 void				chr_in(t_data **d, char *tmp, int **i);
 int					gest_in(t_data **d, char *tmp, int **i);
+void				data_free(t_data**d);
 
 typedef struct		s_arg
 {

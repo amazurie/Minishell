@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:41:32 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 14:04:54 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 12:56:56 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ int			main(int ac, char **av, char **env)
 
 	if ((d = data_alloc(env)) == NULL)
 		return (print_error("allocation error"));
-	name_term = get_elem(d->env, "TERM");
+	if (!(name_term = get_elem(d->env, "TERM")))
+		return (print_error("No terminal specified, specify by setting TERM"));
 	tgetent(NULL, name_term);
 	tcgetattr(0, &old);
 	tcgetattr(0, &new);
@@ -110,10 +111,7 @@ int			main(int ac, char **av, char **env)
 	tcsetattr(0, TCSANOW, &new);
 	shell(&d);
 	tcsetattr(0, TCSANOW, &old);
-	del_hist(d->hist);
-	free(d->buffline);
-	free(d->line);
-	free(d);
+	data_free(&d);
 	av[0][0] = ac;
 	return (0);
 }

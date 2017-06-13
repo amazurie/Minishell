@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 12:16:34 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 09:54:45 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/13 11:01:42 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ void		inni(t_data **d, char *tmp, int **i)
 	(*d)->i = *i;
 	get_data(*d);
 	read(0, tmp, LIMIT_LINE);
+	ft_putstr_fd(tgetstr("vi", NULL), 0);
 	if (is_siginted(0) == 1)
 		sig_reset(d, i);
 	if (completion(d, &tmp, i) == -1)
 		sig_reset(d, i);
 	if (gest_in(d, tmp, i) == -1)
 		(*i)[0] = -1;
+	ft_putstr_fd(tgetstr("ve", NULL), 0);
 	ft_bzero(tmp, ft_strlen(tmp));
 }
 
