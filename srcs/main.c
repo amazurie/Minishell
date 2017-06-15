@@ -97,8 +97,12 @@ int			main(int ac, char **av, char **env)
 	if ((d = data_alloc(env)) == NULL)
 		return (print_error("allocation error"));
 	d->is_term = 1;
-	if (!(name_term = get_elem(d->env, "TERM")) || tgetent(NULL, name_term) < 1)
+	if (!(name_term = get_elem(d->env, "TERM")))
+		name_term = "xterm";
+	if ((d->is_term = tgetent(NULL, name_term)) < 1)
 		d->is_term = 0;
+	if (d->is_term == 0)
+		print_error("could not load TERM! Display is on his own!");
 	tcgetattr(0, &old);
 	tcgetattr(0, &new);
 	new.c_lflag &= ~(ECHO | ICANON);

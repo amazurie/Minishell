@@ -60,7 +60,7 @@ void		chr_in(t_data **d, char *tmp, int **i)
 
 void		del_in(t_data **d, int **i)
 {
-	if ((*i)[4] <= (*i)[6])
+	if ((*d)->is_term == 0 || (*i)[4] <= (*i)[6])
 		return ;
 	ft_putstr_fd(tgetstr("sc", NULL), 0);
 	erase_printline(d, i);
