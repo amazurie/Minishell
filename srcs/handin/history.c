@@ -53,7 +53,7 @@ int			disp_hist_prec(t_data **d, int **i)
 	h = (*d)->hist;
 	tmp = NULL;
 	if (!h || (*i)[3] == -1)
-		return (-1);
+		return (0);
 	while (h->next && h->num > (*i)[3])
 	{
 		if (!ft_strncmp(h->hist, (*d)->buffline, ft_strlen((*d)->buffline)))
