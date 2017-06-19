@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jmoucade <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: amazurie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/05 13:11:07 by jmoucade          #+#    #+#              #
-#    Updated: 2017/06/19 11:04:40 by amazurie         ###   ########.fr        #
+#    Created: 2017/06/19 13:34:42 by amazurie          #+#    #+#              #
+#    Updated: 2017/06/19 13:35:03 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,9 +69,9 @@ SRC_COMPLETE =	$(SRC_COMPL_PATH)/completion.c			\
 
 OSRC = $(SRC:.c=.o) $(SRC_HANDIN:.c=.o) $(SRC_COMPLETE:.c=.o)
 
-NO_COLOR=\x1b[0m
-OK_COLOR=\x1b[32;01m
-DEL_COLOR=\x1b[33m
+NO_COLOR = \x1b[0m
+OK_COLOR = \x1b[32;01m
+DEL_COLOR = \x1b[33m
 
 all: $(NAME) run
 
