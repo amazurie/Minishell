@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 16:11:54 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/19 10:23:52 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,7 @@ int					compl_star(t_data **d, t_compl *c, int **i);
 int					get_sline(t_compl *c, int col);
 int					*get_size(t_compl *c);
 t_arg				*list_content(t_compl *c, char *path, char *word);
+void				prep_compldisplay(t_compl *c, int *whcl);
+void				compl_curspos(t_compl *c, char *word);
 
 #endif

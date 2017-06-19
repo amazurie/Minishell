@@ -6,7 +6,7 @@
 #    By: jmoucade <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by jmoucade          #+#    #+#              #
-#    Updated: 2017/06/19 10:16:17 by amazurie         ###   ########.fr        #
+#    Updated: 2017/06/19 10:59:10 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRC_HANDIN =	$(SRC_HANDIN_PATH)/hand_in.c		\
 				$(SRC_HANDIN_PATH)/handle_hist.c	\
 				$(SRC_HANDIN_PATH)/history.c		\
 				$(SRC_HANDIN_PATH)/hand_arrow.c		\
+				$(SRC_HANDIN_PATH)/hand_addel.c		\
 				$(SRC_HANDIN_PATH)/quote.c			\
 				$(SRC_HANDIN_PATH)/cursor.c
 
