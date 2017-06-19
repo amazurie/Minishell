@@ -75,6 +75,7 @@ int			completion(t_data **d, char **tmp, int **i)
 
 	if ((*tmp)[0] != 9 || (*tmp)[1] || (*i)[6] > 0)
 		return (0);
+	c.is_term = (*d)->is_term;
 	while ((*i)[4] < (*i)[2] && (*d)->line[(*i)[4]] != '"'
 			&& (*d)->line[(*i)[4]] != '\'' && (*d)->line[(*i)[4]] != ' ')
 	{

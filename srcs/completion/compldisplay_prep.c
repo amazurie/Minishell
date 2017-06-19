@@ -24,7 +24,7 @@ int	get_sline(t_compl *c, int col)
 	free(prompt);
 	if (c->word)
 		i += ft_strlen(c->word);
-	while (i > col)
+	while (i >= col)
 	{
 		i -= col;
 		j++;

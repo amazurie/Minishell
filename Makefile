@@ -6,7 +6,7 @@
 #    By: jmoucade <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 13:11:07 by jmoucade          #+#    #+#              #
-#    Updated: 2017/06/13 10:17:39 by amazurie         ###   ########.fr        #
+#    Updated: 2017/06/19 10:16:17 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,7 +97,6 @@ clean:
 fclean: clean
 	@make -C libft fclean
 	@/bin/rm -f $(NAME)
-	@/bin/rm -f a.out
 	@echo "$(DEL_COLOR)Delete $(NAME) file.$(NO_COLOR)"
 
 re: fclean all

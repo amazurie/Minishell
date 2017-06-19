@@ -135,6 +135,7 @@ typedef struct		s_compl
 	int				is_slash;
 	int				is_star;
 	int				is_dot;
+	int				is_term;
 	struct s_arg	*args;
 }					t_compl;
 

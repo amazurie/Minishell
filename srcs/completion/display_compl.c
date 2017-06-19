@@ -6,19 +6,19 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 11:29:53 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 16:11:35 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/19 10:15:36 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	check_curspos(t_data **d, int **i)
+static void	check_curspos(t_compl *c, char *word)
 {
 	struct winsize	w;
 	int				j;
 
 	ioctl(0, TIOCGWINSZ, &w);
-	j = ft_strlen((*d)->prompt) + (*i)[2] - (*i)[6];
+	j = ft_strlen(get_prompt()) + ft_strlen(word) + c->i4;
 	while (j > w.ws_col)
 		j -= w.ws_col;
 	if (j == w.ws_col)
@@ -52,17 +52,22 @@ static void	prep_compldisplay(t_compl *c, int *whcl)
 	ar = c->args;
 	while (ar && ar->num != c->num_curr)
 		ar = ar->next;
+	i = get_sline(c, whcl[0]);
 	if (ar)
 		c->word = ar->elem;
-	ft_putstr_fd(c->word, 0);
-	i = get_sline(c, whcl[0]);
+	check_curspos(c, c->word);
 	ft_putstr_fd(tgetstr("do", NULL), 0);
 	ft_putstr_fd(tgetstr("up", NULL), 0);
 	while (i-- > 0)
 		ft_putstr_fd(tgetstr("up", NULL), 0);
-	display_prompt();
-	ft_putnstr_fd(c->line, 0, c->i4);
-	prep_compldisplay2(c, whcl);
+	if (c->is_term)
+	{
+		display_prompt();
+		ft_putnstr_fd(c->line, 0, c->i4);
+		prep_compldisplay2(c, whcl);
+	}
+	else
+		ft_putstr_fd("\n", 0);
 }
 
 static void	disp_complarg(t_compl *c, t_arg *ar, int *whcl)
@@ -91,6 +96,8 @@ static void	disp_complarg(t_compl *c, t_arg *ar, int *whcl)
 				ar = ar->next;
 			whcl[6] = 0;
 		}
+		if (c->is_term == 0 && ar)
+			ft_putchar_fd(' ', 0);
 	}
 }
 
@@ -99,7 +106,7 @@ void		display_compl(t_compl *c)
 	t_arg	*ar;
 	int		*whcl;
 
-	ft_putstr_fd(tgetstr("vi", NULL), 0);
+//	ft_putstr_fd(tgetstr("vi", NULL), 0);
 	whcl = get_size(c);
 	prep_compldisplay(c, whcl);
 	whcl[6] = 0;
@@ -114,10 +121,13 @@ void		display_compl(t_compl *c)
 		ft_putstr_fd(tgetstr("up", NULL), 0);
 	ft_putstr_fd(tgetstr("do", NULL), 0);
 	ft_putstr_fd(tgetstr("up", NULL), 0);
+	if (c->is_term == 0)
+		ft_putchar_fd('\n', 0);
 	display_prompt();
 	ft_putnstr_fd(c->line, 0, c->i4);
 	if (c->word)
 		ft_putstr_fd(c->word, 0);
+	check_curspos(c, c->word);
 	ft_putstr_fd(tgetstr("ce", NULL), 0);
 	ft_putstr_fd(tgetstr("ve", NULL), 0);
 	free(whcl);

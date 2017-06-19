@@ -60,13 +60,16 @@ void		chr_in(t_data **d, char *tmp, int **i)
 
 void		del_in(t_data **d, int **i)
 {
-	if ((*d)->is_term == 0 || (*i)[4] <= (*i)[6])
+	if ((*i)[4] <= (*i)[6])
 		return ;
 	ft_putstr_fd(tgetstr("sc", NULL), 0);
-	erase_printline(d, i);
 	ssupprchr(&((*d)->line), (*i)[4] - 1);
-	ft_putstr_fd(((*d)->line + (*i)[6]), 0);
-	ft_putstr_fd(tgetstr("rc", NULL), 0);
+	if ((*d)->is_term)
+	{
+		erase_printline(d, i);
+		ft_putstr_fd(((*d)->line + (*i)[6]), 0);
+		ft_putstr_fd(tgetstr("rc", NULL), 0);
+	}
 	curs_left(d, i);
 	(*i)[2]--;
 	(*i)[4]--;

@@ -20,7 +20,7 @@ void		inni(t_data **d, char *tmp, int **i)
 	ft_putstr_fd(tgetstr("vi", NULL), 0);
 	if (is_siginted(0) == 1)
 		sig_reset(d, i);
-	if ((*d)->is_term == 1 && completion(d, &tmp, i) == -1)
+	if (completion(d, &tmp, i) == -1)
 		sig_reset(d, i);
 	if (gest_in(d, tmp, i) == -1)
 		(*i)[0] = -1;
