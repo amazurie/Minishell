@@ -6,14 +6,14 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/19 10:23:52 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/19 14:15:58 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/includes/libft.h"
+# include "libft.h"
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <sys/ioctl.h>
