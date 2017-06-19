@@ -6,13 +6,13 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 16:07:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 16:15:10 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/19 11:04:03 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	endhome_key(t_data **d, char *tmp, int **i, char **line)
+static int	endhome_key(t_data **d, char *tmp, int **i)
 {
 	if ((tmp[0] == 27 && tmp[1] == 91 && (tmp[2] == 72 || tmp[2] == 70))
 			|| ((tmp[0] == 1 || tmp[0] == 5) && !tmp[1]))
@@ -50,7 +50,7 @@ int			del_key(char *tmp, int **i, t_data **d)
 		}
 		return (1);
 	}
-	return (endhome_key(d, tmp, i, &((*d)->line)));
+	return (endhome_key(d, tmp, i));
 }
 
 int			del_line(char **line, char *tmp, int **i)
