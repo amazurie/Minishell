@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 12:42:53 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/12 12:34:14 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/19 11:20:03 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ void	erase_printline(t_data **d, int **i)
 		j = 0;
 	}
 	k = (*i)[4];
-	while ((*i)[1]++ < j)
+	while (--j > 0)
 	{
 		curs_left(d, i);
 		(*i)[4]--;
 	}
 	(*i)[4] = k;
-	(*i)[1] = 0;
 	ft_putstr_fd(tgetstr("cd", NULL), 0);
+	ft_putstr_fd(tgetstr("le", NULL), 0);
 	if ((*i)[6] == 0)
 		display_prompt();
 	else
