@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 11:29:36 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/19 10:30:28 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/20 14:58:26 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,14 @@ int			*get_size(t_compl *c)
 void		compl_curspos(t_compl *c, char *word)
 {
 	struct winsize	w;
+	char			*tmp;
 	int				j;
 
 	ioctl(0, TIOCGWINSZ, &w);
-	j = ft_strlen(get_prompt()) + ft_strlen(word) + c->i4;
+	tmp = get_prompt();
+	j = ft_strlen(tmp) + ft_strlen(word) + c->i4;
+	if (tmp)
+		free(tmp);
 	while (j > w.ws_col)
 		j -= w.ws_col;
 	if (j == w.ws_col)

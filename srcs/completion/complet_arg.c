@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 11:29:42 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 11:31:28 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/20 14:55:22 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,29 @@ int		check_quotecompl(t_data **d, int **i)
 	return (j);
 }
 
+static void	check_home(t_data **d, char **word)
+{
+	char	*tmp;
+	char	*tmp2;
+
+	if (ft_strcmp(*word, "~") == 0)
+	{
+		ft_bzero(*word, ft_strlen(*word));
+		ft_strcat(*word, get_elem((*d)->env, "HOME"));
+	}
+	else if ((*word)[0] == '~' && (*word)[1] == '/')
+	{
+		tmp = ft_strdup(*word + 1);
+		ft_bzero(*word, ft_strlen(*word));
+		tmp2 = get_elem((*d)->env, "HOME");
+		if (!tmp2)
+			tmp = "~";
+		ft_strcat(*word, tmp2);
+		ft_strcat(*word, tmp);
+		free(tmp);
+	}
+}
+
 char	*recover_wtocompl(t_data **d, int **i)
 {
 	char	*word;
@@ -80,6 +103,7 @@ char	*recover_wtocompl(t_data **d, int **i)
 	if (j > (*i)[4] || (*i)[4] - j > 300)
 		return (NULL);
 	ft_strncat(word, ((*d)->line + j), (*i)[4] - j);
+	check_home(d, &word);
 	return (word);
 }
 
