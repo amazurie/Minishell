@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:06:19 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 16:06:16 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/20 12:25:47 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int			built_in(t_env **env, char **lstav, t_hist *hist)
 	else if (ft_strcmp(lstav[0], "unsetenv") == 0 && lstav[1])
 		unset_env(env, lstav);
 	else if (ft_strcmp(lstav[0], "echo") == 0)
-		echo_doing(lstav);
+		echo_doing(lstav, env);
 	else
 		return (built_in2(env, lstav, hist));
 	return (1);

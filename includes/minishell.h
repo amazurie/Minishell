@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/19 14:15:58 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/20 12:26:01 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void				erase_printline(t_data **d, int **i);
 int					is_onlytab(char *s);
 void				check_dotdot(char **tmp, char **path);
 void				builtu_env(char **lstav, t_env **envcpy, size_t *i);
-void				echo_doing(char **lstav);
+void				echo_doing(char **lstav, t_env **env);
 int					is_siginted(int sig);
 char				**lst_to_char(t_env *env);
 int					check_path(char *path);
