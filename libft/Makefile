@@ -40,21 +40,30 @@ OSRC = $(SRC:.c=.o)
 
 HEADER = libft.h
 
-NO_COLOR=\x1b[0m
-OK_COLOR=\x1b[32;01m
-DEL_COLOR=\x1b[33m
+NO_COLOR = \x1b[0m
+OK_COLOR = \x1b[32;01m
+DEL_COLOR = \x1b[33m
+
+TOTAL_FILE = 85
 
 all: $(NAME)
 
 $(NAME): $(OSRC)
-	@echo "Compiling..."
-	@$(CC) $(FLAGS) -c $(SRC) -I $(INC)
+	@echo "\nCompiling..."
 	@ar rc $(NAME) $(OSRC)
 	@ranlib $(NAME)
 	@echo "$(OK_COLOR)$@ compiled.$(NO_COLOR)"
 
 %.o: %.c
 	@$(CC) -o $@ $(FLAGS) -I $(INC) -c $<
+	@$(eval compteur = $(shell echo $$(($(compteur)+1))))
+	@$(eval total = $(shell echo ${compteur}*100 | bc))
+	@$(eval total = $(shell echo ${total}/$(TOTAL_FILE) | bc))
+	@$(eval bar = $(shell echo ${total}/5 | bc))
+	@echo "$(OK_COLOR)\r [ \c"
+	@for ((i = 0; i < $(bar); ++i)); do echo "=\c"; done
+	@echo "> ] $(total)%\c"
+	@echo "$(NO_COLOR)\c"
 
 clean:
 	@rm -f $(OSRC)
