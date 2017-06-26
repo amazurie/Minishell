@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/27 12:20:44 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/26 14:50:50 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/26 15:54:04 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void		set_env(t_env **env, char *av)
 	char	*cont;
 
 	(!av) ? err_arg() : (0);
-	if (!av)
+	if (!av || av[0] == '=')
 		return ;
 	if (!*env)
 		return (set_on_new(env, av));
