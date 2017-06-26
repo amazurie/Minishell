@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:31:48 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 13:38:42 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/26 14:44:01 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,15 @@ void		unset_env(t_env **env, char **lstav)
 {
 	int		i;
 
-	if (!*env || !lstav | !lstav[1])
+	if (!lstav[1])
+	{
+		ft_putstr_fd(ERR_COL, 2);
+		ft_putstr_fd("unsetenv: ", 2);
+		ft_putstr_fd(DEFAULT_COL, 2);
+		ft_putstr_fd("(null): invalid argument", 2);
+		ft_putchar_fd('\n', 2);
+	}
+	if (!*env || !lstav)
 		return ;
 	i = 0;
 	while (lstav[i])

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/27 12:20:44 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/26 09:41:06 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/26 14:50:50 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,22 @@ static void	add_elem(t_env **tmpenv, char *elem, char *cont)
 	(*tmpenv)->next = NULL;
 }
 
+static void	err_arg()
+{
+	ft_putstr_fd(ERR_COL, 2);
+	ft_putstr_fd("setenv: ", 2);
+	ft_putstr_fd(DEFAULT_COL, 2);
+	ft_putstr_fd("(null): invalid argument", 2);
+	ft_putchar_fd('\n', 2);
+}
+
 void		set_env(t_env **env, char *av)
 {
 	t_env	*tmpenv;
 	char	*elem;
 	char	*cont;
 
+	(!av) ? err_arg() : (0);
 	if (!av)
 		return ;
 	if (!*env)
