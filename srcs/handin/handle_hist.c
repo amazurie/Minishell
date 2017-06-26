@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 12:43:08 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/26 10:37:55 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/26 10:49:15 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,15 @@ void		display_hist(t_hist *lst, char *content)
 	h = lst;
 	if (h == NULL)
 		return ;
-	while (h->next)
+	h = h->next;
+	display_hist(h, content);
+	if (h != NULL && (!content || ft_strschr(h->hist, content)))
 	{
-		if (ft_strschr(h->hist, content))
-		{
-			ft_putnbr(h->num);
-			ft_putchar(' ');
-			ft_putstr(h->hist);
-			ft_putchar('\n');
-		}
-		h = h->next;
+		ft_putnbr(h->num);
+		ft_putchar(' ');
+		ft_putstr(h->hist);
+		ft_putchar('\n');
 	}
-	ft_putnbr(h->num);
-	ft_putchar(' ');
-	ft_putstr(h->hist);
-	ft_putchar('\n');
 }
 
 void		del_hist(t_hist *hist)
