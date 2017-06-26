@@ -6,7 +6,7 @@
 #    By: amazurie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/19 13:34:42 by amazurie          #+#    #+#              #
-#    Updated: 2017/06/26 13:07:54 by amazurie         ###   ########.fr        #
+#    Updated: 2017/06/26 13:13:50 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,10 +69,11 @@ SRC_COMPLETE =	$(SRC_COMPL_PATH)/completion.c			\
 
 OSRC = $(SRC:.c=.o) $(SRC_HANDIN:.c=.o) $(SRC_COMPLETE:.c=.o)
 
-NO_COLOR = \x1b[0m #default: white
-OK_COLOR = \x1b[32;01m #green
-DEL_COLOR = \x1b[33m #yellow
-ASCII_NAME = \033[0;36m #lightblue
+NO_COLOR = \x1b[0m#default: white
+OK_COLOR = \x1b[32;01m#green
+DEL_COLOR = \x1b[33m#yellow
+ASCII_NAME = \x1b[0;36m#lightblue
+WARN_COLOR = \x1b[31m#red
 
 TOTAL_FILE = 38
 SIZE_BAR = 2 #reduce number to reduce bar size
@@ -87,9 +88,9 @@ $(NAME): $(LIB) $(OSRC)
 	@cat starting/name
 	@echo "$(NO_COLOR)"
 	@echo "Thanks for testing my minishell !"
-	@echo "\033[31mThis is a simple shell like\033[0m"
-	@echo "\033[31mPlease, I try to learn."
-	@echo "I'm not just an inconvenience you need to pass through even this is bothering you\033[0m"
+	@echo "$(WARN_COLOR)This is a simple shell like"
+	@echo "Please, I try to learn."
+	@echo "I'm not just an inconvenience you need to pass through even this is bothering you$(NO_COLOR)"
 	@echo "minishell is ready to launch"
 
 $(LIB):
