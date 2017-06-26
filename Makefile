@@ -6,7 +6,7 @@
 #    By: amazurie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/19 13:34:42 by amazurie          #+#    #+#              #
-#    Updated: 2017/06/26 13:02:14 by amazurie         ###   ########.fr        #
+#    Updated: 2017/06/26 13:07:54 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,9 +69,10 @@ SRC_COMPLETE =	$(SRC_COMPL_PATH)/completion.c			\
 
 OSRC = $(SRC:.c=.o) $(SRC_HANDIN:.c=.o) $(SRC_COMPLETE:.c=.o)
 
-NO_COLOR = \x1b[0m
-OK_COLOR = \x1b[32;01m
-DEL_COLOR = \x1b[33m
+NO_COLOR = \x1b[0m #default: white
+OK_COLOR = \x1b[32;01m #green
+DEL_COLOR = \x1b[33m #yellow
+ASCII_NAME = \033[0;36m #lightblue
 
 TOTAL_FILE = 38
 SIZE_BAR = 2 #reduce number to reduce bar size
@@ -82,8 +83,14 @@ $(NAME): $(LIB) $(OSRC)
 	@echo "\nCompiling..."
 	@$(CC) $(CFLAGS) $(OSRC) -o $@ -L $(LIB_PATH) -lft -lcurses
 	@echo "$(OK_COLOR)$@ compiled.$(NO_COLOR)"
-	@echo "running auto-starting"
-	@sh $(AUTOSTART)
+	@echo "$(ASCII_NAME)"
+	@cat starting/name
+	@echo "$(NO_COLOR)"
+	@echo "Thanks for testing my minishell !"
+	@echo "\033[31mThis is a simple shell like\033[0m"
+	@echo "\033[31mPlease, I try to learn."
+	@echo "I'm not just an inconvenience you need to pass through even this is bothering you\033[0m"
+	@echo "minishell is ready to launch"
 
 $(LIB):
 	@make -C $(LIB_PATH)
