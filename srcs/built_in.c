@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:06:19 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/26 10:39:09 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/26 12:40:30 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	built_in2(t_env **env, char **lstav, t_hist *hist)
 		display_hist(hist, lstav[1]);
 	else if (ft_strcmp(lstav[0], "cd") == 0)
 		cd(lstav, *env);
-	else if (ft_strcmp(lstav[0], "exit") == 0 && !lstav[1])
+	else if (ft_strcmp(lstav[0], "exit") == 0)
 		return (-1);
 	else
 		return (0);

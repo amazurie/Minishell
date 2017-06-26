@@ -6,7 +6,7 @@
 #    By: amazurie <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/19 13:34:42 by amazurie          #+#    #+#              #
-#    Updated: 2017/06/19 13:35:03 by amazurie         ###   ########.fr        #
+#    Updated: 2017/06/26 13:02:14 by amazurie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,13 +76,14 @@ DEL_COLOR = \x1b[33m
 TOTAL_FILE = 38
 SIZE_BAR = 2 #reduce number to reduce bar size
 
-all: $(NAME) run
+all: $(NAME)
 
 $(NAME): $(LIB) $(OSRC)
 	@echo "\nCompiling..."
 	@$(CC) $(CFLAGS) $(OSRC) -o $@ -L $(LIB_PATH) -lft -lcurses
 	@echo "$(OK_COLOR)$@ compiled.$(NO_COLOR)"
 	@echo "running auto-starting"
+	@sh $(AUTOSTART)
 
 $(LIB):
 	@make -C $(LIB_PATH)
@@ -98,9 +99,6 @@ $(LIB):
 	@for ((i = 0; i < $(shell echo 100/$(SIZE_BAR)-${bar} | bc); ++i)); do echo " \c"; done
 	@echo "> ] $(total)%\c"
 	@echo "$(NO_COLOR)\c"
-
-run: $(AUTOSTART)
-	@sh $(AUTOSTART)
 
 clean:
 	@make -C libft clean
