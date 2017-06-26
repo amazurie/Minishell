@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:07:35 by amazurie          #+#    #+#             */
-/*   Updated: 2017/05/24 17:28:40 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/26 10:57:49 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static void	built_env(char **lstav, t_env **envcpy, size_t *i)
 		if (lstav[i[0]][i[1]] == 'i')
 			del_env(envcpy);
 		else if (lstav[i[0]][i[1]] == 'u')
+		{
 			builtu_env(lstav, envcpy, i);
+			i[1] = ft_strlen(lstav[i[0]]);
+		}
 		else if (lstav[i[0]][i[1]] == 'c')
 			i[2] = 2;
 		else
