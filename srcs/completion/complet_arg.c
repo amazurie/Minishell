@@ -6,13 +6,13 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 11:29:42 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/20 14:55:22 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/26 09:51:48 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_command(t_data **d, int **i)
+int			check_command(t_data **d, int **i)
 {
 	int		j;
 
@@ -32,7 +32,7 @@ int		check_command(t_data **d, int **i)
 	return (1);
 }
 
-int		check_quotecompl(t_data **d, int **i)
+int			check_quotecompl(t_data **d, int **i)
 {
 	int	j;
 	int	k;
@@ -83,7 +83,7 @@ static void	check_home(t_data **d, char **word)
 	}
 }
 
-char	*recover_wtocompl(t_data **d, int **i)
+char		*recover_wtocompl(t_data **d, int **i)
 {
 	char	*word;
 	int		j;
@@ -107,7 +107,7 @@ char	*recover_wtocompl(t_data **d, int **i)
 	return (word);
 }
 
-void	free_complargs(t_arg *arg)
+void		free_complargs(t_arg *arg)
 {
 	t_arg	*ar;
 

@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:06:19 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/20 12:25:47 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/26 09:41:00 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			built_in(t_env **env, char **lstav, t_hist *hist)
 		return (0);
 	else if (ft_strcmp(lstav[0], "env") == 0)
 		envcom(lstav, *env, hist);
-	else if (ft_strcmp(lstav[0], "setenv") == 0 && lstav[1])
+	else if (ft_strcmp(lstav[0], "setenv") == 0)
 		while (lstav[i])
 			set_env(env, lstav[i++]);
 	else if (ft_strcmp(lstav[0], "unsetenv") == 0 && lstav[1])
