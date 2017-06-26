@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:07:35 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/26 10:57:49 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/26 13:59:13 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 static void	built_env(char **lstav, t_env **envcpy, size_t *i)
 {
 	i[1] = 0;
-	while (lstav[i[0]][++i[1]] && lstav[i[0]][0] == '-')
+	while (lstav[i[0]] && lstav[i[0]][++i[1]] && lstav[i[0]][0] == '-')
 	{
 		if (lstav[i[0]][i[1]] == 'i')
 			del_env(envcpy);
 		else if (lstav[i[0]][i[1]] == 'u')
 		{
 			builtu_env(lstav, envcpy, i);
-			i[1] = ft_strlen(lstav[i[0]]);
+			i[1] = ft_strlen(lstav[i[0]]) - 1;
 		}
 		else if (lstav[i[0]][i[1]] == 'c')
 			i[2] = 2;
-		else
+		else if (lstav[i[0]][i[1]])
 		{
 			ft_putstr_fd("env: illegal option -- ", 2);
 			ft_putchar_fd(lstav[i[0]][i[1]], 2);
@@ -35,7 +35,8 @@ static void	built_env(char **lstav, t_env **envcpy, size_t *i)
 				i[0]++;
 			i[2] = 0;
 			i[0]--;
-			i[1] = ft_strlen(lstav[i[0]]);
+			i[4] = 0;
+			i[1] = ft_strlen(lstav[i[0]]) - 1;
 		}
 	}
 }
@@ -69,10 +70,11 @@ static int	envcom2(char **lstav, t_env **envcpy, t_hist *hist)
 {
 	size_t	*i;
 
-	if ((i = (size_t *)ft_memalloc(sizeof(size_t) * 5)) == NULL)
+	if ((i = (size_t *)ft_memalloc(sizeof(size_t) * 6)) == NULL)
 		return (0);
 	i[0] = 0;
 	i[2] = 1;
+	i[4] = 1;
 	while (lstav[++i[0]])
 	{
 		i[3] = 0;
@@ -81,7 +83,7 @@ static int	envcom2(char **lstav, t_env **envcpy, t_hist *hist)
 			del_env(envcpy);
 		if (!i[3] && ft_strchr(lstav[i[0]], '='))
 			set_env(envcpy, lstav[i[0]]);
-		else if (lstav[i[0]] && lstav[i[0]][0] != '-'
+		else if (i[4] == 1 && lstav[i[0]] && lstav[i[0]][0] != '-'
 				&& (!ft_strchr(lstav[i[0] - 1], 'u')
 				|| lstav[i[0] - 1][ft_strlen_chr(lstav[i[0] - 1], 'u') + 1]))
 			envexec(lstav, envcpy, hist, i);
