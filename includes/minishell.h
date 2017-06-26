@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/20 12:26:01 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/26 10:36:39 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void				unset_env(t_env **env, char **lstav);
 void				del_elem(t_env **env, char *elem);
 int					cd(char **path, t_env *env);
 void				add_hist(t_hist **lst, char *hist);
-void				display_hist(t_hist *hist);
+void				display_hist(t_hist *hist, char *content);
 int					disp_hist_next(t_data **d, int **i);
 int					disp_hist_prec(t_data **d, int **i);
 void				ssupprchr(char **s, int pos);
