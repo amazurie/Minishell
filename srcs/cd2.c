@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/03 11:16:27 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/13 16:20:24 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/27 10:44:21 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ int		change_envpwd(char *tmp, t_env *env)
 	return (1);
 }
 
-int		check_path(char *path)
+char	*check_path(char *path, t_env *env)
 {
 	struct stat	atr;
+	char		*tmp;
 
 	if (chdir(path) == -1)
 	{
@@ -41,9 +42,18 @@ int		check_path(char *path)
 			ft_putstr_fd("cd: permission denied: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putchar_fd('\n', 2);
-		return (-1);
+		return (NULL);
 	}
-	return (0);
+	if (path[0] == '/')
+		return ((tmp = ft_strdup(path)));
+	if (!(tmp = (char *)ft_memalloc(5001)))
+	{
+		chdir(get_elem(env, "PWD"));
+		print_error("allocation error");
+		return (NULL);
+	}
+	getcwd(tmp, 5000);
+	return (tmp);
 }
 
 void	check_dotdot(char **tmp, char **path)

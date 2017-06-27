@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 16:53:03 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/26 10:36:39 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/27 10:40:09 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void				builtu_env(char **lstav, t_env **envcpy, size_t *i);
 void				echo_doing(char **lstav, t_env **env);
 int					is_siginted(int sig);
 char				**lst_to_char(t_env *env);
-int					check_path(char *path);
+char				*check_path(char *path, t_env *env);
 t_data				*get_data(t_data *d);
 int					leftright_key(t_data **d, char *tmp, int **i);
 int					updown_gest(char *tmp, t_data **d, int **i);

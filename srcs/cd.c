@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:13:41 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 12:42:23 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/27 10:44:20 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,15 @@ static void	change_pwd(char *path, t_env *env)
 
 	if (!ft_strncmp(path, "~/", 2))
 	{
-		tmp = ft_strjoin(get_elem(env, "HOME"), (path + 1));
+		if (!(tmp = ft_strjoin(get_elem(env, "HOME"), (path + 1))))
+			print_error("allocation error");
+		if (!tmp)
+			return ;
 		path = tmp;
 		free(tmp);
 	}
-	if (check_path(path) == -1)
+	if (!(tmp = check_path(path, env)))
 		return ;
-	if (path[0] != '/')
-	{
-		if ((tmp = (char *)ft_memalloc(5001)) == NULL)
-		{
-			ft_putstr_fd("allocation error", 2);
-			return ;
-		}
-		getcwd(tmp, 5000);
-	}
 	else
 		tmp = ft_strdup(path);
 	if (change_envpwd(tmp, env) == 0)
