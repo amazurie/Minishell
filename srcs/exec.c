@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/27 12:52:32 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/27 12:57:16 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,9 @@ static void	exec2(char **lstav, char **paths, char **fullpaths, t_env **env)
 	i = 0;
 	while (paths && paths[i])
 		i++;
+	fullpaths = NULL;
 	if (i)
 		fullpaths = (char **)ft_memalloc(sizeof(char *) * (i + 1));
-	else
-		fullpaths = NULL;
 	i = 0;
 	while (paths && paths[i] && fullpaths)
 	{
@@ -120,8 +119,8 @@ int			exec(t_env **env, char *line, t_hist *hist)
 	int		i;
 
 	fullpaths = NULL;
-	if ((lstav = ft_strsplit(line, ' ')) == NULL)
-		return (0);
+	if (!(lstav = ft_strsplit(line, ' ')))
+		return (print_error("recover line error"));
 	paths = ft_strsplit(get_elem(*env, "PATH"), ':');
 	if ((i = built_in(env, lstav, hist)))
 	{
