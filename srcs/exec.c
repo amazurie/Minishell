@@ -6,7 +6,7 @@
 /*   By: amazurie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 15:28:15 by amazurie          #+#    #+#             */
-/*   Updated: 2017/06/07 13:41:34 by amazurie         ###   ########.fr       */
+/*   Updated: 2017/06/27 12:52:32 by amazurie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ int			test_perm(char *path)
 	if (access(path, F_OK) != -1 && (lstat(path, &atr) != 0
 				|| !(atr.st_mode & S_IXUSR)))
 	{
-		ft_putstr_fd("\e[31mminishell:\e[0m permission denied: ", 2);
+		ft_putstr_fd(ERR_COL, 2);
+		ft_putstr_fd("mminishell: ", 2);
+		ft_putstr_fd(DEFAULT_COL, 2);
+		ft_putstr_fd("permission denied: ", 2);
 		ft_putstr_fd(path, 2);
 		ft_putchar_fd('\n', 2);
 		exit(0);
@@ -106,10 +109,7 @@ static void	exec2(char **lstav, char **paths, char **fullpaths, t_env **env)
 	tmpenv = lst_to_char(*env);
 	forkexec(lstav, fullpaths, tmpenv, env);
 	free_tab(tmpenv);
-	i = 0;
-	while (paths && paths[i])
-		free(fullpaths[i++]);
-	free(fullpaths);
+	free_tab(fullpaths);
 }
 
 int			exec(t_env **env, char *line, t_hist *hist)
