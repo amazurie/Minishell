@@ -27,8 +27,6 @@ static void	change_pwd(char *path, t_env *env)
 	}
 	if (!(tmp = check_path(path, env)))
 		return ;
-	else
-		tmp = ft_strdup(path);
 	if (change_envpwd(tmp, env) == 0)
 		ft_putstr_fd("allocation error", 2);
 }
