@@ -3,7 +3,6 @@
 Minishell is a vital version of a real shell. <br />
 
 Requirements (latest tested):
-
 - GNU make (v3.81) <br />
 - GCC (v4.2.1)
 
