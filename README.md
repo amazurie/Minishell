@@ -11,7 +11,7 @@ Minishell is a vital version of a real shell. <br />
 
 Can only use C <br />
 memory leaks = invalid project. <br />
-Command execution (e.g: "ls- la") <br />
+Command execution (e.g: "ls -la") <br />
 Builtins: echo, cd, setenv, unsetenv, env, exit <br />
 Manage the errors without using errno.
 
