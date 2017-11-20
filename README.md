@@ -15,6 +15,9 @@ Command execution (e.g: "ls -la") <br />
 Builtins: echo, cd, setenv, unsetenv, env, exit <br />
 Manage the errors without using errno.
 
+#### launch:
+
+make && ./minishell
 
 #### Allowed functions:
 
